@@ -1,0 +1,37 @@
+" 1.1 (created: 2008/06/03 19:37:22)
+" vim: set ft=vimperator:
+
+" keymap
+noremap J 5<C-e>
+noremap K 5<C-y>
+noremap h gT
+noremap l gt
+noremap <C-q> <C-z>
+map ,s :source ~/.vimperatorrc<CR>
+map <C-r> :restart<CR>
+map <M-c> Y
+
+set nextpattern=\bnext\b,\bmore\b,^next.*,次へ,^>$,^>>$
+set previouspattern=\bprev\b,\bprevious\b,^prev.*,前へ,^<$,^<<$
+
+" my search commands
+map sg :google<Space>
+map si :googleimage<Space>
+map se :eijiro<Space>
+map sb :blogsearch<Space>
+map st :twittersearch<Space>
+cmap <C-j> <Nop>
+cmap <C-h> <BS>
+cmap <C-p> <Up>
+
+" migemo_hint.js
+set hintmatching=custom
+
+" feedSomeKey_2.js
+autocmd LocationChange .* fmapc
+" Google Reader
+autocmd LocationChange www\.google\.(co\.jp|com)/reader :fmap! -vkey j k n p m s t v a A r S N P X O gh ga gs gt gu u / ?
+
+" hatena bookmark
+javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
+
