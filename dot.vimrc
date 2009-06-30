@@ -13,7 +13,7 @@ set fileencodings=utf-8,euc-jp,cp932
 set ambiwidth=double
 
 " indent
-set expandtab tabstop=2 shiftwidth=2 softtabstop=2 smarttab autoindent cindent
+set expandtab tabstop=2 shiftwidth=2 softtabstop=2 smarttab autoindent
 
 " edit
 set backspace=indent,eol,start
@@ -25,31 +25,75 @@ set swapfile directory=~/.vim/swap
 " backup
 set backup writebackup backupcopy=yes backupdir=~/.vim/backup backupext=.bak
 
+" edit binary
+augroup Binary
+  autocmd!
+  autocmd BufReadPost * if &binary | silent %!xxd -g 1
+  autocmd BufReadPost * set ft=xxd | endif
+  
+  autocmd BufWritePre * if &binary | %!xxd -r | endif
+  autocmd BufWritePost * if &binary | silent %!xxd -g 1
+  autocmd BufWritePost * set nomod | endif
+augroup END
+
+" * works well for Japanese
+vnoremap * "zy:let @/ = @z<CR>n"
+
+nnoremap : ;
+nnoremap ; :
+
+let g:mapleader = ' '
+
+" filetype
+let filetype_m = 'objc'
+autocmd FileType c,cpp,perl,python,ruby set cindent
+
 " restore edit history
 autocmd BufReadPost *
   \ if line("'\"") > 0 && line("'\"") <= line("$") |
   \   exe "normal g`\"" |
   \ endif
 
-" edit binary
-augroup Binary
-  au!
-  au BufReadPost * if &binary | silent %!xxd -g 1
-  au BufReadPost * set ft=xxd | endif
-  
-  au BufWritePre * if &binary | %!xxd -r | endif
-  au BufWritePost * if &binary | silent %!xxd -g 1
-  au BufWritePost * set nomod | endif
-augroup END
+autocmd BufNew,BufRead *.bf set ft=bf
 
-" * works well for Japanese
-vnoremap * "zy:let @/ = @z<CR>n"
+" :TOhtml
+let g:use_xhtml = 1
+let g:html_use_css = 1
+let g:html_no_pre = 1
 
-" *.m is objc
-let g:filetype_m='objc'
+" command-line mode complement
+set wildmode=list:longest,full
+set wildignore=*.o,a.out,*.hi
 
-let g:mapleader = ' '
+" changelog.vim
+let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 
-" filetype
-autocmd BufRead *.bf set ft=bf
+" twitvim.vim
+source ~/.twitvim
+
+" skk.vim
+let skk_jisyo = '~/Library/AquaSKK/skk-jisyo.utf8'
+let skk_large_jisyo = '~/Library/AquaSKK/SKK-JISYO.L'
+let skk_auto_save_jisyo = 0 " ask if save
+let skk_keep_state = 0
+let skk_egg_like_newline = 1
+let skk_show_annotation = 1
+let skk_use_face = 1
+
+" scheme.vim
+let g:is_gauche = 1
+
+" fuzzyfinder.vim
+nnoremap t <Nop>
+nnoremap <silent> tn :<C-u>tabnew<CR>
+nnoremap <silent> tl :<C-u>tabnext<CR>
+nnoremap <silent> th :<C-u>tabprevious<CR>
+nnoremap <silent> tk :<C-u>tabclose<CR>
+nnoremap tJ :<C-u>tabnew<CR>:FuzzyFinderFile! <C-r>=expand('#:h').'/'<CR><CR>
+nnoremap tj :<C-u>FuzzyFinderFile! <C-r>=expand('%:h').'/'<CR><CR>
+nnoremap tI :<C-u>tabnew<CR>:FuzzyFinderBuffer!<CR>
+nnoremap ti :<C-u>FuzzyFinderBuffer!<CR>
+
+" quickfix
+autocmd QuickfixCmdPost vimgrep cwindow
 
