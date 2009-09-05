@@ -7,22 +7,26 @@ noremap K 5<C-y>
 noremap h gT
 noremap l gt
 noremap <C-q> <C-z>
-map ,s :source ~/.vimperatorrc<CR>
-map <C-r> :restart<CR>
-map <M-c> Y
+noremap ,s :source ~/.vimperatorrc<CR>
+noremap <C-r> :restart<CR>
+noremap <M-c> Y
+noremap <M-q> <Nop>
 
-set nextpattern=\bnext\b,\bmore\b,^next.*,次へ,^>$,^>>$
-set previouspattern=\bprev\b,\bprevious\b,^prev.*,前へ,^<$,^<<$
+set nextpattern=次へ,\bnext\b,\bmore\b,^next.*,^>$,^>>$
+set previouspattern=前へ,\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
 
 " my search commands
-map sg :google<Space>
-map si :googleimage<Space>
-map se :eijiro<Space>
-map sb :blogsearch<Space>
-map st :twittersearch<Space>
-cmap <C-j> <Nop>
-cmap <C-h> <BS>
-cmap <C-p> <Up>
+noremap sg :google<Space>
+noremap si :googleimage<Space>
+noremap se :eijiro<Space>
+noremap sb :blogsearch<Space>
+noremap st :twittersearch<Space>
+noremap sh :hoogle<Space>
+noremap sc :googlecode<Space>
+cnoremap <C-j> <Nop>
+cnoremap <C-h> <BS>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 
 " migemo_hint.js
 set hintmatching=custom
@@ -31,6 +35,14 @@ set hintmatching=custom
 autocmd LocationChange .* fmapc
 " Google Reader
 autocmd LocationChange www\.google\.(co\.jp|com)/reader :fmap! -vkey j k n p m s t v a A r S N P X O gh ga gs gt gu u / ?
+" Tumblr, Google
+autocmd LocationChange www\.(google|tumblr)\.com :fmap j k o
+" quick switch
+noremap <silent> e :fmap j k o<CR>
+noremap <silent> E :fmapc<CR>
+
+noremap ; :
+noremap \' ;
 
 " hatena bookmark
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
