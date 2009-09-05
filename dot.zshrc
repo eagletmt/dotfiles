@@ -42,7 +42,7 @@ GCC_COMMON_OPTIONS='-Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align \
 -Wunreachable-code -Winline \
 -Winit-self -Wno-system-headers'
 GCC_C_ONLY_OPTIONS='-Wstrict-prototypes -Wbad-function-cast -Wmissing-prototypes'
-GCC_CPP_ONLY_OPTIONS='-Weffc++ -Woverloaded-virtual'
+GCC_CPP_ONLY_OPTIONS='-Woverloaded-virtual -Wno-unreachable-code'
 alias gcc="gcc $GCC_COMMON_OPTIONS $GCC_C_ONLY_OPTIONS"
 alias g++="g++ $GCC_COMMON_OPTIONS $GCC_CPP_ONLY_OPTIONS"
 alias ogcc="gcc $GCC_COMMON_OPTIONS $GCC_C_ONLY_OPTIONS -I/opt/local/include -L/opt/local/lib"
