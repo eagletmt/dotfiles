@@ -70,6 +70,7 @@ let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 
 " twitvim.vim
 source ~/.twitvim
+nnoremap tt :<C-u>CPosttoTwitter
 
 " skk.vim
 let skk_jisyo = '~/Library/AquaSKK/skk-jisyo.utf8'
@@ -84,16 +85,29 @@ let skk_use_face = 1
 let g:is_gauche = 1
 
 " fuzzyfinder.vim
-nnoremap t <Nop>
-nnoremap <silent> tn :<C-u>tabnew<CR>
-nnoremap <silent> tl :<C-u>tabnext<CR>
-nnoremap <silent> th :<C-u>tabprevious<CR>
-nnoremap <silent> tk :<C-u>tabclose<CR>
-nnoremap tJ :<C-u>tabnew<CR>:FuzzyFinderFile! <C-r>=expand('#:h').'/'<CR><CR>
-nnoremap tj :<C-u>FuzzyFinderFile! <C-r>=expand('%:h').'/'<CR><CR>
-nnoremap tI :<C-u>tabnew<CR>:FuzzyFinderBuffer!<CR>
-nnoremap ti :<C-u>FuzzyFinderBuffer!<CR>
+" http://vim-users.jp/2009/08/hack-59/
+nnoremap [Tab] <Nop>
+nmap t [Tab]
+nnoremap <silent> [Tab]n :<C-u>tabnew<CR>
+nnoremap <silent> [Tab]l :<C-u>tabnext<CR>
+nnoremap <silent> [Tab]h :<C-u>tabprevious<CR>
+nnoremap <silent> [Tab]k :<C-u>tabclose<CR>
+nnoremap [Tab]J :<C-u>tabnew<CR>:FuzzyFinderFile! <C-r>=expand('#:h').'/'<CR><CR>
+nnoremap [Tab]j :<C-u>FuzzyFinderFile! <C-r>=expand('%:h').'/'<CR><CR>
+nnoremap [Tab]I :<C-u>tabnew<CR>:FuzzyFinderBuffer!<CR>
+nnoremap [Tab]i :<C-u>FuzzyFinderBuffer!<CR>
 
 " quickfix
 autocmd QuickfixCmdPost vimgrep cwindow
+
+" pbcopy
+command! Pbcopy :!pbcopy < %
+
+" cabal build <http://koweycode.blogspot.com/2009/07/vim-and-building-with-cabal.html>
+function! s:SetToCabalBuild()
+  if glob("*.cabal") != ''
+    setlocal makeprg=cabal\ build
+  endif
+endfunction
+autocmd BufEnter *.hs,*.lhs :call s:SetToCabalBuild()
 
