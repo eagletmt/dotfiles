@@ -111,3 +111,6 @@ function! s:SetToCabalBuild()
 endfunction
 autocmd BufEnter *.hs,*.lhs :call s:SetToCabalBuild()
 
+" quickrun.vim
+nmap <Leader>r <Plug>(quickrun)<C-w>p
+
