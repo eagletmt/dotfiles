@@ -33,6 +33,7 @@ alias vi=vim
 alias cgrep='grep --color=always -H -n'
 alias vless='/usr/local/share/vim/vim72/macros/less.sh'
 alias utf8='nkf --in-place -dw'
+alias :q='exit'
 # see if configure option has changed
 alias helpdiff='diff -u <(gunzip -c help.txt.gz) <(./configure --help)'
 
@@ -49,8 +50,11 @@ alias ogcc="gcc $GCC_COMMON_OPTIONS $GCC_C_ONLY_OPTIONS -I/opt/local/include -L/
 alias og++="g++ $GCC_COMMON_OPTIONS $GCC_CPP_ONLY_OPTIONS -I/opt/local/include -L/opt/local/lib"
 
 # prompt
-PROMPT='%n@%m%# ' 
-RPROMPT='[%~]'
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' formats '%s-%b'
+zstyle ':vcs_info:*' actionformats '%s-%b[%a]'
+PROMPT='%n@%m%# '
+RPROMPT='%(1v|%K{yellow}%F{black}%1v%f%k|)[%~]'
 
 # key bind
 bindkey -e
@@ -68,5 +72,11 @@ function cd()
 function psgrep()
 {
   ps aux | cgrep $(echo $1 | sed 's/^\(.\)/[\1]/')
+}
+
+function precmd() {
+  psvar=()
+  vcs_info
+  [ -n "$vcs_info_msg_0_" ] && psvar[1]="$vcs_info_msg_0_"
 }
 
