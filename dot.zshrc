@@ -80,3 +80,12 @@ function precmd() {
   [ -n "$vcs_info_msg_0_" ] && psvar[1]="$vcs_info_msg_0_"
 }
 
+if [ "$TERM" = 'screen' ]; then
+  preexec() {
+    emulate -L zsh
+    local -a cmd
+    cmd=(${(z)2})
+    echo -n "\ek$cmd[1]:t\e\\"
+  }
+fi
+
