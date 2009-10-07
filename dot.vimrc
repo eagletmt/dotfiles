@@ -120,3 +120,7 @@ autocmd BufEnter *.hs,*.lhs :call s:SetToCabalBuild()
 " quickrun.vim
 nmap <Leader>r <Plug>(quickrun)<C-w>p
 
+" wwwsearch.vim
+call wwwsearch#add('hoogle', 'http://www.haskell.org/hoogle/?hoogle={keyword}')
+nnoremap \sg :<C-u>Wwwsearch -google<Space>
+
