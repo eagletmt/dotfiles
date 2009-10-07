@@ -7,7 +7,8 @@ bind h prev
 bind l next
 bind n screen
 
-bind j eval writebuf 'exec /bin/sh -c "pbcopy < /tmp/screen-exchange"'
+bind j exec | uim-fep -S
+bind k eval 'exec cat' kill redisplay
 bind o eval writebuf 'exec /bin/sh -c "open -a Firefox $(cat /tmp/screen-exchange)"'
 
 hardstatus on
