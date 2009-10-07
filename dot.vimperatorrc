@@ -24,6 +24,8 @@ noremap st :twittersearch<Space>
 noremap sh :hoogle<Space>
 noremap sc :googlecode<Space>
 noremap sk :<C-u>tabopen http://twitter.com/
+command! -nargs=+ Unicodemotion tabopen http://fuba.moaningnerds.org/unicodemoticon/?<args>
+noremap sm :Unicodemotion 
 cnoremap <C-j> <Nop>
 cnoremap <C-h> <BS>
 cnoremap <C-p> <Up>
