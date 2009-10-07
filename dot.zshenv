@@ -6,7 +6,7 @@ export TMPDIR=/var/tmp
 export __CF_USER_TEXT_ENCODING=${__CF_USER_TEXT_ENCODING/:*:/:0x08000100:}
 
 # set path
-path=(${HOME}/bin(N) ${HOME}/.cabal/bin(N) /usr/local/bin(N) /opt/local/bin(N) /usr/local/sbin(N) /usr/X11R6/bin(N) $path)
+path=(${HOME}/src/dmd2/osx/bin(N) ${HOME}/bin(N) ${HOME}/.cabal/bin(N) /usr/local/bin(N) /opt/local/bin(N) /usr/local/sbin(N) /usr/X11R6/bin(N) $path)
 typeset -U path
 
 # set manpath
