@@ -49,6 +49,7 @@ inoremap <C-a> <C-o>^
 inoremap <C-d> <Del>
 
 let g:mapleader = ' '
+nnoremap ,s :source $MYVIMRC<CR>
 
 " filetype
 let filetype_m = 'objc'
