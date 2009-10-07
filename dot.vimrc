@@ -90,7 +90,6 @@ let skk_use_face = 1
 " scheme.vim
 let g:is_gauche = 1
 
-" fuzzyfinder.vim
 " http://vim-users.jp/2009/08/hack-59/
 nnoremap [Tab] <Nop>
 nmap t [Tab]
@@ -98,10 +97,10 @@ nnoremap <silent> [Tab]n :<C-u>tabnew<CR>
 nnoremap <silent> [Tab]l :<C-u>tabnext<CR>
 nnoremap <silent> [Tab]h :<C-u>tabprevious<CR>
 nnoremap <silent> [Tab]k :<C-u>tabclose<CR>
-nnoremap [Tab]J :<C-u>tabnew<CR>:FuzzyFinderFile! <C-r>=expand('#:h').'/'<CR><CR>
-nnoremap [Tab]j :<C-u>FuzzyFinderFile! <C-r>=expand('%:h').'/'<CR><CR>
-nnoremap [Tab]I :<C-u>tabnew<CR>:FuzzyFinderBuffer!<CR>
-nnoremap [Tab]i :<C-u>FuzzyFinderBuffer!<CR>
+
+" fuf.vim
+nnoremap [Tab]j :<C-u>FufFile! <C-r>=expand('%:h').'/'<CR><CR>
+nnoremap [Tab]i :<C-u>FufBuffer!<CR>
 
 " quickfix
 autocmd QuickfixCmdPost vimgrep cwindow
