@@ -38,6 +38,8 @@ set hintmatching=custom
 autocmd LocationChange .* fmapc
 " Google Reader
 autocmd LocationChange www\.google\.(co\.jp|com)/reader :fmap! -vkey j k n p m s t v a A r S N P X O gh ga gs gt gu u / ?
+" Fast ladder
+autocmd LocationChange fastladder\.com/reader :fmap a s j k ? p o w c < > v r
 " Tumblr, Google
 autocmd LocationChange www\.(google|tumblr)\.com :fmap j k o
 " quick switch
