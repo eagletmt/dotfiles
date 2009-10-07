@@ -42,6 +42,12 @@ vnoremap * "zy:let @/ = @z<CR>n"
 nnoremap : ;
 nnoremap ; :
 
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
+inoremap <C-e> <C-o>$
+inoremap <C-a> <C-o>^
+inoremap <C-d> <Del>
+
 let g:mapleader = ' '
 
 " filetype
