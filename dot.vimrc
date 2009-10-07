@@ -84,6 +84,7 @@ let skk_jisyo = '~/Library/AquaSKK/skk-jisyo.utf8'
 let skk_large_jisyo = '~/Library/AquaSKK/SKK-JISYO.L'
 let skk_auto_save_jisyo = 0 " ask if save
 let skk_keep_state = 0
+let skk_kutouten_type = 'en'
 let skk_egg_like_newline = 1
 let skk_show_annotation = 1
 let skk_use_face = 1
