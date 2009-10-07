@@ -125,3 +125,7 @@ nmap <Leader>r <Plug>(quickrun)<C-w>p
 call wwwsearch#add('hoogle', 'http://www.haskell.org/hoogle/?hoogle={keyword}')
 nnoremap \sg :<C-u>Wwwsearch -google<Space>
 
+" http://vim-users.jp/2009/10/hack81/
+inoremap <C-u> <C-g>u<C-u>
+inoremap <C-w> <C-g>u<C-w>
+
