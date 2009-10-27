@@ -129,6 +129,6 @@ nnoremap <Space>sh :<C-u>Wwwsearch -hoogle<Space>
 nnoremap <Space>sg :<C-u>Wwwsearch -google<Space>
 
 " http://vim-users.jp/2009/10/hack81/
-inoremap <C-u> <C-g>u<C-u>
+"inoremap <C-u> <C-g>u<C-u>
 inoremap <C-w> <C-g>u<C-w>
 
