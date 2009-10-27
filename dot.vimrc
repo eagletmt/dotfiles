@@ -46,7 +46,7 @@ inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>^
-inoremap <C-d> <Del>
+inoremap <C-k> <C-o>C
 
 let g:mapleader = ' '
 nnoremap ,s :source $MYVIMRC<CR>
