@@ -75,12 +75,6 @@ function psgrep()
   ps aux | cgrep $(echo $1 | sed 's/^\(.\)/[\1]/')
 }
 
-function precmd() {
-  psvar=()
-  vcs_info
-  [ -n "$vcs_info_msg_0_" ] && psvar[1]="$vcs_info_msg_0_"
-}
-
 if [ "$TERM" = 'screen' ]; then
   preexec() {
     emulate -L zsh
@@ -89,4 +83,10 @@ if [ "$TERM" = 'screen' ]; then
     echo -n "\ek$cmd[1]:t\e\\"
   }
 fi
+
+function precmd() {
+  psvar=()
+  vcs_info
+  [ -n "$vcs_info_msg_0_" ] && psvar[1]="$vcs_info_msg_0_"
+}
 
