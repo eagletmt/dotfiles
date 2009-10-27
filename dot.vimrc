@@ -109,7 +109,8 @@ nnoremap [Tab]i :<C-u>FufBuffer!<CR>
 autocmd QuickfixCmdPost vimgrep cwindow
 
 " pbcopy
-command! Pbcopy :!pbcopy < %
+nnoremap <Space>p :<C-u>w !pbcopy<CR>
+vnoremap <Space>p :w !pbcopy<CR>
 
 " cabal build <http://koweycode.blogspot.com/2009/07/vim-and-building-with-cabal.html>
 function! s:SetToCabalBuild()
