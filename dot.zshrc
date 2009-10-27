@@ -36,6 +36,7 @@ alias utf8='nkf --in-place -dw'
 alias :q='exit'
 # see if configure option has changed
 alias helpdiff='diff -u <(gunzip -c help.txt.gz) <(./configure --help)'
+alias saver='open /System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app'
 
 GCC_COMMON_OPTIONS='-Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align \
 -Wwrite-strings -Wfloat-equal -Wpointer-arith -Wredundant-decls \
