@@ -26,6 +26,7 @@ nnoremap sc :googlecode<Space>
 nnoremap sk :<C-u>tabopen http://twitter.com/
 command! -nargs=+ Unicodemotion tabopen http://fuba.moaningnerds.org/unicodemoticon/?<args>
 nnoremap sm :Unicodemotion 
+command! -nargs=+ Rlo tabopen http://fuba.moaningnerds.org/conv/rlo.cgi?<args>
 cnoremap <C-j> <Nop>
 cnoremap <C-h> <BS>
 cnoremap <C-p> <Up>
