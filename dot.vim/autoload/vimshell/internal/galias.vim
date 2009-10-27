@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: pwd.vim
+" FILE: galias.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 31 Mar 2009
+" Last Modified: 08 Aug 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,13 +23,9 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.2, for Vim 7.0
+" Version: 1.0, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.2:
-"     - Supported vimshell Ver.3.2.
-"   1.1:
-"     - Use vimshell#print_line.
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -42,8 +38,26 @@
 ""}}}
 "=============================================================================
 
-function! vimshell#internal#pwd#execute(program, args, fd, other_info)
-    " Print the working directory.
+function! vimshell#internal#galias#execute(program, args, fd, other_info)
+    if empty(a:args)
+        " View all global aliases.
+        for alias in keys(b:vimshell_galias_table)
+            call vimshell#print_line(a:fd, printf('%s=%s', alias, b:vimshell_alias_table[alias]))
+        endfor
+    elseif join(a:args) =~ '^\h\w*$'
+        if has_key(b:vimshell_galias_table, a:args[0])
+            " View global alias.
+            call vimshell#print_line(a:fd, b:vimshell_galias_table[a:args[0]])
+        endif
+    else
+        " Define global alias.
+        let l:args = join(a:args)
 
-    call vimshell#print_line(a:fd, getcwd())
+        if l:args !~ '^\h\w*\s*=\s*'
+            call vimshell#error_line(a:fd, 'Wrong syntax.')
+            return
+        endif
+        let l:expression = l:args[matchend(l:args, '^\h\w*\s*=\s*') :]
+        execute 'let ' . printf("b:vimshell_galias_table['%s'] = '%s'", matchstr(l:args, '^\h\w*'),  substitute(l:expression, "'", "''", 'g'))
+    endif
 endfunction

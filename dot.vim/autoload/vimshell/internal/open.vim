@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: pwd.vim
-" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 31 Mar 2009
+" FILE: open.vim
+" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
+" Last Modified: 14 Sep 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,15 +23,12 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.2, for Vim 7.0
+" Version: 1.1, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.2:
-"     - Supported vimshell Ver.3.2.
-"   1.1:
-"     - Use vimshell#print_line.
-"   1.0:
-"     - Initial version.
+"   1.1: Improved behaivior.
+"
+"   1.0: Initial version.
 ""}}}
 "-----------------------------------------------------------------------------
 " TODO: "{{{
@@ -42,8 +39,22 @@
 ""}}}
 "=============================================================================
 
-function! vimshell#internal#pwd#execute(program, args, fd, other_info)
-    " Print the working directory.
+function! vimshell#internal#open#execute(program, args, fd, other_info)"{{{
+    " Open file.
 
-    call vimshell#print_line(a:fd, getcwd())
-endfunction
+    if has('win32') || has('win64')
+        execute printf('silent ! start %s', join(a:args))
+        return 0
+    elseif has('mac')
+        let l:args = ['open'] + a:args
+    elseif executable(vimshell#getfilename('gnome-open'))
+        let l:args = ['gnome-open'] + a:args
+    elseif executable(vimshell#getfilename('kfmclient'))
+        let l:args = ['kfmclient', 'exec'] + a:args
+    else
+        throw 'open: Not supported.'
+    endif
+
+    return vimshell#execute_internal_command('gexe', l:args, a:fd, a:other_info)
+endfunction"}}}
+

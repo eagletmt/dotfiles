@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: pwd.vim
-" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 31 Mar 2009
+" FILE: repeat.vim
+" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
+" Last Modified: 12 Jul 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,13 +23,9 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.2, for Vim 7.0
+" Version: 1.0, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.2:
-"     - Supported vimshell Ver.3.2.
-"   1.1:
-"     - Use vimshell#print_line.
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -42,8 +38,21 @@
 ""}}}
 "=============================================================================
 
-function! vimshell#internal#pwd#execute(program, args, fd, other_info)
-    " Print the working directory.
+function! vimshell#internal#repeat#execute(program, args, fd, other_info)
+    " Repeat command.
 
-    call vimshell#print_line(a:fd, getcwd())
+    if len(a:args) < 2 || a:args[0] !~ '\d\+'
+        call vimshell#error_line(a:fd, 'Arguments error.')
+    else
+        " Repeat.
+        let l:max = a:args[0]
+        let l:i = 0
+        let l:skip_prompt = 0
+        while l:i < l:max
+            let l:skip_prompt = vimshell#execute_command(a:args[1], a:args[2:], a:fd, a:other_info) 
+            let l:i += 1
+        endwhile
+        return l:skip_prompt
+    endif
+    return 0
 endfunction

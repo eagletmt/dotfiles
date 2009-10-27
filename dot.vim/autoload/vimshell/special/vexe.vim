@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: pwd.vim
+" FILE: vexe.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 31 Mar 2009
+" Last Modified: 13 Sep 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,13 +23,9 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.2, for Vim 7.0
+" Version: 1.0, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.2:
-"     - Supported vimshell Ver.3.2.
-"   1.1:
-"     - Use vimshell#print_line.
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -42,8 +38,15 @@
 ""}}}
 "=============================================================================
 
-function! vimshell#internal#pwd#execute(program, args, fd, other_info)
-    " Print the working directory.
+function! vimshell#special#vexe#execute(program, args, fd, other_info)
+    " Execute vim command.
 
-    call vimshell#print_line(a:fd, getcwd())
+    let l:command = join(a:args)
+    redir => l:output
+    execute l:command
+    redir END
+
+    for line in split(l:output, '\n')
+        call vimshell#print_line(a:fd, line)
+    endfor
 endfunction

@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: pwd.vim
-" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 31 Mar 2009
+" FILE: vimdiff.vim
+" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
+" Last Modified: 12 Sep 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,13 +23,9 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.2, for Vim 7.0
+" Version: 1.0, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.2:
-"     - Supported vimshell Ver.3.2.
-"   1.1:
-"     - Use vimshell#print_line.
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -42,8 +38,36 @@
 ""}}}
 "=============================================================================
 
-function! vimshell#internal#pwd#execute(program, args, fd, other_info)
-    " Print the working directory.
+function! vimshell#internal#vimdiff#execute(program, args, fd, other_info)
+    " Diff file1 file2.
 
-    call vimshell#print_line(a:fd, getcwd())
+    if len(a:args) != 2
+        " Error.
+        call vimshell#error_line(a:fd, 'Usage: vimdiff file1 file2')
+        return 0
+    endif
+
+    call vimshell#print_prompt()
+
+    " Save current directiory.
+    let l:cwd = getcwd()
+
+    " Split nicely.
+    if winheight(0) > &winheight
+        split
+    else
+        vsplit
+    endif
+
+    try
+        edit `=a:args[0]`
+    catch /^.*/
+        echohl Error | echomsg v:errmsg | echohl None
+    endtry
+
+    lcd `=l:cwd`
+
+    vertical diffsplit `=a:args[1]`
+
+    return 1
 endfunction

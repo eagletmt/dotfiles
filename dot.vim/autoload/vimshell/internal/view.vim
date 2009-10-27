@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: view.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 31 Mar 2009
+" Last Modified: 30 Aug 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,9 +23,24 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.0, for Vim 7.0
+" Version: 1.5, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   1.5:
+"     - Catch error.
+"
+"   1.4:
+"     - Extend current directory.
+"
+"   1.3:
+"     - Ignore directory.
+"
+"   1.2:
+"     - Improved error.
+"
+"   1.1:
+"     - Split nicely.
+"
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -41,17 +56,36 @@
 function! vimshell#internal#view#execute(program, args, fd, other_info)
     " View file.
 
-    call vimshell#print_prompt()
-
     " Filename escape
     let l:arguments = join(a:args, ' ')
 
+    if isdirectory(l:arguments)
+        " Ignore.
+        return 0
+    endif
+
+    call vimshell#print_prompt()
+
     if empty(l:arguments)
-        call append(line('.'), 'Filename required.')
-        normal! j
+        vimshell#error_line(a:fd, 'Filename required.')
     else
-        split
-        edit `=l:arguments`
+        " Save current directiory.
+        let l:cwd = getcwd()
+
+        " Split nicely.
+        if winheight(0) > &winheight
+            split
+        else
+            vsplit
+        endif
+
+        try
+            edit `=l:arguments`
+        catch /^.*/
+            echohl Error | echomsg v:errmsg | echohl None
+        endtry
+
+        lcd `=l:cwd`
         setlocal nomodifiable
     endif
 endfunction

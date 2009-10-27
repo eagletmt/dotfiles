@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: ls.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 31 Mar 2009
+" Last Modified: 26 Jun 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,15 +23,27 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.3, for Vim 7.0
+" Version: 1.6, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   1.6:
+"     - Check pipe.
+"
+"   1.5:
+"     - Optimized.
+"
+"   1.4:
+"     - Use exe command.
+"
 "   1.3:
 "     - Supported vimshell Ver.3.2.
+"
 "   1.2:
 "     - Improved on Windows.
+"
 "   1.1:
 "     - Added -FC option.
+"
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -45,24 +57,26 @@
 "=============================================================================
 
 function! vimshell#internal#ls#execute(program, args, fd, other_info)
-    let l:arguments = join(a:args, ' ')
-    if has('win32') || has('win64')
-        " For Windows.
-        if empty(l:arguments)
-            silent execute 'read! ls.exe -FC'
-        elseif l:arguments =~ '|'
-            silent execute printf('read! ls.exe %s', l:arguments)
-        else
-            silent execute printf('read! ls.exe -FC %s', l:arguments)
+    let l:arguments = a:args
+
+    " Check pipe.
+    let l:pipe_found = 0
+    for arg in a:args
+        if arg == '|'
+            let l:pipe_found = 1
+            break
         endif
-    else
-        " For Linux.
-        if empty(l:arguments)
-            silent execute 'read! ls -FC'
-        elseif l:arguments =~ '|'
-            silent execute printf('read! ls %s', l:arguments)
-        else
-            silent execute printf('read! ls -FC %s', l:arguments)
-        endif
+    endfor
+
+    if a:fd.stdout == '' && !l:pipe_found
+        call insert(l:arguments, '-FC')
     endif
+
+    if has('win32') || has('win64')
+        call insert(l:arguments, 'ls.exe')
+    else
+        call insert(l:arguments, 'ls')
+    endif
+
+    call vimshell#internal#exe#execute('exe', l:arguments, a:fd, a:other_info)
 endfunction

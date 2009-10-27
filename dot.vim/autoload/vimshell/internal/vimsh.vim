@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: vimsh.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 31 Mar 2009
+" Last Modified: 12 Jul 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,9 +23,16 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.0, for Vim 7.0
+" Version: 1.1, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   1.2:
+"     - Print all error.
+"     - Improved error print format.
+"
+"   1.1:
+"     - Improved parser.
+"
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -46,24 +53,32 @@ function! vimshell#internal#vimsh#execute(program, args, fd, other_info)
         return 1
     else
         " Filename escape.
-        let l:filename = escape(join(a:args, ' '), "\\*?[]{}`$%#&'\"|!<>+")
+        let l:filename = join(a:args, ' ')
 
         if filereadable(l:filename)
             let l:scripts = readfile(l:filename)
 
-            for script in l:scripts
-                " Delete head spaces.
-                let l:program = (empty(script))? '' : split(script)[0]
-                let l:arguments = substitute(script, '^\s*' . l:program . '\s*', '', '')
-                let l:fd = {}
-                let l:other_info = { 'has_head_spaces' : 0, 'is_interactive' : 0, 'is_background' : 0 }
+            let l:other_info = { 'has_head_spaces' : 0, 'is_interactive' : 0, 'is_background' : 0 }
+            let l:i = 0
+            let l:skip_prompt = 0
+            for l:script in l:scripts
+                try
+                    let l:skip_prompt = vimshell#parser#eval_script(l:script, l:other_info)
+                catch /.*/
+                    call vimshell#error_line({}, printf('%s(%d): %s', join(a:args, ' '), l:i, v:exception))
+                    return 0
+                endtry
 
-                call vimshell#execute_command(l:program, split(l:arguments), l:fd, l:other_info)
-                normal! j
+                let l:i += 1
             endfor
+
+            if l:skip_prompt
+                " Skip prompt.
+                return 1
+            endif
         else
             " Error.
-            call vimshell#error_line(printf('Not found the script "%s".', l:filename))
+            call vimshell#error_line(a:fd, printf('Not found the script "%s".', l:filename))
         endif
     endif
 

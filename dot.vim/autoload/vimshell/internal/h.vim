@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: h.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 01 Apr 2009
+" Last Modified: 12 Sep 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,9 +23,18 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.0, for Vim 7.0
+" Version: 1.3, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   1.3:
+"     - Use startinsert!.
+"
+"   1.2:
+"     - Refactoringed.
+"
+"   1.1:
+"     - Implemented "h string".
+"
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -40,37 +49,70 @@
 
 function! vimshell#internal#h#execute(program, args, fd, other_info)
     " Execute from history.
-    if get(g:vimshell#hist_buffer, 0) =~ '^h\s' || get(g:vimshell#hist_buffer, 0) == 'h'
-        " Delete from history.
-        call remove(g:vimshell#hist_buffer, 0)
-    endif
 
-    if empty(a:args)
-        let l:num = 0
-    else
-        let l:num = str2nr(a:args[0])
-    endif
+    " Delete from history.
+    call vimshell#remove_history('h')
 
-    if len(g:vimshell#hist_buffer) > l:num
-        if !empty(a:args[1:])
-            " Join arguments.
-            let l:line = g:vimshell#hist_buffer[l:num] . ' ' . join(a:args[1:], ' ')
+    if empty(a:args) || a:args[0] =~ '^\d\+'
+        if empty(a:args)
+            let l:num = 0
         else
-            let l:line = g:vimshell#hist_buffer[l:num]
+            let l:num = str2nr(a:args[0])
         endif
 
-        if a:other_info.has_head_spaces
-            " Don't append history.
-            call setline(line('.'), printf('%s %s', g:VimShell_Prompt, l:line))
-        else
-            call setline(line('.'), g:VimShell_Prompt . l:line)
+        if l:num >= len(g:vimshell#hist_buffer)
+            " Error.
+            call vimshell#error_line(a:fd, 'Not found in history.')
+            return 0
         endif
 
-        call vimshell#process_enter()
-        return 1
+        let l:hist = g:vimshell#hist_buffer[l:num]
     else
-        " Error.
-        call vimshell#error_line('Not found in history.')
-        return 0
+        let l:args = '^' . escape(join(a:args), '~" \.^$[]*')
+        for h in g:vimshell#hist_buffer
+            if h =~ l:args
+                let l:hist = h
+                break
+            endif
+        endfor
+
+        if !exists('l:hist')
+            " Error.
+            call vimshell#error_line(a:fd, 'Not found in history.')
+            return 0
+        endif
     endif
+
+    if a:other_info.has_head_spaces
+        " Don't append history.
+        call setline(line('.'), printf('%s %s', g:VimShell_Prompt, l:hist))
+    else
+        call setline(line('.'), g:VimShell_Prompt . l:hist)
+    endif
+
+    try
+        let l:skip_prompt = vimshell#parser#eval_script(l:hist, a:other_info)
+    catch /.*/
+        call vimshell#error_line({}, v:exception)
+        call vimshell#print_prompt()
+        call interactive#highlight_escape_sequence()
+
+        call vimshell#start_insert()
+        return
+    endtry
+
+    if l:skip_prompt
+        " Skip prompt.
+        return
+    endif
+
+    call interactive#highlight_escape_sequence()
+
+    if a:other_info.is_interactive
+        call vimshell#print_prompt()
+        call vimshell#start_insert()
+        startinsert!
+    endif
+
+    return 1
 endfunction

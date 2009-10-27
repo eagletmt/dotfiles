@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: screen.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 29 Apr 2009
+" Last Modified: 26 Jun 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,9 +23,15 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.0, for Vim 7.0
+" Version: 1.2, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   1.2:
+"     - Only work in screen.
+"
+"   1.1:
+"     - Fixed error.
+"
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -41,9 +47,9 @@
 function! vimshell#internal#screen#execute(program, args, fd, other_info)
     " Execute program in screen.
     if &term =~ "^screen"
-        silent execute printf('!screen %s', substitute(l:line, '&\s*$', '', ''))
+        silent execute printf('!screen %s', join(a:args))
     else
         " Error.
-        call vimshell#error_line('Not in screen.')
+        call vimshell#error_line('Must use vimproc plugin.')
     endif
 endfunction

@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: bg.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 29 Apr 2009
+" Last Modified: 06 Sep 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,9 +23,51 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.0, for Vim 7.0
+" Version: 1.15, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   1.15:
+"     - Improved kill processes.
+"
+"   1.14:
+"     - Improved error message.
+"     - Set syntax.
+"     - Improved execute message.
+"
+"   1.13:
+"     - Extend current directory.
+"
+"   1.12:
+"     - Set filetype.
+"
+"   1.11:
+"     - Kill zombee process.
+"
+"   1.10: Improved CursorHold event.
+"
+"   1.9: Fixed error on Linux.
+"
+"   1.8: Supported pipe.
+"
+"   1.7: Improved error catch.
+"     - Get status. 
+"
+"   1.6: Use interactive.
+"
+"   1.5: Improved autocmd.
+"
+"   1.4: Split nicely.
+"
+"   1.3:
+"     - Use g:VimShell_EnableInteractive option.
+"     - Use utls/process.vim.
+"
+"   1.2:
+"     - Use vimproc.
+"
+"   1.1:
+"     - Fixed in *nix.
+"
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -38,7 +80,11 @@
 ""}}}
 "=============================================================================
 
-function! vimshell#internal#bg#execute(program, args, fd, other_info)
+augroup vimshell_bg
+    autocmd!
+augroup END
+
+function! vimshell#internal#bg#execute(program, args, fd, other_info)"{{{
     " Execute program in background.
 
     if empty(a:args)
@@ -63,24 +109,125 @@ function! vimshell#internal#bg#execute(program, args, fd, other_info)
         let l:other_info = a:other_info
         let l:other_info.is_background = 1
         return vimshell#internal#iexe#execute(a:args[0], a:args[1:], a:fd, l:other_info)
-    elseif has('win32') || has('win64')
-        if g:VimShell_UseCkw
-            " Use ckw.
-            silent execute printf('!start ckw -e %s %s %s', &shell, &shellcmdflag, join(a:args))
-        else
-            silent execute printf('!start %s', join(a:args))
-        endif
-    else
-        " For *nix.
-
-        let l:tmpfile = tempname()
+    elseif g:VimShell_EnableInteractive
         " Background execute.
-        execute printf('!%s & > %s', join(a:args), l:tmpfile)
+        return s:init_bg(a:fd, a:args, a:other_info.is_interactive)
+    else
+        " Execute in screen.
+        let l:other_info = a:other_info
+        return vimshell#internal#screen#execute(a:args[0], a:args[1:], a:fd, l:other_info)
+    endif
+endfunction"}}}
 
-        " Edit redirect file.
+function! vimshell#internal#bg#vimshell_bg(args)"{{{
+    call vimshell#internal#bg#execute('bg', a:args, {'stdin' : '', 'stdout' : '', 'stderr' : ''}, {'is_interactive' : 0, 'is_background' : 1})
+endfunction"}}}
+
+function! s:init_bg(fd, args, is_interactive)"{{{
+    if exists('b:vimproc_sub')
+        " Delete zombee process.
+        call interactive#force_exit()
+    endif
+
+    " Initialize.
+    let l:proc = proc#import()
+    let l:sub = []
+
+    " Search pipe.
+    let l:commands = [[]]
+    for arg in a:args
+        if arg == '|'
+            call add(l:commands, [])
+        else
+            call add(l:commands[-1], arg)
+        endif
+    endfor
+
+    for command in l:commands
+        try
+            if g:VimShell_UsePopen2
+                call add(l:sub, l:proc.popen2(command))
+            else
+                call add(l:sub, l:proc.popen3(command))
+            endif
+        catch 'list index out of range'
+            if empty(command)
+                let l:error = 'Wrong pipe used.'
+            else
+                let l:error = printf('File: "%s" is not found.', command[0])
+            endif
+
+            call vimshell#error_line(a:fd, l:error)
+
+            return 0
+        endtry
+    endfor
+
+    " Init buffer.
+    if a:is_interactive
+        call vimshell#print_prompt()
+    endif
+
+    " Save current directiory.
+    let l:cwd = getcwd()
+
+    " Split nicely.
+    if winheight(0) > &winheight
         split
-        edit `=l:tmpfile`
-        setlocal autoread
-        wincmd w
-    endif"}}}
+    else
+        vsplit
+    endif
+
+    edit `=join(a:args).'&'.(bufnr('$')+1)`
+    lcd `=l:cwd`
+    setlocal buftype=nofile
+    setlocal noswapfile
+    setlocal nowrap
+    execute 'setfiletype ' . a:args[0]
+
+    " Set syntax.
+    syn region   VimShellError   start=+!!!+ end=+!!!+ contains=VimShellErrorHidden oneline
+    syn match   VimShellErrorHidden            '!!!' contained
+    hi def link VimShellError Error
+    hi def link VimShellErrorHidden Ignore
+
+    " Set variables.
+    let b:vimproc = l:proc
+    let b:vimproc_sub = l:sub
+    let b:vimproc_fd = a:fd
+
+    " Input from stdin.
+    if b:vimproc_fd.stdin != ''
+        if has('win32') || has('win64')
+            call b:vimproc_sub[0].stdin.write(vimshell#read(a:fd))
+            call b:vimproc_sub[0].stdin.close()
+        else
+            call b:vimproc_sub[0].write(vimshell#read(a:fd))
+        endif
+    endif
+
+    autocmd vimshell_bg BufUnload <buffer>       call <SID>on_exit()
+    autocmd vimshell_bg CursorHold <buffer>  call <SID>on_execute()
+    nnoremap <buffer><silent><C-c>       :<C-u>call interactive#interrupt()<CR>
+    inoremap <buffer><silent><C-c>       <ESC>:<C-u>call <SID>on_exit()<CR>
+    nnoremap <buffer><silent><CR>       :<C-u>call <SID>on_execute()<CR>
+    call s:on_execute()
+
+    return 1
+endfunction"}}}
+
+function! s:on_execute()
+    echo 'Running command.'
+    call interactive#execute_pipe_out()
+    redraw
+    echo ''
+endfunction
+
+function! s:on_exit()
+    augroup vimshell_bg
+        autocmd! CursorHold <buffer>
+        autocmd! BufUnload <buffer>
+    augroup END
+
+    call interactive#hang_up()
 endfunction
