@@ -76,7 +76,6 @@ set wildignore=*.o,a.out,*.hi
 let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 
 " twitvim.vim
-source ~/.twitvim
 nnoremap tt :<C-u>CPosttoTwitter
 nnoremap T :<C-u>CPosttoTwitter<CR>
 
@@ -156,4 +155,6 @@ set completeopt& completeopt+=menuone
 let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_SmartCase = 1
 imap <silent> <C-l> <Plug>(neocomplcache_snippets_expand)
+
+source ~/.private.vim
 
