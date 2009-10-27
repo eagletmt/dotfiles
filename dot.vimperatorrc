@@ -2,30 +2,30 @@
 " vim: set ft=vimperator:
 
 " keymap
-noremap J 5<C-e>
-noremap K 5<C-y>
-noremap h gT
-noremap l gt
-noremap <C-q> <C-z>
-noremap ,s :source ~/.vimperatorrc<CR>
-noremap <C-r> :restart<CR>
-noremap <M-c> Y
-noremap <M-q> <Nop>
+nnoremap J 5<C-e>
+nnoremap K 5<C-y>
+nnoremap h gT
+nnoremap l gt
+nnoremap <C-q> <C-z>
+nnoremap ,s :source ~/.vimperatorrc<CR>
+nnoremap <C-r> :restart<CR>
+nnoremap <M-c> Y
+nnoremap <M-q> <Nop>
 
 set nextpattern=次へ,\bnext\b,\bmore\b,^next.*,^>$,^>>$
 set previouspattern=前へ,\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
 
 " my search commands
-noremap sg :google<Space>
-noremap si :googleimage<Space>
-noremap se :eijiro<Space>
-noremap sb :blogsearch<Space>
-noremap st :twittersearch<Space>
-noremap sh :hoogle<Space>
-noremap sc :googlecode<Space>
-noremap sk :<C-u>tabopen http://twitter.com/
+nnoremap sg :google<Space>
+nnoremap si :googleimage<Space>
+nnoremap se :eijiro<Space>
+nnoremap sb :blogsearch<Space>
+nnoremap st :twittersearch<Space>
+nnoremap sh :hoogle<Space>
+nnoremap sc :googlecode<Space>
+nnoremap sk :<C-u>tabopen http://twitter.com/
 command! -nargs=+ Unicodemotion tabopen http://fuba.moaningnerds.org/unicodemoticon/?<args>
-noremap sm :Unicodemotion 
+nnoremap sm :Unicodemotion 
 cnoremap <C-j> <Nop>
 cnoremap <C-h> <BS>
 cnoremap <C-p> <Up>
@@ -43,11 +43,11 @@ autocmd LocationChange fastladder\.com/reader :fmap a s j k ? p o w c < > v r
 " Tumblr, Google
 autocmd LocationChange www\.(google|tumblr)\.com :fmap j k o
 " quick switch
-noremap <silent> e :fmap j k o<CR>
-noremap <silent> E :fmapc<CR>
+nnoremap <silent> e :fmap j k o<CR>
+nnoremap <silent> E :fmapc<CR>
 
-noremap ; :
-noremap \' ;
+nnoremap ; :
+nnoremap \' ;
 
 " hatena bookmark
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
