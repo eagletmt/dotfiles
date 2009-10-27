@@ -53,3 +53,6 @@ nnoremap \' ;
 " hatena bookmark
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
 
+command! GBkmk javascript liberator.open('http://www.google.com/bookmarks/mark?op=add&title=' + encodeURIComponent(buffer.title) + '&bkmk=' + encodeURIComponent(buffer.URI), liberator.NEW_TAB)
+nnoremap sa :GBkmk<CR>
+
