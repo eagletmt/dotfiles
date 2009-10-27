@@ -149,3 +149,11 @@ let g:VimShell_Prompt = $USER . '% '
 let g:VimShell_UserPrompt = 'getcwd()'
 nnoremap <Space>v <Plug>(vimshell_)
 let g:VimShell_EnableAutoLs = 1
+
+" neocomplcache.vim
+set complete& complete+=k
+set completeopt& completeopt+=menuone
+let g:NeoComplCache_EnableAtStartup = 1
+let g:NeoComplCache_SmartCase = 1
+imap <silent> <C-l> <Plug>(neocomplcache_snippets_expand)
+
