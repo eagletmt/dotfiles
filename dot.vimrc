@@ -131,9 +131,6 @@ nnoremap <Space>sg :<C-u>Wwwsearch -google<Space>
 "inoremap <C-u> <C-g>u<C-u>
 inoremap <C-w> <C-g>u<C-w>
 
-set runtimepath& runtimepath+=~/.vim/hatena
-let g:hatena_user = 'eagletmt'
-
 set matchpairs& matchpairs+=<:>
 
 " m = Also break at a multi-byte character above 255
