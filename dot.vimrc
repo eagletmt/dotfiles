@@ -21,9 +21,15 @@ set modeline modelines=5
 
 " swap
 set swapfile directory=~/.vim/swap
+if !isdirectory(&directory)
+  call mkdir(&directory, 'p')
+endif
 
 " backup
 set backup writebackup backupcopy=yes backupdir=~/.vim/backup backupext=.bak
+if !isdirectory(&backupdir)
+  call mkdir(&backupdir, 'p')
+endif
 
 " edit binary
 augroup Binary
@@ -153,5 +159,7 @@ let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_SmartCase = 1
 imap <silent> <C-l> <Plug>(neocomplcache_snippets_expand)
 
-source ~/.private.vim
+if filereadable(expand('~/.private.vim'))
+  source ~/.private.vim
+endif
 
