@@ -165,3 +165,12 @@ if filereadable(expand('~/.private.vim'))
   source ~/.private.vim
 endif
 
+function! s:reverseLines(line1, line2)
+  let rev = reverse(getline(a:line1, a:line2))
+  for i in range(a:line1, a:line2)
+    call setline(i, rev[i-a:line1])
+  endfor
+endfunction
+
+command! -range Reverse call <SID>reverseLines(<line1>, <line2>)
+
