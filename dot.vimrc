@@ -47,6 +47,8 @@ vnoremap * "zy:let @/ = @z<CR>n"
 
 nnoremap : ;
 nnoremap ; :
+vnoremap : ;
+vnoremap ; :
 
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
