@@ -174,3 +174,8 @@ endfunction
 
 command! -range Reverse call <SID>reverseLines(<line1>, <line2>)
 
+" http://d.hatena.ne.jp/tasukuchan/20070816/1187246177
+highlight WhitespaceEOL ctermbg=red guibg=red
+match WhitespaceEOL /\s\+$/
+autocmd! WinEnter * match WhitespaceEOL /\s\+$/
+
