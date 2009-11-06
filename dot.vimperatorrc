@@ -1,6 +1,9 @@
 " 1.1 (created: 2008/06/03 19:37:22)
 " vim: set ft=vimperator:
 
+" config
+set! network.dns.disableIPv6=true
+
 " keymap
 nnoremap J 5<C-e>
 nnoremap K 5<C-y>
