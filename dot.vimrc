@@ -8,7 +8,7 @@ set ruler showcmd hlsearch background=dark title number
 set laststatus=2 statusline=[%L]\ %t\ %y%{'['.(&fenc!=''?&fenc:&enc).':'.']'}%r%m%=%c:%l/%L
 
 " encoding
-set encoding=utf-8 termencoding=utf-8 fileencoding=utf-8 
+set encoding=utf-8 termencoding=utf-8 fileencoding=utf-8
 set fileencodings=utf-8,euc-jp,cp932
 set ambiwidth=double
 
@@ -36,7 +36,7 @@ augroup Binary
   autocmd!
   autocmd BufReadPost * if &binary | silent %!xxd -g 1
   autocmd BufReadPost * set ft=xxd | endif
-  
+
   autocmd BufWritePre * if &binary | %!xxd -r | endif
   autocmd BufWritePost * if &binary | silent %!xxd -g 1
   autocmd BufWritePost * set nomod | endif
