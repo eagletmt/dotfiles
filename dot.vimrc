@@ -151,7 +151,7 @@ nnoremap N Nzzzv
 " vimshell
 let g:VimShell_Prompt = $USER . '% '
 let g:VimShell_UserPrompt = 'getcwd()'
-nnoremap <Space>v <Plug>(vimshell_)
+nmap <Space>v <Plug>(vimshell_create)
 let g:VimShell_EnableAutoLs = 1
 
 " neocomplcache.vim
