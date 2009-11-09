@@ -34,6 +34,8 @@ cnoremap <C-j> <Nop>
 cnoremap <C-h> <BS>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+cnoremap <C-i> <Tab>
+inoremap <C-m> <CR>
 
 " migemo_hint.js
 set hintmatching=custom
