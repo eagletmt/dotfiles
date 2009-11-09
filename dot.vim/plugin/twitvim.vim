@@ -27,6 +27,11 @@ set cpo&vim
 " undesirable, set s:char_limit to 140.
 let s:char_limit = 246
 
+let g:twitvim_source = 'twitvim'
+function! s:get_source()
+    return exists('g:twitvim_source') ? g:twitvim_source : 'twitvim'
+endfunction
+
 " Allow the user to override the API root, e.g. for identi.ca, which offers a
 " Twitter-compatible API.
 function! s:get_api_root()
@@ -905,7 +910,7 @@ function! s:post_twitter(mesg, inreplyto)
 	redraw
 	echo "Sending update to Twitter..."
 
-	let url = s:get_api_root()."/statuses/update.xml?source=twitvim"
+	let url = s:get_api_root()."/statuses/update.xml?source=".s:get_source()
 	let parms["status"] = mesg
 
 	let [error, output] = s:run_curl(url, login, s:get_proxy(), s:get_proxy_login(), parms)
@@ -1807,7 +1812,7 @@ function! s:do_send_dm(user, mesg)
 	redraw
 	echo "Sending update to Twitter..."
 
-	let url = s:get_api_root()."/direct_messages/new.xml?source=twitvim"
+	let url = s:get_api_root()."/direct_messages/new.xml?source".s:get_source()
 	let parms = { "user" : a:user, "text" : mesg }
 
 	let [error, output] = s:run_curl(url, login, s:get_proxy(), s:get_proxy_login(), parms)
