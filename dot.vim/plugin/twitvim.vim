@@ -32,6 +32,11 @@ function! s:get_source()
     return exists('g:twitvim_source') ? g:twitvim_source : 'twitvim'
 endfunction
 
+" Allow the user to automatically add footer
+function! s:get_footer()
+    return exists('g:twitvim_footer') ? ' '.g:twitvim_footer : ''
+endfunction
+
 " Allow the user to override the API root, e.g. for identi.ca, which offers a
 " Twitter-compatible API.
 function! s:get_api_root()
@@ -895,7 +900,7 @@ function! s:post_twitter(mesg, inreplyto)
 
     " Remove trailing newline. You see that when you visual-select an entire
     " line. Don't let it count towards the tweet length.
-    let mesg = substitute(mesg, '\n$', '', "")
+    let mesg = substitute(mesg, '\n$', '', "").s:get_footer()
 
     let mesglen = s:mbstrlen(mesg)
 
