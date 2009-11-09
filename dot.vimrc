@@ -83,10 +83,6 @@ set wildignore=*.o,a.out,*.hi
 " changelog.vim
 let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 
-" twitvim.vim
-nnoremap tt :<C-u>CPosttoTwitter
-nnoremap T :<C-u>CPosttoTwitter<CR>
-
 " skk.vim
 let skk_jisyo = '~/vim-skk-jisyo.utf8'
 let skk_large_jisyo = '~/Library/Application Support/AquaSKK/SKK-JISYO.L'
@@ -178,4 +174,36 @@ command! -range Reverse call <SID>reverseLines(<line1>, <line2>)
 highlight WhitespaceEOL ctermbg=red guibg=red
 match WhitespaceEOL /\s\+$/
 autocmd! WinEnter * match WhitespaceEOL /\s\+$/
+
+" twitvim.vim
+let g:twitvim_random_source = 1
+nnoremap tt :<C-u>CPosttoTwitter
+nnoremap T :<C-u>call MyPosttoTwitter()<CR>
+function! MyPosttoTwitter()
+  if exists('g:twitvim_random_source') && g:twitvim_random_source == 1
+    RandomSourceTwitter
+  endif
+  CPosttoTwitter
+endfunction
+
+command! -nargs=? -complete=custom,CompletionSourceTwitter SourceTwitter call SetSource(<q-args>)
+function! SetSource(arg)
+  if len(a:arg) == 0
+    echo g:twitvim_source
+  else
+    let g:twitvim_source = a:arg
+  endif
+endfunction
+let s:sources = ['twitvim', 'Tween', 'twitterfeed', 'TwitPic', 'UberTwitter',
+      \ 'twit.el', 'tmitter', 'Seesmic', 'twidroid', 'Tumblr', 'Twit', 'YoruFukurou',
+      \ 'TwitterIrcGateway', 'termtter', 'web', 'mobile web', 'TweetDeck', 'Tweetie']
+function! CompletionSourceTwitter(ArgLead, CmdLine, CursorPos)
+  return join(s:sources, "\n")
+endfunction
+function! Random(lower, upper)
+  let match_end = matchend(reltimestr(reltime()), '\d\+\.') + 1
+  return a:lower + reltimestr(reltime())[match_end : ] % (a:upper-a:lower)
+endfunction
+
+command! -nargs=0 RandomSourceTwitter call SetSource(s:sources[Random(0, len(s:sources))])
 
