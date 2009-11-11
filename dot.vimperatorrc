@@ -14,6 +14,7 @@ nnoremap ,s :source ~/.vimperatorrc<CR>
 nnoremap <C-r> :restart<CR>
 nnoremap <M-c> Y
 nnoremap <M-q> <Nop>
+nnoremap ,c :<C-u>copy anchor<CR>
 
 set nextpattern=次へ,\bnext\b,\bmore\b,^next.*,^>$,^>>$
 set previouspattern=前へ,\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
@@ -28,7 +29,7 @@ nnoremap sh :hoogle<Space>
 nnoremap sc :googlecode<Space>
 nnoremap sk :<C-u>tabopen http://twitter.com/
 command! -nargs=+ Unicodemotion tabopen http://fuba.moaningnerds.org/unicodemoticon/?<args>
-nnoremap sm :Unicodemotion 
+nnoremap sm :Unicodemotion<Space>
 command! -nargs=+ Rlo tabopen http://fuba.moaningnerds.org/conv/rlo.cgi?<args>
 cnoremap <C-j> <Nop>
 cnoremap <C-h> <BS>
