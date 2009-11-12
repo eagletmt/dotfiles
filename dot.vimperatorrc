@@ -49,6 +49,8 @@ autocmd LocationChange www\.google\.(co\.jp|com)/reader :fmap! -vkey j k n p m s
 autocmd LocationChange reader\.livedoor\.com/reader :fmap a s j k ? p o w c < > v r
 " Tumblr, Google
 autocmd LocationChange www\.(google|tumblr)\.com :fmap j k o
+" GMail
+autocmd LocationChange mail\.google\.com/mail :fmap! j k n p o x u s e ? g i #
 " quick switch
 nnoremap <silent> e :fmap j k o<CR>
 nnoremap <silent> E :fmapc<CR>
