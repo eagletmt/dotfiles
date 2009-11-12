@@ -176,14 +176,16 @@ match WhitespaceEOL /\s\+$/
 autocmd! WinEnter * match WhitespaceEOL /\s\+$/
 
 " twitvim.vim
-let g:twitvim_random_source = 1
 nnoremap tt :<C-u>CPosttoTwitter
 nnoremap T :<C-u>call MyPosttoTwitter()<CR>
 function! MyPosttoTwitter()
-  if exists('g:twitvim_random_source') && g:twitvim_random_source == 1
-    RandomSourceTwitter
+  if g:twitvim_source ==# 'random'
+    let g:twitvim_source = s:sources[Random(1, len(s:sources))]
+    CPosttoTwitter
+    let g:twitvim_source = 'random'
+  else
+    CPosttoTwitter
   endif
-  CPosttoTwitter
 endfunction
 
 command! -nargs=? -complete=custom,CompletionSourceTwitter SourceTwitter call SetSource(<q-args>)
@@ -194,9 +196,10 @@ function! SetSource(arg)
     let g:twitvim_source = a:arg
   endif
 endfunction
-let s:sources = ['twitvim', 'Tween', 'twitterfeed', 'TwitPic', 'UberTwitter',
+let s:sources = ['random', 'twitvim', 'Tween', 'twitterfeed', 'TwitPic', 'UberTwitter',
       \ 'twit.el', 'tmitter', 'Seesmic', 'twidroid', 'Tumblr', 'Twit', 'YoruFukurou',
-      \ 'TwitterIrcGateway', 'termtter', 'web', 'mobile web', 'TweetDeck', 'Tweetie']
+      \ 'TwitterIrcGateway', 'termtter', 'web', 'mobile web', 'TweetDeck', 'Tweetie',
+      \ 'Ubiquity', 'Twittexceler', 'Twipper', 'Twitterfic']
 function! CompletionSourceTwitter(ArgLead, CmdLine, CursorPos)
   return join(s:sources, "\n")
 endfunction
@@ -204,6 +207,4 @@ function! Random(lower, upper)
   let match_end = matchend(reltimestr(reltime()), '\d\+\.') + 1
   return a:lower + reltimestr(reltime())[match_end : ] % (a:upper-a:lower)
 endfunction
-
-command! -nargs=0 RandomSourceTwitter call SetSource(s:sources[Random(0, len(s:sources))])
 
