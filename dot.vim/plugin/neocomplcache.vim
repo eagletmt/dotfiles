@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: neocomplcache.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 23 Oct 2009
+" Last Modified: 11 Nov 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,7 +23,7 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 3.05, for Vim 7.0
+" Version: 3.12, for Vim 7.0
 "=============================================================================
 
 if v:version < 700
@@ -41,7 +41,7 @@ command! -nargs=0 NeoComplCacheToggle call neocomplcache#toggle()
 
 " Global options definition."{{{
 if !exists('g:NeoComplCache_MaxList')
-    let g:NeoComplCache_MaxList = 120
+    let g:NeoComplCache_MaxList = 100
 endif
 if !exists('g:NeoComplCache_MaxKeywordWidth')
     let g:NeoComplCache_MaxKeywordWidth = 50
@@ -49,17 +49,11 @@ endif
 if !exists('g:NeoComplCache_MaxFilenameWidth')
     let g:NeoComplCache_MaxFilenameWidth = 15
 endif
-if !exists('g:NeoComplCache_PartialMatch')
-    let g:NeoComplCache_PartialMatch = 1
-endif
 if !exists('g:NeoComplCache_KeywordCompletionStartLength')
     let g:NeoComplCache_KeywordCompletionStartLength = 2
 endif
 if !exists('g:NeoComplCache_ManualCompletionStartLength')
     let g:NeoComplCache_ManualCompletionStartLength = 2
-endif
-if !exists('g:NeoComplCache_PartialCompletionStartLength')
-    let g:NeoComplCache_PartialCompletionStartLength = 4
 endif
 if !exists('g:NeoComplCache_MinKeywordLength')
     let g:NeoComplCache_MinKeywordLength = 4
@@ -88,9 +82,6 @@ endif
 if !exists('g:NeoComplCache_CalcRankRandomize')
     let g:NeoComplCache_CalcRankRandomize = has('reltime')
 endif
-if !exists('g:NeoComplCache_QuickMatchMaxList')
-    let g:NeoComplCache_QuickMatchMaxList = 120
-endif
 if !exists('g:NeoComplCache_EnableSkipCompletion')
     let g:NeoComplCache_EnableSkipCompletion = has('reltime')
 endif
@@ -102,12 +93,6 @@ if !exists('g:NeoComplCache_SkipInputTime')
 endif
 if !exists('g:NeoComplCache_PreviousKeywordCompletion')
     let g:NeoComplCache_PreviousKeywordCompletion = 1
-endif
-if !exists('g:NeoComplCache_TagsAutoUpdate')
-    let g:NeoComplCache_TagsAutoUpdate = 0
-endif
-if !exists('g:NeoComplCache_TryFilenameCompletion')
-    let g:NeoComplCache_TryFilenameCompletion = 1
 endif
 if !exists('g:NeoComplCache_EnableInfo')
     let g:NeoComplCache_EnableInfo = 0
@@ -132,6 +117,9 @@ if !exists('g:NeoComplCache_PluginCompletionLength')
 endif
 if !exists('g:NeoComplCache_CachingPercentInStatusline')
     let g:NeoComplCache_CachingPercentInStatusline = 0
+endif
+if !exists('g:NeoComplCache_DisablePluginList')
+    let g:NeoComplCache_DisablePluginList = {}
 endif
 if !exists('g:NeoComplCache_TemporaryDir')
     let g:NeoComplCache_TemporaryDir = '~/.neocon'

@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: filename_complete.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 15 Oct 2009
+" Last Modified: 07 Oct 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,9 +23,12 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.02, for Vim 7.0
+" Version: 1.03, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   1.03:
+"    - Added rank.
+"
 "   1.02:
 "    - Add '*' to a delimiter.
 "
@@ -52,18 +55,19 @@ function! neocomplcache#complfunc#filename_complete#finalize()"{{{
 endfunction"}}}
 
 function! neocomplcache#complfunc#filename_complete#get_keyword_pos(cur_text)"{{{
-    if !g:NeoComplCache_TryFilenameCompletion || ((has('win32') || has('win64')) && &filetype == 'tex')
+    if (has('win32') || has('win64')) && &filetype == 'tex'
         return -1
     endif
 
     " Not Filename pattern.
-    if a:cur_text =~ '[*/\\][/\\]\f*$\|[^[:print:]]\f*$\|/c\%[ygdrive/]$'
+    if a:cur_text =~ '[/\\][/\\]\f*$\|[^[:print:]]\f*$\|/c\%[ygdrive/]$'
         return -1
     endif
 
     let l:PATH_SEPARATOR = (has('win32') || has('win64')) ? '/\\' : '/'
     " Filename pattern.
-    let l:pattern = printf('[/~]\?\%%(\\.\|\f\)\+[%s]\%%(\\.\|\f\)*$', l:PATH_SEPARATOR)
+    "let l:pattern = printf('[/~]\?\%%(\\.\|\f\|\*\)\+[%s]\%%(\\.\|\f\)*$', l:PATH_SEPARATOR)
+    let l:pattern = '[/~]\?\%(\\.\|\f\|\*\)\+$'
 
     let l:cur_keyword_pos = match(a:cur_text, l:pattern)
     if len(matchstr(a:cur_text, l:pattern)) < g:NeoComplCache_KeywordCompletionStartLength
@@ -74,7 +78,7 @@ function! neocomplcache#complfunc#filename_complete#get_keyword_pos(cur_text)"{{
 endfunction"}}}
 
 function! neocomplcache#complfunc#filename_complete#get_complete_words(cur_keyword_pos, cur_keyword_str)"{{{
-    let l:cur_keyword_str = escape(a:cur_keyword_str, '*?[]')
+    let l:cur_keyword_str = escape(a:cur_keyword_str, '[]')
 
     let l:PATH_SEPARATOR = (has('win32') || has('win64')) ? '/\\' : '/'
     let l:cur_keyword_str = substitute(l:cur_keyword_str, '\\ ', ' ', 'g')
@@ -90,11 +94,13 @@ function! neocomplcache#complfunc#filename_complete#get_complete_words(cur_keywo
     endif
 
     try
-        let l:files = split(substitute(glob(l:cur_keyword_str . '*'), '\\', '/', 'g'), '\n')
+        let l:glob = (l:cur_keyword_str !~ '\*$')?  l:cur_keyword_str . '*' : l:cur_keyword_str
+        let l:files = split(substitute(glob(l:glob), '\\', '/', 'g'), '\n')
         if empty(l:files)
             " Add '*' to a delimiter.
             let l:cur_keyword_str = substitute(l:cur_keyword_str, printf('\w\+\ze[%s._-]', l:PATH_SEPARATOR), '\0*', 'g')
-            let l:files = split(substitute(glob(l:cur_keyword_str . '*'), '\\', '/', 'g'), '\n')
+            let l:glob = (l:cur_keyword_str !~ '\*$')?  l:cur_keyword_str . '*' : l:cur_keyword_str
+            let l:files = split(substitute(glob(l:glob), '\\', '/', 'g'), '\n')
         endif
     catch /.*/
         return []
@@ -159,40 +165,7 @@ function! neocomplcache#complfunc#filename_complete#get_complete_words(cur_keywo
     return l:list
 endfunction"}}}
 
-function! neocomplcache#complfunc#filename_complete#manual_complete()"{{{
-    if !exists(':NeoComplCacheDisable')
-        return ''
-    endif
-
-    " Get cursor word.
-    let l:cur_text = (col('.') < 2)? '' : getline('.')[: col('.')-2]
-
-    let l:pattern = '[/~]\?\%(\\.\|\f\)\+$'
-    let l:cur_keyword_pos = match(l:cur_text, l:pattern)
-    let l:cur_keyword_str = matchstr(l:cur_text, l:pattern)
-
-    if len(l:cur_keyword_str) < g:NeoComplCache_ManualCompletionStartLength
-        return ''
-    endif
-
-    " Save options.
-    let l:ignorecase_save = &ignorecase
-
-    if g:NeoComplCache_SmartCase && l:cur_keyword_str =~ '\u'
-        let &ignorecase = 0
-    else
-        let &ignorecase = g:NeoComplCache_IgnoreCase
-    endif
-
-    let l:complete_words = neocomplcache#get_quickmatch_list(neocomplcache#complfunc#filename_complete#get_complete_words(l:cur_keyword_pos, l:cur_keyword_str),
-            \ l:cur_keyword_pos, l:cur_keyword_str, 'filename_complete')
-    let l:complete_words = neocomplcache#remove_next_keyword(l:complete_words)
-
-    " Restore option.
-    let &ignorecase = l:ignorecase_save
-
-    " Start complete.
-    return neocomplcache#start_manual_complete(l:complete_words, l:cur_keyword_pos, l:cur_keyword_str)
+function! neocomplcache#complfunc#filename_complete#get_rank()"{{{
+    return 10
 endfunction"}}}
-
 " vim: foldmethod=marker
