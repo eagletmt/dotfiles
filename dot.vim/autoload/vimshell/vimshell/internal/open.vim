@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: sexe.vim
+" FILE: open.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 03 Sep 2009
+" Last Modified: 14 Sep 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -26,9 +26,7 @@
 " Version: 1.1, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.1: 
-"     - Shell escape.
-"     - Improved in Windows.
+"   1.1: Improved behaivior.
 "
 "   1.0: Initial version.
 ""}}}
@@ -41,48 +39,22 @@
 ""}}}
 "=============================================================================
 
-function! vimshell#internal#sexe#execute(program, args, fd, other_info)"{{{
-    " Execute shell command.
-    let l:iswin = has('win32') || has('win64')
-    let l:cmdline = ''
-    for arg in a:args
-        if l:iswin
-            let l:arg = substitute(arg, '"', '\\"', 'g')
-            let l:arg = substitute(arg, '[<>|^]', '^\0', 'g')
-            let l:cmdline .= '"' . arg . '" '
-        else
-            let l:cmdline .= shellescape(arg) . ' '
-        endif
-    endfor
+function! vimshell#internal#open#execute(program, args, fd, other_info)"{{{
+    " Open file.
 
-    if l:iswin
-        let l:cmdline = '"' . l:cmdline . '"'
-    endif
-
-    " Set redirection.
-    if a:fd.stdin == ''
-        let l:stdin = ''
-    elseif a:fd.stdin == '/dev/null'
-        let l:null = tempname()
-        call writefile([], l:null)
-
-        let l:stdin = '<' . l:null
+    if has('win32') || has('win64')
+        execute printf('silent ! start %s', join(a:args))
+        return 0
+    elseif has('mac')
+        let l:args = ['open'] + a:args
+    elseif executable(vimshell#getfilename('gnome-open'))
+        let l:args = ['gnome-open'] + a:args
+    elseif executable(vimshell#getfilename('kfmclient'))
+        let l:args = ['kfmclient', 'exec'] + a:args
     else
-        let l:stdin = '<' . a:fd.stdin
+        throw 'open: Not supported.'
     endif
 
-    echo 'Running command.'
-    let l:result = system(printf('%s %s', l:cmdline, l:stdin))
-    call vimshell#print(a:fd, l:result)
-    redraw
-    echo ''
-
-    if a:fd.stdin == '/dev/null'
-        call delete(l:null)
-    endif
-
-    let b:vimshell_system_variables['status'] = v:shell_error
-
-    return 0
+    return vimshell#execute_internal_command('gexe', l:args, a:fd, a:other_info)
 endfunction"}}}
 

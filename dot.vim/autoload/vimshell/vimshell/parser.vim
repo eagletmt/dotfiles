@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: parser.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 29 Aug 2009
+" Last Modified: 12 Oct 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -164,40 +164,60 @@ function! vimshell#parser#split_statements(script)"{{{
     return l:statements
 endfunction"}}}
 function! vimshell#parser#split_args(script)"{{{
-    let l:max = len(a:script)
+    " Substitute modifier.
+    let l:script = ''
+    for val in split(a:script)
+        let l:modify = split(val, ':[/\\]\@!')
+        let l:script .= ' ' . fnamemodify(l:modify[0], ':' . join(l:modify[1:], ':'))
+    endfor
+    let l:max = len(l:script)
     let l:args = []
     let l:arg = ''
     let l:i = 0
     while l:i < l:max
-        if a:script[l:i] == "'"
+        if l:script[l:i] == "'"
             " Single quote.
-            let l:end = matchend(a:script, "^'\\zs[^']*'", l:i)
+            let l:end = matchend(l:script, "^'\\zs[^']*'", l:i)
             if l:end == -1
                 throw 'Quote error'
             endif
-            let l:arg .= a:script[l:i+1 : l:end-2]
+
+            let l:arg .= l:script[l:i+1 : l:end-2]
+            if l:arg == ''
+                call add(l:args, '')
+            endif
+
             let l:i = l:end
-        elseif a:script[l:i] == '"'
+        elseif l:script[l:i] == '"'
             " Double quote.
-            let l:end = matchend(a:script, '^"\zs\%([^"]\|\"\)*"', l:i)
+            let l:end = matchend(l:script, '^"\zs\%([^"]\|\"\)*"', l:i)
             if l:end == -1
                 throw 'Quote error'
             endif
-            let l:arg .= substitute(a:script[l:i+1 : l:end-2], '\\"', '"', 'g')
+
+            let l:arg .= substitute(l:script[l:i+1 : l:end-2], '\\"', '"', 'g')
+            if l:arg == ''
+                call add(l:args, '')
+            endif
+
             let l:i = l:end
-        elseif a:script[l:i] == '`'
+        elseif l:script[l:i] == '`'
             " Back quote.
-            if a:script[l:i :] =~ '`='
-                let l:quote = matchstr(a:script, '^`=\zs[^`]*\ze`', l:i)
-                let l:end = matchend(a:script, '^`=[^`]*`', l:i)
+            if l:script[l:i :] =~ '^`='
+                let l:quote = matchstr(l:script, '^`=\zs[^`]*\ze`', l:i)
+                let l:end = matchend(l:script, '^`=[^`]*`', l:i)
                 let l:arg .= string(eval(l:quote))
             else
-                let l:quote = matchstr(a:script, '^`\zs[^`]*\ze`', l:i)
-                let l:end = matchend(a:script, '^`[^`]*`', l:i)
+                let l:quote = matchstr(l:script, '^`\zs[^`]*\ze`', l:i)
+                let l:end = matchend(l:script, '^`[^`]*`', l:i)
                 let l:arg .= substitute(system(l:quote), '\n', ' ', 'g')
             endif
+            if l:arg == ''
+                call add(l:args, '')
+            endif
+
             let l:i = l:end
-        elseif a:script[i] == '\'
+        elseif l:script[i] == '\'
             " Escape.
             let l:i += 1
 
@@ -205,18 +225,16 @@ function! vimshell#parser#split_args(script)"{{{
                 throw 'Escape error'
             endif
 
-            let l:arg .= a:script[i]
+            let l:arg .= l:script[i]
             let l:i += 1
-        elseif a:script[i] == '#'
+        elseif l:script[i] == '#'
             " Comment.
-            if l:arg != ''
-                call add(l:args, l:arg)
-            endif
             break
-        elseif a:script[l:i] != ' '
-            let l:arg .= a:script[l:i]
+        elseif l:script[l:i] != ' '
+            let l:arg .= l:script[l:i]
             let l:i += 1
         else
+            " Space.
             if l:arg != ''
                 call add(l:args, l:arg)
             endif
@@ -279,11 +297,11 @@ function! s:parse_tilde(script)"{{{
 
     let l:i = 0
     let l:max = len(a:script)
-    while l:i < l:max - 1
+    while l:i < l:max
         if a:script[i] == ' ' && a:script[i+1] == '~'
             " Tilde.
             " Expand home directory.
-            let l:script .= escape($HOME, '\ ')
+            let l:script .= ' ' . escape($HOME, '\ ')
             let l:i += 2
         else
             let [l:script, l:i] = s:skip_else(l:script, a:script, l:i)
@@ -328,9 +346,9 @@ function! s:parse_variables(script)"{{{
     while l:i < l:max
         if a:script[l:i] == '$'
             " Eval variables.
-            if match(a:script, '^$\l', l:i)
+            if match(a:script, '^$\l', l:i) >= 0
                 let l:script .= string(eval(printf("b:vimshell_variables['%s']", matchstr(a:script, '^$\zs\l\w*', l:i))))
-            elseif match(a:script, '^$$', l:i)
+            elseif match(a:script, '^$$', l:i) >= 0
                 let l:script .= string(eval(printf("b:vimshell_system_variables['%s']", matchstr(a:script, '^$$\zs\h\w*', l:i))))
             else
                 let l:script .= string(eval(matchstr(a:script, '^$\h\w*', l:i)))
@@ -354,7 +372,7 @@ function! s:parse_wildcard(script)"{{{
             let l:head = matchstr(a:script[: l:i-1], '[^[:blank:]]*$')
             let l:wildcard = l:head . matchstr(a:script, '^[^[:blank:]]*', l:i)
             " Trunk l:script.
-            let l:script = l:script[: -len(l:head)+1]
+            let l:script = l:script[: -len(l:wildcard)+1]
 
             " Exclude wildcard.
             let l:exclude = matchstr(l:wildcard, '\~.*$')
@@ -365,9 +383,6 @@ function! s:parse_wildcard(script)"{{{
 
             " Expand wildcard.
             let l:expanded = split(escape(glob(l:wildcard), ' '), '\n')
-            if empty(l:expanded)
-                throw 'Unmatched wildcard'
-            endif
             let l:exclude_wilde = split(escape(glob(l:exclude[1:]), ' '), '\n')
             if !empty(l:exclude_wilde)
                 let l:candidates = l:expanded

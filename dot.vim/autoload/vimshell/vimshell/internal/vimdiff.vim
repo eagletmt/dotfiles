@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: sexe.vim
+" FILE: vimdiff.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 03 Sep 2009
+" Last Modified: 12 Sep 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,14 +23,11 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.1, for Vim 7.0
+" Version: 1.0, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.1: 
-"     - Shell escape.
-"     - Improved in Windows.
-"
-"   1.0: Initial version.
+"   1.0:
+"     - Initial version.
 ""}}}
 "-----------------------------------------------------------------------------
 " TODO: "{{{
@@ -41,48 +38,36 @@
 ""}}}
 "=============================================================================
 
-function! vimshell#internal#sexe#execute(program, args, fd, other_info)"{{{
-    " Execute shell command.
-    let l:iswin = has('win32') || has('win64')
-    let l:cmdline = ''
-    for arg in a:args
-        if l:iswin
-            let l:arg = substitute(arg, '"', '\\"', 'g')
-            let l:arg = substitute(arg, '[<>|^]', '^\0', 'g')
-            let l:cmdline .= '"' . arg . '" '
-        else
-            let l:cmdline .= shellescape(arg) . ' '
-        endif
-    endfor
+function! vimshell#internal#vimdiff#execute(program, args, fd, other_info)
+    " Diff file1 file2.
 
-    if l:iswin
-        let l:cmdline = '"' . l:cmdline . '"'
+    if len(a:args) != 2
+        " Error.
+        call vimshell#error_line(a:fd, 'Usage: vimdiff file1 file2')
+        return 0
     endif
 
-    " Set redirection.
-    if a:fd.stdin == ''
-        let l:stdin = ''
-    elseif a:fd.stdin == '/dev/null'
-        let l:null = tempname()
-        call writefile([], l:null)
+    call vimshell#print_prompt()
 
-        let l:stdin = '<' . l:null
+    " Save current directiory.
+    let l:cwd = getcwd()
+
+    " Split nicely.
+    if winheight(0) > &winheight
+        split
     else
-        let l:stdin = '<' . a:fd.stdin
+        vsplit
     endif
 
-    echo 'Running command.'
-    let l:result = system(printf('%s %s', l:cmdline, l:stdin))
-    call vimshell#print(a:fd, l:result)
-    redraw
-    echo ''
+    try
+        edit `=a:args[0]`
+    catch /^.*/
+        echohl Error | echomsg v:errmsg | echohl None
+    endtry
 
-    if a:fd.stdin == '/dev/null'
-        call delete(l:null)
-    endif
+    lcd `=l:cwd`
 
-    let b:vimshell_system_variables['status'] = v:shell_error
+    vertical diffsplit `=a:args[1]`
 
-    return 0
-endfunction"}}}
-
+    return 1
+endfunction
