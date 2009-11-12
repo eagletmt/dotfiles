@@ -50,6 +50,11 @@ nnoremap ; :
 vnoremap : ;
 vnoremap ; :
 
+cnoremap <C-p> <Up>
+cnoremap <Up> <C-p>
+cnoremap <C-n> <Down>
+cnoremap <Down> <C-n>
+
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 inoremap <C-e> <C-o>$
