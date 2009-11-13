@@ -166,6 +166,7 @@ set completeopt& completeopt+=menuone
 let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_SmartCase = 1
 imap <silent> <C-l> <Plug>(neocomplcache_snippets_expand)
+let g:NeocomplCache_SnippetsDir = $HOME.'/.vim/snippets'
 
 if filereadable(expand('~/.private.vim'))
   source ~/.private.vim
