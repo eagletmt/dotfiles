@@ -129,7 +129,12 @@ endfunction
 autocmd BufEnter *.hs,*.lhs :call s:SetToCabalBuild()
 
 " quickrun.vim
-nmap <Leader>r <Plug>(quickrun)<C-w>p
+if !exists('g:quickrun_config')
+  let g:quickrun_config = {}
+  let g:quickrun_config['*'] = {}
+  let g:quickrun_config['*'].split = '{"rightbelow"}'
+  let g:quickrun_config.lisp = {'command' : 'sbcl --script'}
+endif
 
 " wwwsearch.vim
 call wwwsearch#add('hoogle', 'http://www.haskell.org/hoogle/?hoogle={keyword}')
