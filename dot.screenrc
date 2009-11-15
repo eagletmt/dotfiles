@@ -30,3 +30,6 @@ hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
 
 defscrollback 1000
 
+term rxvt-256color
+defbce on
+
