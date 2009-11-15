@@ -75,7 +75,7 @@ function psgrep()
   ps aux | cgrep $(echo $1 | sed 's/^\(.\)/[\1]/')
 }
 
-if [ "$TERM" = 'screen' ]; then
+if [ "$WINDOW" != '' ]; then
   preexec() {
     emulate -L zsh
     local -a cmd
