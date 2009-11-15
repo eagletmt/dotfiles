@@ -10,6 +10,7 @@ bind n screen
 bind j exec | uim-fep -S
 bind k eval 'exec cat' kill redisplay
 bind o eval writebuf 'exec /bin/sh -c "open -a Firefox $(cat /tmp/screen-exchange)"'
+bind m eval writebuf 'exec /bin/sh -c "pbcopy < /tmp/screen-exchange"'
 
 hardstatus on
 # %c: time in 24-hour (format: HH:MM)
