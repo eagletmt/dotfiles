@@ -136,6 +136,7 @@ if !exists('g:quickrun_config')
   let g:quickrun_config['*'] = {}
   let g:quickrun_config['*'].split = '{"rightbelow"}'
   let g:quickrun_config.lisp = {'command' : 'sbcl --script'}
+  let g:quickrun_config.lhaskell = {'tempfile': '{tempname()}.hs', 'eval_template': 'main = print $ %s', 'command': 'runghc'}
 endif
 
 " wwwsearch.vim
