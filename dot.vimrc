@@ -63,6 +63,8 @@ inoremap <C-k> <C-o>C
 
 let g:mapleader = ' '
 nnoremap ,s :source $MYVIMRC<CR>
+nnoremap ,d :helptags ~/.vim/doc<CR>
+nnoremap ,m :setlocal buftype=nofile<CR>
 
 " filetype
 let filetype_m = 'objc'
