@@ -93,7 +93,7 @@ let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 " skk.vim
 let skk_jisyo = '~/vim-skk-jisyo.utf8'
 let skk_large_jisyo = '~/Library/Application Support/AquaSKK/SKK-JISYO.L'
-let skk_auto_save_jisyo = 0 " ask if save
+let skk_auto_save_jisyo = 1 " don't ask if save
 let skk_keep_state = 0
 let skk_kutouten_type = 'en'
 let skk_egg_like_newline = 1
