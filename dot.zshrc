@@ -84,9 +84,11 @@ if [ "$WINDOW" != '' ]; then
   }
 fi
 
-function precmd() {
-  psvar=()
-  vcs_info
-  [ -n "$vcs_info_msg_0_" ] && psvar[1]="$vcs_info_msg_0_"
-}
+if perl -Mversion -e "exit(not(qv($ZSH_VERSION) ge qv(4.3.10)))"; then
+  function precmd() {
+    psvar=()
+    vcs_info
+    [ -n "$vcs_info_msg_0_" ] && psvar[1]="$vcs_info_msg_0_"
+  }
+fi
 
