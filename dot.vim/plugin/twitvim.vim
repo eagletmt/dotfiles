@@ -25,7 +25,7 @@ set cpo&vim
 " The extended character limit is 246. Twitter will display a tweet longer than
 " 140 characters in truncated form with a link to the full tweet. If that is
 " undesirable, set s:char_limit to 140.
-let s:char_limit = 246
+let s:char_limit = 140
 
 let g:twitvim_source = 'twitvim'
 function! s:get_source()
