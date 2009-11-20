@@ -2,3 +2,18 @@ snippet     function
     ${1:func_name} :: ${2:type}
     $1 ${0}
 
+snippet     instance
+prev_word   '^'
+    instance ${1:class} ${2:inst} where
+        ${0}
+
+snippet     class
+prev_word   '^'
+    class ${1:class} where
+        ${0}
+
+snippet     language
+prev_word   '^'
+    {-# LANGUAGE ${1:exts} #-}
+    ${0}
+
