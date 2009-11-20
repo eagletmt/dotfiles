@@ -15,6 +15,7 @@ nnoremap <C-r> :restart<CR>
 nnoremap <M-c> Y
 nnoremap <M-q> <Nop>
 nnoremap ,c :<C-u>copy anchor<CR>
+nnoremap ,t :<C-u>copy %TITLE% %URL%<CR>
 
 set nextpattern=次へ,\bnext\b,\bmore\b,^next.*,^>$,^>>$
 set previouspattern=前へ,\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
