@@ -947,6 +947,18 @@ function! s:CmdLine_Twitter(initstr, inreplyto)
     call s:post_twitter(mesg, a:inreplyto)
 endfunction
 
+function! s:Buffer_Twitter(initstr, inreplyto)
+  let login = s:get_twitvim_login()
+  if login == ''
+    return -1
+  endif
+
+  belowright 3new
+  setlocal modifiable buftype=nofile bufhidden=delete
+  call setline(1, a:initstr)
+  let b:inreplyto = a:inreplyto
+endfunction
+
 " Extract the user name from a line in the timeline.
 function! s:get_user_name(line)
     let line = substitute(a:line, '^+ ', '', '')
@@ -961,7 +973,7 @@ function! s:Quick_Reply()
     if username != ""
 	" If the status ID is not available, get() will return 0 and
 	" post_twitter() won't add in_reply_to_status_id to the update.
-	call s:CmdLine_Twitter('@'.username.' ', get(s:curbuffer.statuses, line('.')))
+	call s:Buffer_Twitter('@'.username.' ', get(s:curbuffer.statuses, line('.')))
     endif
 endfunction
 
@@ -1188,6 +1200,10 @@ nnoremenu Plugin.TwitVim.Post\ current\ line :call <SID>post_twitter(getline('.'
 " Post entire buffer to Twitter.
 if !exists(":BPosttoTwitter")
     command BPosttoTwitter :call <SID>post_twitter(join(getline(1, "$"), "\n"), 0)
+endif
+
+if !exists(":BRPosttoTwitter")
+    command BRPosttoTwitter :call <SID>post_twitter(join(getline(1, "$"), "\n"), exists('b:inreplyto') ? b:inreplyto : 0) | unlet b:inreplyto
 endif
 
 " Post visual selection to Twitter.
