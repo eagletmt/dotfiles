@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: include_complete.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 10 Nov 2009
+" Last Modified: 18 Nov 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,9 +23,14 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.05, for Vim 7.0
+" Version: 1.06, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   1.06:
+"    - Ignore no suffixes file.
+"    - Improved set patterns.
+"    - Fixed error; when open the file of the filetype that g:NeoComplCache_KeywordPatterns does not have.
+"
 "   1.05:
 "    - Save error log.
 "    - Implemented member filter.
@@ -74,19 +79,20 @@ function! neocomplcache#plugin#include_complete#initialize()"{{{
     augroup END
     
     " Initialize include pattern."{{{
-    call s:set_include_pattern('java,haskell', '^import')
+    call neocomplcache#set_variable_pattern('g:NeoComplCache_IncludePattern', 'java,haskell', '^import')
     "}}}
     " Initialize expr pattern."{{{
-    call s:set_expr_pattern('haskell', 'substitute(v:fname,''\\.'',''/'',''g'')')
+    call neocomplcache#set_variable_pattern('g:NeoComplCache_IncludeExpr', 'haskell',
+                \'substitute(v:fname,''\\.'',''/'',''g'')')
     "}}}
     " Initialize path pattern."{{{
     if executable('python')
-        call s:set_path_pattern('python',
+        call neocomplcache#set_variable_pattern('g:NeoComplCache_IncludePath', 'python',
                     \system('python -', 'import sys;sys.stdout.write(",".join(sys.path))'))
     endif
     "}}}
     " Initialize suffixes pattern."{{{
-    call s:set_suffixes_pattern('haskell', '.hs')
+    call neocomplcache#set_variable_pattern('g:NeoComplCache_IncludeSuffixes', 'haskell', '.hs')
     "}}}
     
     " Create cache directory.
@@ -211,7 +217,7 @@ function! s:check_include(bufnumber)"{{{
             else
                 let l:filename = fnamemodify(findfile(matchstr(l:line[l:match_end :], '\f\+'), l:path), ':p')
             endif
-            if filereadable(l:filename)
+            if filereadable(l:filename) && fnamemodify(l:filename, ':e') != ''
                 call add(l:include_files, l:filename)
 
                 if !has_key(s:include_cache, l:filename)
@@ -398,7 +404,7 @@ function! s:load_from_file(filename, filetype)"{{{
     let l:line_cnt = l:print_cache_percent
     
     let l:line_num = 1
-    let l:pattern = g:NeoComplCache_KeywordPatterns[a:filetype]
+    let l:pattern = neocomplcache#get_keyword_pattern()
     let l:menu = printf('[I] %.' . g:NeoComplCache_MaxFilenameWidth . 's', fnamemodify(a:filename, ':t'))
     let l:keyword_lists = {}
     let l:dup_check = {}
@@ -555,37 +561,6 @@ function! s:save_cache(filename, keyword_list)"{{{
     endfor
     call writefile(l:word_list, l:cache_name)
 endfunction"}}}
-
-" Set pattern helper."{{{
-function! s:set_include_pattern(filetype, pattern)"{{{
-    for ft in split(a:filetype, ',')
-        if !has_key(g:NeoComplCache_IncludePattern, ft) 
-            let g:NeoComplCache_IncludePattern[ft] = a:pattern
-        endif
-    endfor
-endfunction"}}}
-function! s:set_expr_pattern(filetype, pattern)"{{{
-    for ft in split(a:filetype, ',')
-        if !has_key(g:NeoComplCache_IncludeExpr, ft) 
-            let g:NeoComplCache_IncludeExpr[ft] = a:pattern
-        endif
-    endfor
-endfunction"}}}
-function! s:set_path_pattern(filetype, pattern)"{{{
-    for ft in split(a:filetype, ',')
-        if !has_key(g:NeoComplCache_IncludePath, ft) 
-            let g:NeoComplCache_IncludePath[ft] = a:pattern
-        endif
-    endfor
-endfunction"}}}
-function! s:set_suffixes_pattern(filetype, pattern)"{{{
-    for ft in split(a:filetype, ',')
-        if !has_key(g:NeoComplCache_IncludeSuffixes, ft) 
-            let g:NeoComplCache_IncludeSuffixes[ft] = a:pattern
-        endif
-    endfor
-endfunction"}}}
-"}}}
 
 " Global options definition."{{{
 if !exists('g:NeoComplCache_IncludePattern')
