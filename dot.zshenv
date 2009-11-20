@@ -22,5 +22,7 @@ EDITOR='/usr/local/bin/vim'
 # set pager
 PAGER='/opt/local/bin/lv -c'
 
-export PATH MANPATH PKG_CONFIG_PATH EDITOR PAGER
+LSCOLORS=gxfxcxdxCxegedxbagacad
+
+export PATH MANPATH PKG_CONFIG_PATH EDITOR PAGER LSCOLORS
 
