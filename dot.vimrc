@@ -169,7 +169,11 @@ set completeopt& completeopt+=menuone
 let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_SmartCase = 1
 imap <silent> <C-l> <Plug>(neocomplcache_snippets_expand)
-let g:NeocomplCache_SnippetsDir = $HOME.'/.vim/snippets'
+let g:NeoComplCache_SnippetsDir = $HOME.'/.vim/snippets'
+if !exists('g:NeoComplCache_DictionaryFileTypeLists')
+  let g:NeoComplCache_DictionaryFileTypeLists = {}
+  let g:NeoComplCache_DictionaryFileTypeLists.haskell = $HOME.'/.vim/dict/haskell.dict'
+endif
 
 if filereadable(expand('~/.private.vim'))
   source ~/.private.vim
