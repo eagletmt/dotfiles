@@ -9,6 +9,9 @@ export __CF_USER_TEXT_ENCODING=${__CF_USER_TEXT_ENCODING/:*:/:0x08000100:}
 path=(${HOME}/src/dmd2/osx/bin(N) ${HOME}/bin(N) ${HOME}/.cabal/bin(N) /usr/local/bin(N) /opt/local/bin(N) /usr/local/sbin(N) /usr/X11R6/bin(N) $path)
 typeset -U path
 
+fpath=($HOME/.zsh/functions $fpath)
+typeset -U fpath
+
 # set manpath
 manpath=(/opt/local/share/man(N) /usr/local/share/man(N) /usr/local/man(N) $manpath)
 typeset -U manpath
