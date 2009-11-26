@@ -93,7 +93,7 @@ liberator.modules.twitter = (function(){
         } else {
             sendData = "status=" + encodeURIComponent(stat);
         }
-        sendData += "&source=Vimperator";
+        sendData += "&source=twitvim";
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "https://twitter.com/statuses/update.json", false, username, password);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
