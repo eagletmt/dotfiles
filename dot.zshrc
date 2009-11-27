@@ -62,11 +62,6 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 bindkey "^W" vi-backward-kill-word
 
-function cd()
-{
-  builtin cd $* && ll
-}
-
 function psgrep()
 {
   ps aux | cgrep $(echo $1 | sed 's/^\(.\)/[\1]/')
@@ -99,4 +94,9 @@ case $(uname) in
   Linux)
     alias ll='ls -AFlh --color=auto';;
 esac
+
+function cd()
+{
+  builtin cd $* && ll
+}
 
