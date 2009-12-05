@@ -113,7 +113,9 @@ nnoremap <silent> [Tab]k :<C-u>tabclose<CR>
 
 " fuf.vim
 nnoremap [Tab]j :<C-u>FufFile! <C-r>=expand('%:h').'/'<CR><CR>
+let g:fuf_modesDisable = ['mrucmd']
 nnoremap [Tab]i :<C-u>FufBuffer!<CR>
+nnoremap [Tab]m :<C-u>FufMruFile!<CR>
 
 " quickfix
 autocmd QuickfixCmdPost vimgrep cwindow
