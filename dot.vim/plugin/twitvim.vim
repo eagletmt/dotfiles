@@ -1037,6 +1037,29 @@ function! s:Quick_Reply()
     endif
 endfunction
 
+" Favorite the tweet on the current line.
+function! s:Quick_Favorite()
+  let login = s:get_twitvim_login()
+  if login == ''
+    return -1
+  endif
+
+  let id = get(s:curbuffer.statuses, line('.'))
+  let url = s:get_api_root().'/favorites/create/'.id.'.xml'
+
+  " The favorite API call requires POST, not GET, so we supply a fake parameter
+  " to force run_curl() to use POST.
+  let params = {}
+  let params['id'] = id
+  let [error, output] = s:run_curl(url, login, s:get_proxy(), s:get_proxy_login(), params)
+  if error != ''
+    call s:errormsg('Error favoriting the tweet: '.error)
+  else
+    echo 'Successfully favorited'
+  endif
+endfunction
+
+
 " Extract all user names from a line in the timeline. Return the poster's name as well as names from all the @replies.
 function! s:get_all_names(line)
     let names = []
@@ -1544,6 +1567,8 @@ function! s:twitter_win(wintype)
 	    " Previous page in timeline.
 	    nnoremap <buffer> <silent> <C-PageUp> :call <SID>PrevPageTimeline()<cr>
 
+      " Favorite the current tweet.
+      nnoremap <buffer> <silent> <Leader>f :call <SID>Quick_Favorite()<cr>
 	endif
 
 	" Go back and forth through buffer stack.
