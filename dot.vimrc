@@ -197,6 +197,7 @@ match WhitespaceEOL /\s\+$/
 autocmd! WinEnter * match WhitespaceEOL /\s\+$/
 
 " twitvim.vim
+let g:twitvim_buffer_form = 1
 nnoremap tt :<C-u>CPosttoTwitter
 nnoremap T :<C-u>call MyPosttoTwitter()<CR>
 function! MyPosttoTwitter()

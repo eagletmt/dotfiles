@@ -1134,6 +1134,10 @@ function! s:get_user_name(line)
     return matchres != [] ? matchres[1] : ""
 endfunction
 
+function! s:buffer_form()
+    return exists("g:twitvim_buffer_form") ? g:twitvim_buffer_form : 0
+endfunction
+
 " This is for a local mapping in the timeline. Start an @-reply on the command
 " line to the author of the tweet on the current line.
 function! s:Quick_Reply()
@@ -1141,7 +1145,11 @@ function! s:Quick_Reply()
     if username != ""
 	" If the status ID is not available, get() will return 0 and
 	" post_twitter() won't add in_reply_to_status_id to the update.
-	call s:Buffer_Twitter('@'.username.' ', get(s:curbuffer.statuses, line('.')))
+        if s:buffer_form()
+            call s:Buffer_Twitter('@'.username.' ', get(s:curbuffer.statuses, line('.')))
+        else
+            call s:CmdLine_Twitter('@'.username.' ', get(s:curbuffer.statuses, line('.')))
+        endif
     endif
 endfunction
 
