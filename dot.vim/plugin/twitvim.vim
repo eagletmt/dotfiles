@@ -2,12 +2,12 @@
 " TwitVim - Post to Twitter from Vim
 " Based on Twitter Vim script by Travis Jeffery <eatsleepgolf@gmail.com>
 "
-" Version: 0.4.4
+" Version: 0.4.5
 " License: Vim license. See :help license
 " Language: Vim script
 " Maintainer: Po Shan Cheah <morton@mortonfox.com>
 " Created: March 28, 2008
-" Last updated: December 13, 2009
+" Last updated: December 26, 2009
 "
 " GetLatestVimScripts: 2204 1 twitvim.vim
 " ==============================================================
@@ -133,6 +133,98 @@ function! s:get_twitvim_login_noerror()
     endif
 endfunction
 
+" Reset login info.
+function! s:reset_twitvim_login()
+    unlet! g:twitvim_login
+    unlet! g:twitvim_login_b64
+endfunction
+
+" Verify login info. This will be used to check whether a username and password
+" pair entered by the user is a valid login.
+"
+" Returns 1 if login succeeded, 0 if login failed, <0 for other errors.
+function! s:check_twitvim_login(user, password)
+    let login = a:user.':'.a:password
+
+    redraw
+    echo "Logging into Twitter..."
+
+    let url = s:get_api_root()."/account/verify_credentials.xml"
+    let [error, output] = s:run_curl(url, login, s:get_proxy(), s:get_proxy_login(), {})
+    if error =~ '401'
+	return 0
+    endif
+
+    if error != ''
+	call s:errormsg("Error logging into Twitter: ".error)
+	return -1
+    endif
+
+    " The following check should not be required because Twitter is supposed to
+    " return a 401 HTTP status on login failure, but you never know with
+    " Twitter.
+    let error = s:xml_get_element(output, 'error')
+    if error =~ '\ccould not authenticate'
+	return 0
+    endif
+
+    if error != ''
+	call s:errormsg("Error logging into Twitter: ".error)
+	return -1
+    endif
+
+    redraw
+    echo "Twitter login succeeded."
+
+    return 1
+endfunction
+
+" Ask user for Twitter login info.
+" Returns user:password. Also saves it in g:twitvim_login for future use.
+" Returns empty string if login canceled or failed.
+function! s:prompt_twitvim_login()
+    let failed = 0
+
+    while 1
+	call inputsave()
+	redraw
+	let user = input((failed ? 'Login failed. Try again. ' : 'Please log in. ')."Twitter username (Esc=exit): ")
+	call inputrestore()
+
+	if user == ''
+	    call s:warnmsg("Twitter login not set.")
+	    return ''
+	endif
+
+	call inputsave()
+	redraw
+	let pass = inputsecret("Twitter password (Esc=exit): ")
+	call inputrestore()
+
+	if pass == ''
+	    call s:warnmsg("Twitter login not set.")
+	    return ''
+	endif
+
+	let result = s:check_twitvim_login(user, pass)
+	if result < 0
+	    " Login didn't succeed or fail but there was some kind of error.
+	    return ''
+	endif
+
+	if result > 0
+	    " Login succeeded.
+	    break
+	endif
+
+	let failed = 1
+    endwhile
+
+    call s:reset_twitvim_login()
+    let g:twitvim_login = user.':'.pass
+    return g:twitvim_login
+endfunction
+
 " Get Twitter login info from twitvim_login in .vimrc or _vimrc.
 " Format is username:password
 " If twitvim_login_b64 exists, use that instead. This is the user:password
@@ -140,10 +232,17 @@ endfunction
 function! s:get_twitvim_login()
     let login = s:get_twitvim_login_noerror()
     if login == ''
+
+	" Prompt user to enter login info if not already configured.
+	let login = s:prompt_twitvim_login()
+	if login == ''
+	    return ''
+	endif
+
 	" Beep and error-highlight 
-	execute "normal \<Esc>"
-	call s:errormsg('Twitter login not set. Please add to .vimrc: let twitvim_login="USER:PASS"')
-	return ''
+	" execute "normal \<Esc>"
+	" call s:errormsg('Twitter login not set. Please add to .vimrc: let twitvim_login="USER:PASS"')
+	" return ''
     endif
     return login
 endfunction
@@ -1017,15 +1116,14 @@ function! s:CmdLine_Twitter(initstr, inreplyto)
 endfunction
 
 function! s:Buffer_Twitter(initstr, inreplyto)
-  let login = s:get_twitvim_login()
-  if login == ''
-    return -1
-  endif
-
-  belowright 3new
-  setlocal modifiable buftype=nofile bufhidden=delete
-  call setline(1, a:initstr)
-  let b:inreplyto = a:inreplyto
+    let login = s:get_twitvim_login()
+    if login == ''
+      return -1
+    endif
+    belowright 3new
+    setlocal modifiable buftype=nofile bufhidden=delete
+    call setline(1, a:initstr)
+    let b:inreplyto = a:inreplyto
 endfunction
 
 " Extract the user name from a line in the timeline.
@@ -1048,24 +1146,24 @@ endfunction
 
 " Favorite the tweet on the current line.
 function! s:Quick_Favorite()
-  let login = s:get_twitvim_login()
-  if login == ''
-    return -1
-  endif
+    let login = s:get_twitvim_login()
+    if login == ''
+        return -1
+    endif
 
-  let id = get(s:curbuffer.statuses, line('.'))
-  let url = s:get_api_root().'/favorites/create/'.id.'.xml'
+    let id = get(s:curbuffer.statuses, line('.'))
+    let url = s:get_api_root().'/favorites/create/'.id.'.xml'
 
-  " The favorite API call requires POST, not GET, so we supply a fake parameter
-  " to force run_curl() to use POST.
-  let params = {}
-  let params['id'] = id
-  let [error, output] = s:run_curl(url, login, s:get_proxy(), s:get_proxy_login(), params)
-  if error != ''
-    call s:errormsg('Error favoriting the tweet: '.error)
-  else
-    echo 'Successfully favorited'
-  endif
+    " The favorite API call requires POST, not GET, so we supply a fake parameter
+    " to force run_curl() to use POST.
+    let params = {}
+    let params['id'] = id
+    let [error, output] = s:run_curl(url, login, s:get_proxy(), s:get_proxy_login(), params)
+    if error != ''
+        call s:errormsg('Error favoriting the tweet: '.error)
+    else
+        echo 'Successfully favorited'
+    endif
 endfunction
 
 " Extract all user names from a line in the timeline. Return the poster's name as well as names from all the @replies.
@@ -1132,6 +1230,11 @@ function! s:Quick_DM()
     endif
 endfunction
 
+" Allow user to switch to old-style retweets by setting twitvim_old_retweet.
+function! s:get_old_retweet()
+    return exists('g:twitvim_old_retweet') ? g:twitvim_old_retweet : 0
+endfunction
+
 " Extract the tweet text from a timeline buffer line.
 function! s:get_tweet(line)
     let line = substitute(a:line, '^\w\+:\s\+', '', '')
@@ -1156,9 +1259,11 @@ endfunction
 
 " Use new-style retweet API to retweet a tweet from another user.
 function! s:Retweet_2()
-    let login = s:get_twitvim_login()
-    if login == ''
-	return -1
+
+    " Do an old-style retweet if user has set twitvim_old_retweet.
+    if s:get_old_retweet()
+	call s:Retweet()
+	return
     endif
 
     let status = get(s:curbuffer.statuses, line('.'))
@@ -1167,6 +1272,11 @@ function! s:Retweet_2()
 	" ID.
 	call s:Retweet()
 	return
+    endif
+
+    let login = s:get_twitvim_login()
+    if login == ''
+	return -1
     endif
 
     let parms = {}
@@ -2036,6 +2146,9 @@ nnoremenu Plugin.TwitVim.&Direct\ Messages :call <SID>Direct_Messages("dmrecv", 
 nnoremenu Plugin.TwitVim.Direct\ Messages\ &Sent :call <SID>Direct_Messages("dmsent", 1)<cr>
 nnoremenu Plugin.TwitVim.&Public\ Timeline :call <SID>get_timeline("public", '', 1)<cr>
 
+nnoremenu Plugin.TwitVim.Retweeted\ &By\ Me :call <SID>get_timeline("retweeted_by_me", '', 1)<cr>
+nnoremenu Plugin.TwitVim.Retweeted\ &To\ Me :call <SID>get_timeline("retweeted_to_me", '', 1)<cr>
+
 if !exists(":RefreshTwitter")
     command RefreshTwitter :call <SID>RefreshTimeline()
 endif
@@ -2045,6 +2158,18 @@ endif
 if !exists(":PreviousTwitter")
     command PreviousTwitter :call <SID>PrevPageTimeline()
 endif
+
+if !exists(":SetLoginTwitter")
+    command SetLoginTwitter :call <SID>prompt_twitvim_login()
+endif
+if !exists(":ResetLoginTwitter")
+    command ResetLoginTwitter :call <SID>reset_twitvim_login()
+endif
+
+nnoremenu Plugin.TwitVim.-Sep2- :
+nnoremenu Plugin.TwitVim.Set\ Twitter\ Login :call <SID>prompt_twitvim_login()<cr>
+nnoremenu Plugin.TwitVim.Reset\ Twitter\ Login :call <SID>reset_twitvim_login()<cr>
+
 
 " Send a direct message.
 function! s:do_send_dm(user, mesg)
@@ -2073,7 +2198,7 @@ function! s:do_send_dm(user, mesg)
 	call s:warnmsg("Your message was empty. It was not sent.")
     else
 	redraw
-	echo "Sending update to Twitter..."
+	echo "Sending message to ".a:user."..."
 
 	let url = s:get_api_root()."/direct_messages/new.xml?source=".s:get_source()
 	let parms = { "user" : a:user, "text" : mesg }
@@ -2084,7 +2209,7 @@ function! s:do_send_dm(user, mesg)
 	    call s:errormsg("Error sending your message: ".error)
 	else
 	    redraw
-	    echo "Your message was sent. You used ".mesglen." characters."
+	    echo "Your message was sent to ".a:user.". You used ".mesglen." characters."
 	endif
     endif
 endfunction
@@ -2405,15 +2530,14 @@ function! s:call_urlborg(url)
 	call s:errormsg("Error calling urlBorg API: ".error)
 	return ""
     else
-	let matchres = matchlist(output, '^http')
-	if matchres == []
+	if output !~ '\c^http'
 	    call s:errormsg("urlBorg error: ".output)
 	    return ""
-	else
-	    redraw
-	    echo "Received response from urlBorg."
-	    return output
 	endif
+
+	redraw
+	echo "Received response from urlBorg."
+	return output
     endif
 endfunction
 
