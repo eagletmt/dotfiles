@@ -1,3 +1,4 @@
+" vim:set shiftwidth=4 tabstop=8:
 " ==============================================================
 " TwitVim - Post to Twitter from Vim
 " Based on Twitter Vim script by Travis Jeffery <eatsleepgolf@gmail.com>
