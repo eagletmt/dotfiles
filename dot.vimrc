@@ -198,6 +198,10 @@ autocmd! WinEnter * match WhitespaceEOL /\s\+$/
 
 " twitvim.vim
 let g:twitvim_buffer_form = 1
+let g:twitvim_count = 200
+if has('mac')
+  let g:twitvim_browser = 'open -a Firefox'
+endif
 nnoremap tt :<C-u>CPosttoTwitter
 nnoremap T :<C-u>call MyPosttoTwitter()<CR>
 function! MyPosttoTwitter()
