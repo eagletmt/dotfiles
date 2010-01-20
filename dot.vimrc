@@ -287,3 +287,5 @@ endfunction " }}}
 " <space>ao move current buffer into a new tab.
 nnoremap <silent> <Space>ao :<C-u>call <SID>move_window_into_tab_page(0)<CR>
 
+autocmd! BufRead,BufNewFile */tiarra/log/* setlocal filetype=tiarralog
+
