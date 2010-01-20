@@ -289,3 +289,23 @@ nnoremap <silent> <Space>ao :<C-u>call <SID>move_window_into_tab_page(0)<CR>
 
 autocmd! BufRead,BufNewFile */tiarra/log/* setlocal filetype=tiarralog
 
+" pku
+function! s:pku_test(id)
+  let id = a:id == '' ? matchstr(expand('%:p:t'), '\zs.\+\ze\.') : a:id
+
+  let url = 'http://acm.pku.edu.cn/JudgeOnline/problem?id=' . id
+  let conn = system("curl --silent '" . url . "'")
+  let sample_input = substitute(matchstr(conn, 'class="sio">\zs.\{-}\ze</pre>', -1, 1), "\r\n", "\n", 'g')
+  let sample_output = substitute(matchstr(conn, 'class="sio">\zs.\{-}\ze</pre>', -1, 2), "\r\n", "\n", 'g')
+
+  if !exists('b:quickrun_config')
+    let b:quickrun_config = {}
+  endif
+  let b:quickrun_config.input = '=' . sample_input
+
+  execute 'new +call\ setline(1,"' . sample_output . '")'
+endfunction
+
+command! -nargs=? PKU :call s:pku_test(<q-args>)
+nnoremap <Space>p :<C-u>PKU<CR>
+
