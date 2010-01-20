@@ -113,7 +113,7 @@ nnoremap <silent> [Tab]k :<C-u>tabclose<CR>
 
 " fuf.vim
 let g:fuf_modesDisable = ['mrucmd']
-nnoremap [Tab]j :<C-u>FufFile! <C-r>=(expand('%')==#''?'~':expand('%:h')).'/'<CR><CR>
+nnoremap [Tab]j :<C-u>FufFileWithCurrentBufferDir!<CR>
 nnoremap [Tab]J :<C-u>FufFile! **/<CR>
 nnoremap [Tab]i :<C-u>FufBuffer!<CR>
 nnoremap [Tab]m :<C-u>FufMruFile!<CR>
