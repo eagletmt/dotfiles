@@ -121,10 +121,6 @@ nnoremap [Tab]m :<C-u>FufMruFile!<CR>
 " quickfix
 autocmd QuickfixCmdPost vimgrep cwindow
 
-" pbcopy
-nnoremap <Space>p :<C-u>w !pbcopy<CR>
-vnoremap <Space>p :w !pbcopy<CR>
-
 " cabal build <http://koweycode.blogspot.com/2009/07/vim-and-building-with-cabal.html>
 function! s:SetToCabalBuild()
   if glob("*.cabal") != ''
