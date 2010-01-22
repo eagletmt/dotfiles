@@ -92,7 +92,12 @@ let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 
 " skk.vim
 let skk_jisyo = '~/vim-skk-jisyo.utf8'
-let skk_large_jisyo = '~/Library/Application Support/AquaSKK/SKK-JISYO.L'
+if has('mac')
+  let skk_large_jisyo = '~/Library/Application Support/AquaSKK/SKK-JISYO.L'
+elseif has('win32')
+  let skk_large_jisyo = '~/My Documents/skkdic/SKK-JISYO.L'
+endif
+
 let skk_auto_save_jisyo = 1 " don't ask if save
 let skk_keep_state = 0
 let skk_kutouten_type = 'en'
