@@ -54,6 +54,9 @@ cnoremap <C-p> <Up>
 cnoremap <Up> <C-p>
 cnoremap <C-n> <Down>
 cnoremap <Down> <C-n>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
+cnoremap <C-a> <Home>
 
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
