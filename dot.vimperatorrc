@@ -69,3 +69,12 @@ nnoremap sa :GBkmk<CR>
 nnoremap m <Nop>
 nnoremap ma :<C-u>mr<Space>alc<Space>
 
+" refcontrol.js
+let g:refcontrol_enabled = "true"
+javascript <<EOM
+liberator.globalVariables.refcontrol = {
+  '@DEFAULT': '@NORMAL',
+  'fc2.com': '@FORGE'
+};
+EOM
+
