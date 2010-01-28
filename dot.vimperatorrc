@@ -14,6 +14,7 @@ nnoremap ,s :source ~/.vimperatorrc<CR>
 nnoremap <C-r> :restart<CR>
 nnoremap <M-c> Y
 nnoremap <M-q> <Nop>
+nnoremap <C-t> <M-F>
 nnoremap ,c :<C-u>copy anchor<CR>
 nnoremap ,t :<C-u>copy %TITLE% %URL%<CR>
 
