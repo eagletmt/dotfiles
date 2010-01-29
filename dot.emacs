@@ -7,6 +7,12 @@
 
 (require 'riece)
 
+;; elscreen
+(setq elscreen-prefix-key "\C-z")
+(load "elscreen")
+(define-key elscreen-map "\C-h" 'elscreen-prev)
+(define-key elscreen-map "\C-l" 'elscreen-next)
+
 (define-key ctl-x-map "p"
   #'(lambda (arg)
       (interactive "p")
