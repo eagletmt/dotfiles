@@ -128,6 +128,12 @@ nnoremap [Tab]m :<C-u>FufMruFile!<CR>
 
 " quickfix
 autocmd QuickfixCmdPost vimgrep cwindow
+nnoremap <C-j> :cn<CR>
+nnoremap <C-k> :cp<CR>
+
+" buffer
+nnoremap <C-n> :bn<CR>
+nnoremap <C-p> :bp<CR>
 
 " cabal build <http://koweycode.blogspot.com/2009/07/vim-and-building-with-cabal.html>
 function! s:SetToCabalBuild()
