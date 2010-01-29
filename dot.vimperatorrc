@@ -33,6 +33,7 @@ nnoremap sk :<C-u>tabopen http://twitter.com/
 command! -nargs=+ Unicodemotion tabopen http://fuba.moaningnerds.org/unicodemoticon/?<args>
 nnoremap sm :Unicodemotion<Space>
 command! -nargs=+ Rlo tabopen http://fuba.moaningnerds.org/conv/rlo.cgi?<args>
+command! ldr javascript liberator.open('http://reader.livedoor.com/subscribe/' + buffer.URI, liberator.NEW_TAB)
 cnoremap <C-j> <Nop>
 cnoremap <C-h> <BS>
 cnoremap <C-p> <Up>
