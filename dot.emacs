@@ -6,3 +6,8 @@
 (setq multi-term-program "/bin/zsh")
 
 (require 'riece)
+
+(define-key ctl-x-map "p"
+  #'(lambda (arg)
+      (interactive "p")
+      (other-window (- arg))))
