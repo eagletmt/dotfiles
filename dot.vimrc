@@ -323,3 +323,10 @@ endfunction
 command! -nargs=? PKU :call s:pku_test(<q-args>)
 nnoremap <Space>p :<C-u>PKU<CR>
 
+" http://d.hatena.ne.jp/thinca/20090530/1243615055
+augroup vimrc-auto-cursorline
+  autocmd!
+  autocmd CursorMoved,CursorMovedI,WinLeave * setlocal nocursorline
+  autocmd CursorHold,CursorHoldI * setlocal cursorline
+augroup END
+
