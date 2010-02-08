@@ -78,7 +78,8 @@ let g:refcontrol_enabled = "true"
 javascript <<EOM
 liberator.globalVariables.refcontrol = {
   '@DEFAULT': '@NORMAL',
-  'fc2.com': '@FORGE'
+  'fc2.com': '@FORGE',
+  'nagamochi.info': '@FORGE'
 };
 EOM
 
