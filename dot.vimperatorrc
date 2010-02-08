@@ -41,6 +41,8 @@ cnoremap <C-n> <Down>
 cnoremap <C-i> <Tab>
 inoremap <C-m> <CR>
 
+set complete& complete+=t
+
 " migemo_hint.js
 set hintmatching=custom
 
