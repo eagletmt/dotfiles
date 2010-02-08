@@ -330,3 +330,9 @@ augroup vimrc-auto-cursorline
   autocmd CursorHold,CursorHoldI * setlocal cursorline
 augroup END
 
+" gist.vim
+let g:github_user = 'eagletmt'
+" let g:github_token =
+let g:gist_open_browser_after_post = 1
+let g:gist_browser_command = 'open'
+
