@@ -129,6 +129,10 @@ liberator.globalVariables.localKeyMappings =
     ['V', ':stvolume! +10'],
     ['a', ':stplay'],
   ]],
+  [/[a-z0-9]+\.tumblr\.com\/post\//, [
+    ['i'],
+    ['i', ':tombloo ReBlog\\ -\\ Tumblr']
+  ]],
 ];
 EOM
 
