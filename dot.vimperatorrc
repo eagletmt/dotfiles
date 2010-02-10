@@ -98,5 +98,8 @@ EOM
 
 nnoremap ,l :<C-u>matrixcode<CR>
 
+autocmd LocationChange .* set focuscontent
+autocmd LocationChange member\.livedoor\.com/login set nofocuscontent
+
 source ~/.private.vimperatorrc
 
