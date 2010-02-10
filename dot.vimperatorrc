@@ -111,5 +111,26 @@ commands.addUserCommand(['inreplyto'], '',
     }, null, true);
 EOM
 
+let g:localkeymode_enable = 'true'
+javascript <<EOM
+liberator.globalVariables.localKeyMappings =
+[
+  [/twitter\.com\/[A-Za-z0-9_]+\/status/, [
+    ['i'],
+    ['i', ':inreplyto'],
+  ]],
+  [/www\.(youtube\.com|nicovideo\.jp)\/watch/, [
+    ['x X c C v V a'],
+    ['x', ':stseek! -5'],
+    ['X', ':stseek! -10'],
+    ['c', ':stseek! +5'],
+    ['C', ':stseek! +10'],
+    ['v', ':stvolume! -10'],
+    ['V', ':stvolume! +10'],
+    ['a', ':stplay'],
+  ]],
+];
+EOM
+
 source ~/.private.vimperatorrc
 
