@@ -101,5 +101,15 @@ nnoremap ,l :<C-u>matrixcode<CR>
 autocmd LocationChange .* set focuscontent
 autocmd LocationChange member\.livedoor\.com/login set nofocuscontent
 
+javascript <<EOM
+commands.addUserCommand(['inreplyto'], '',
+    function(args) {
+      var a = plugins.libly.$U.getFirstNodeFromXPath('//span[contains(@class,"entry-meta")]/a[2]');
+      if (a) {
+        liberator.open(a.href);
+      }
+    }, null, true);
+EOM
+
 source ~/.private.vimperatorrc
 
