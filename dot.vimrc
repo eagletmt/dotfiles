@@ -144,13 +144,10 @@ endfunction
 autocmd BufEnter *.hs,*.lhs :call s:SetToCabalBuild()
 
 " quickrun.vim
-if !exists('g:quickrun_config')
-  let g:quickrun_config = {}
-  let g:quickrun_config['*'] = {}
-  let g:quickrun_config['*'].split = '{"rightbelow"}'
-  let g:quickrun_config.lisp = {'command' : 'sbcl --script'}
-  let g:quickrun_config.lhaskell = {'tempfile': '{tempname()}.hs', 'eval_template': 'main = print $ %s', 'command': 'runghc'}
-endif
+let g:quickrun_config = {
+      \ '*': {'split': '{"rightbelow"}'},
+      \ 'lisp': {'command' : 'sbcl --script'},
+      \ 'lhaskell': {'tempfile': '{tempname()}.hs', 'eval_template': 'main = print $ %s', 'command': 'runghc'}}
 
 " wwwsearch.vim
 call wwwsearch#add('hoogle', 'http://www.haskell.org/hoogle/?hoogle={keyword}')
