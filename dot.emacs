@@ -17,3 +17,24 @@
   #'(lambda (arg)
       (interactive "p")
       (other-window (- arg))))
+
+;; fullscreen Carbon Emacs
+(when (eq window-system 'mac)
+  (add-hook 'window-setup-hook
+	    (lambda ()
+	      (set-frame-parameter nil 'fullscreen 'fullboth))))
+
+(defun mac-toggle-max-window ()
+  (interactive)
+  (if (frame-parameter nil 'fullscreen)
+      (set-frame-parameter nil 'fullscreen nil)
+    (set-frame-parameter nil 'fullscreen 'fullboth)))
+
+;; color
+(if window-system
+    (progn
+      (set-background-color "black")
+      (set-foreground-color "lightgray")
+      (set-cursor-color "gray")
+      (set-frame-parameter nil 'alpha 90)))
+
