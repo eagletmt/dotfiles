@@ -41,3 +41,8 @@
 ;; yes or no -> y or n
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; indent
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2 indent-tabs-mode nil)
+(global-set-key "\C-m" 'newline-and-indent)
+
