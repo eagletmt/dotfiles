@@ -5,7 +5,7 @@ if has('gui_macvim')
   nnoremap ,f :<C-u>set invfullscreen<CR>
 endif
 
-colorscheme evening
+colorscheme candy
 
 " quickrun.vim
 let g:quickrun_config['*'].runmode = 'async:remote:vimproc'
