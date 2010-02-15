@@ -301,11 +301,11 @@ nnoremap <silent> <Space>ao :<C-u>call <SID>move_window_into_tab_page(0)<CR>
 autocmd! BufRead,BufNewFile */tiarra/log/* setlocal filetype=tiarralog
 
 " http://d.hatena.ne.jp/thinca/20090530/1243615055
-augroup vimrc-auto-cursorline
-  autocmd!
-  autocmd CursorMoved,CursorMovedI,WinLeave * setlocal nocursorline
-  autocmd CursorHold,CursorHoldI * setlocal cursorline
-augroup END
+"augroup vimrc-auto-cursorline
+"  autocmd!
+"  autocmd CursorMoved,CursorMovedI,WinLeave * setlocal nocursorline
+"  autocmd CursorHold,CursorHoldI * setlocal cursorline
+"augroup END
 
 " gist.vim
 let g:github_user = 'eagletmt'
