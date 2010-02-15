@@ -30,6 +30,7 @@ nnoremap st :twittersearch<Space>
 nnoremap sh :hoogle<Space>
 nnoremap sc :googlecode<Space>
 nnoremap sk :<C-u>tabopen http://twitter.com/
+nnoremap sp :<C-u>tabopen http://acm.pku.edu.cn/JudgeOnline/problem?id=
 command! -nargs=+ Unicodemotion tabopen http://fuba.moaningnerds.org/unicodemoticon/?<args>
 nnoremap sm :Unicodemotion<Space>
 command! -nargs=+ Rlo tabopen http://fuba.moaningnerds.org/conv/rlo.cgi?<args>
