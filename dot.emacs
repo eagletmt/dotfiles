@@ -38,3 +38,6 @@
       (set-cursor-color "gray")
       (set-frame-parameter nil 'alpha 90)))
 
+;; yes or no -> y or n
+(fset 'yes-or-no-p 'y-or-n-p)
+
