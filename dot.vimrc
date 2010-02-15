@@ -313,3 +313,8 @@ let g:github_user = 'eagletmt'
 let g:gist_open_browser_after_post = 1
 let g:gist_browser_command = 'open'
 
+set runtimepath+=~/.vim/poj
+let g:poj_user = 'eagletmt_'
+let g:poj_prefer_c = 0
+let g:poj_prefer_cpp = 0
+
