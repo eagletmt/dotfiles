@@ -125,6 +125,7 @@ nnoremap [Tab]j :<C-u>FufFileWithCurrentBufferDir!<CR>
 nnoremap [Tab]J :<C-u>FufFile! ~/<CR>
 nnoremap [Tab]i :<C-u>FufBuffer!<CR>
 nnoremap [Tab]m :<C-u>FufMruFile!<CR>
+nnoremap <silent> ,q :<C-u>FufRenewCache<CR>
 
 " quickfix
 autocmd QuickfixCmdPost vimgrep cwindow
