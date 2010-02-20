@@ -1,7 +1,7 @@
 set columns=160 lines=40
 if has('gui_macvim')
   set fuoptions=maxvert,maxhorz
-  set transparency=10
+  set transparency=15
   nnoremap ,f :<C-u>set invfullscreen<CR>
 endif
 
