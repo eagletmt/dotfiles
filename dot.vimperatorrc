@@ -134,16 +134,28 @@ liberator.globalVariables.localKeyMappings =
     ['i'],
     ['i', ':tombloo ReBlog\\ -\\ Tumblr']
   ]],
-  [/www\.pixiv\.net\/member_illust\.php/, [
-    ['b'],
-    ['b', function() liberator.open(buffer.URI.replace("member_illust.php?mode=medium", "bookmark_add.php?type=illust"))],
+  [/www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/, [
+    ['w i'],
+    ['w', function() liberator.open(buffer.URI.replace("member_illust.php?mode=medium", "bookmark_add.php?type=illust"))],
+    ['i', ':xhint o //a[contains(@href, "mode=big")]'],
   ]],
-  [/www\.pixiv\.net\/bookmark_add\.php/, [
-    ['b'],
-    ['b', function() liberator.plugins.libly.$U.getFirstNodeFromXPath('id("bookmark_submit_btn")').click()],
+  [/www\.pixiv\.net\/member_illust\.php\?id=\d+/, [
+    ['w'],
+    ['w', function() liberator.open(buffer.URI.replace("member_illust.php?", "bookmark_add.php?type=user&"))],
+  ]],
+  [/www\.pixiv\.net\/bookmark_add\.php\?.*type=user/, [
+    ['w'],
+    ['w', function() liberator.plugins.libly.$U.getFirstNodeFromXPath('//input[contains(@value,"追加する")]').click()],
+  ]],
+  [/www\.pixiv\.net\/bookmark_add\.php\?.*type=illust/, [
+    ['w t T'],
+    ['w', function() liberator.plugins.libly.$U.getFirstNodeFromXPath('id("bookmark_submit_btn")').click()],
+    ['t', ':xhint o //*[@class=""]'],
+    ['T', ':xhint o //*[@class="on"]'],
   ]],
 ];
 EOM
+autocmd LocationChange www\.pixiv\.net/jump\.php :js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
 
 source ~/.private.vimperatorrc
 
