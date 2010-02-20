@@ -134,6 +134,14 @@ liberator.globalVariables.localKeyMappings =
     ['i'],
     ['i', ':tombloo ReBlog\\ -\\ Tumblr']
   ]],
+  [/www\.pixiv\.net\/member_illust\.php/, [
+    ['b'],
+    ['b', function() liberator.open(buffer.URI.replace("member_illust.php?mode=medium", "bookmark_add.php?type=illust"))],
+  ]],
+  [/www\.pixiv\.net\/bookmark_add\.php/, [
+    ['b'],
+    ['b', function() liberator.plugins.libly.$U.getFirstNodeFromXPath('id("bookmark_submit_btn")').click()],
+  ]],
 ];
 EOM
 
