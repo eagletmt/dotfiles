@@ -115,9 +115,9 @@ let g:is_gauche = 1
 nnoremap [Tab] <Nop>
 nmap t [Tab]
 nnoremap <silent> [Tab]n :<C-u>tabnew<CR>
-nnoremap <silent> [Tab]l :<C-u>tabnext<CR>
-nnoremap <silent> [Tab]h :<C-u>tabprevious<CR>
-nnoremap <silent> [Tab]k :<C-u>tabclose<CR>
+nnoremap <silent> <C-n> :<C-u>tabnext<CR>
+nnoremap <silent> <C-p> :<C-u>tabprevious<CR>
+nnoremap <silent> <C-k> :<C-u>tabclose<CR>
 
 " fuf.vim
 let g:fuf_modesDisable = ['mrucmd']
@@ -131,10 +131,6 @@ nnoremap <silent> ,q :<C-u>FufRenewCache<CR>
 autocmd QuickfixCmdPost vimgrep cwindow
 nnoremap <C-j> :cn<CR>
 nnoremap <C-k> :cp<CR>
-
-" buffer
-nnoremap <C-n> :bn<CR>
-nnoremap <C-p> :bp<CR>
 
 " cabal build <http://koweycode.blogspot.com/2009/07/vim-and-building-with-cabal.html>
 function! s:SetToCabalBuild()
