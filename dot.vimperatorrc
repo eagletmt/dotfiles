@@ -112,6 +112,8 @@ commands.addUserCommand(['inreplyto'], '',
     }, null, true);
 EOM
 
+nnoremap qr :<C-u>tombloo ReBlog\ -\ Tumblr<CR>
+
 javascript <<EOM
 if (liberator.version.match(/^2\.3/)) {
   /*
