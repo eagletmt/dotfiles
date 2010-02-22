@@ -114,6 +114,9 @@ EOM
 
 nnoremap qr :<C-u>tombloo ReBlog\ -\ Tumblr<CR>
 
+" hint-tombloo.js
+let g:hint_tombloo_key = 'r'
+
 javascript <<EOM
 if (liberator.version.match(/^2\.3/)) {
   /*
