@@ -57,7 +57,7 @@ hints.addMode(
                 }
                 if (!extractor) return;
 
-                tomblooService.share(context, extractor, true);
+                tomblooService.share(context, extractor, false);
             },
             {
                 completer: function (context) {
