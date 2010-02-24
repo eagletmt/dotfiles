@@ -314,6 +314,8 @@ set runtimepath+=~/.vim/poj,~/.vim/hatena
 let g:poj_user = 'eagletmt_'
 let g:poj_prefer_c = 0
 let g:poj_prefer_cpp = 0
+let g:poj_default_lang_ext = 'cc'
+let g:poj_work_dir = '~/work/poj'
 
 let g:hatena_user = 'eagletmt'
 
