@@ -117,6 +117,19 @@ nnoremap qr :<C-u>tombloo ReBlog\ -\ Tumblr<CR>
 " hint-tombloo.js
 let g:hint_tombloo_key = 'r'
 
+" loginManager.js
+javascript <<EOM
+liberator.globalVariables.userLoginServices = {
+  livedoor: {
+    HOST: ["https://member.livedoor.com", "http://member.livedoor.com"],
+    LOGIN: "/login/index",
+    LOGOUT: "/login/logout",
+    usernameField: "livedoor_id",
+    passwordField: "password",
+  },
+};
+EOM
+
 javascript <<EOM
 if (liberator.version.match(/^2\.3/)) {
   /*
