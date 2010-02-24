@@ -129,8 +129,8 @@ nnoremap <silent> ,q :<C-u>FufRenewCache<CR>
 
 " quickfix
 autocmd QuickfixCmdPost vimgrep cwindow
-nnoremap <C-j> :cn<CR>
-nnoremap <C-k> :cp<CR>
+"nnoremap <C-j> :cn<CR>
+"nnoremap <C-k> :cp<CR>
 
 " cabal build <http://koweycode.blogspot.com/2009/07/vim-and-building-with-cabal.html>
 function! s:SetToCabalBuild()
