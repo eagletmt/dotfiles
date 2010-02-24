@@ -152,7 +152,13 @@ if (liberator.version.match(/^2\.3/)) {
       function() liberator.execute(':xhint o //a[contains(@href, "mode=big")]'),
       { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
   mappings.addUserMap([modes.NORMAL], ['i'], '',
-      function() liberator.execute(':xhint o //a[contains(@href, "mode=big")]'),
+      function() {
+        let e = document.createEvent('MouseEvent');
+        // https://developer.mozilla.org/en/DOM/event.initMouseEvent
+        e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        let a = plugins.libly.$U.getFirstNodeFromXPath('//a[contains(@href, "mode=") and not(contains(@href, "mode=medium"))]');
+        a.dispatchEvent(e);
+      },
       { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
   mappings.addUserMap([modes.NORMAL], ['b'], '',
       function() liberator.open(buffer.URI.replace("member_illust.php?", "bookmark_add.php?type=user&")),
