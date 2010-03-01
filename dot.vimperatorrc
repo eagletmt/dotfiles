@@ -161,8 +161,8 @@ if (liberator.version.match(/^2\.3/)) {
       },
       { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
   mappings.addUserMap([modes.NORMAL], ['b'], '',
-      function() liberator.open(buffer.URI.replace("member_illust.php?", "bookmark_add.php?type=user&")),
-      { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?id=\d+/ });
+      function() liberator.open(buffer.URI.replace(/member(?:_illust)?\.php\?/, "bookmark_add.php?type=user&")),
+      { matchingUrls: /www\.pixiv\.net\/member(?:_illust)?\.php\?id=\d+/ });
   mappings.addUserMap([modes.NORMAL], ['b'], '',
       function() liberator.plugins.libly.$U.getFirstNodeFromXPath('//input[contains(@value,"追加する")]').click(),
       { matchingUrls: /www\.pixiv\.net\/bookmark_add\.php\?.*type=user/ });
