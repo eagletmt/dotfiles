@@ -137,6 +137,36 @@ if (liberator.version.match(/^2\.3/)) {
     http://code.google.com/p/vimperator-labs/source/detail?r=c61fb6b0248a51d103d66a24eca6162ddb96902f
     http://code.google.com/p/vimperator-labs/source/detail?r=0e37f641edc2fbed0da05201113f711b2eb88a19
   */
+  let pixivBookmarkUser = function(id) {
+    let libly = liberator.plugins.libly;
+
+    let req = new libly.Request('http://www.pixiv.net/bookmark_add.php?type=user&id=' + id, null, {id: id});
+    req.addEventListener('onSuccess', function(res) {
+      let m = /name="tt" *value="([^"]+)"/.exec(res.responseText);
+      if (m === null) {
+        let m = /<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)<\/div>/.exec(res.responseText);
+        liberator.echo(m[1] + m[2]);
+        return;
+      }
+      let tt = m[1];
+      let params = {
+        mode: 'add',
+        tt: tt,
+        id: res.req.options.id,
+        type: 'user',
+        restrict: '0',
+      };
+      let q = [k + '=' + params[k] for (k in params)].join('&');
+      let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
+      req.addEventListener('onSuccess', function(res) {
+        let m = /<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/.exec(res.responseText);
+        liberator.echo(m[1] + m[2]);
+      });
+      req.post();
+    });
+    req.get();
+  };
+
   mappings.addUserMap([modes.NORMAL], ['i'], '',
       function() liberator.execute(':inreplyto'),
       { matchingUrls: /twitter\.com\/[A-Za-z0-9_]+\/status/ });
@@ -147,6 +177,12 @@ if (liberator.version.match(/^2\.3/)) {
 
   mappings.addUserMap([modes.NORMAL], ['b'], '',
       function() liberator.open(buffer.URI.replace('member_illust.php?mode=medium', 'bookmark_add.php?type=illust')),
+      { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
+  mappings.addUserMap([modes.NORMAL], ['B'], '',
+      function() {
+        let id = liberator.plugins.libly.$U.getFirstNodeFromXPath('id("rpc_u_id")').innerHTML;
+        pixivBookmarkUser(id);
+      },
       { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
   mappings.addUserMap([modes.NORMAL], ['i'], '',
       function() liberator.execute(':xhint o //a[contains(@href, "mode=big")]'),
@@ -160,8 +196,11 @@ if (liberator.version.match(/^2\.3/)) {
         a.dispatchEvent(e);
       },
       { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
-  mappings.addUserMap([modes.NORMAL], ['b'], '',
-      function() liberator.open(buffer.URI.replace(/member(?:_illust)?\.php\?/, "bookmark_add.php?type=user&")),
+  mappings.addUserMap([modes.NORMAL], ['B'], '',
+      function() {
+        let id = /id=(\d+)/.exec(buffer.URI)[1];
+        pixivBookmarkUser(id);
+      },
       { matchingUrls: /www\.pixiv\.net\/member(?:_illust)?\.php\?id=\d+/ });
   mappings.addUserMap([modes.NORMAL], ['b'], '',
       function() liberator.plugins.libly.$U.getFirstNodeFromXPath('//input[contains(@value,"追加する")]').click(),
