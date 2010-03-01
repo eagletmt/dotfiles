@@ -243,5 +243,21 @@ if (liberator.version.match(/^2\.3/)) {
 EOM
 autocmd LocationChange www\.pixiv\.net/jump\.php :js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
 
+javascript <<EOM
+commands.addUserCommand(['rmframe'], '',
+    function(args) {
+      if (buffer.URI.match(/ow\.ly/)) {
+        var xpath = 'id("tools")/a[contains(@class, "close")]';
+      } else if (buffer.URI.match(/am6\.jp/)) {
+        var xpath = 'id("navBar")/a[contains(@class, "right")]';
+      } else {
+        liberator.echoerr('removeframe: unknown site: ' + buffer.URI);
+        return false;
+      }
+      liberator.open(plugins.libly.$U.getFirstNodeFromXPath(xpath).href);
+    }, null, true);
+EOM
+nnoremap ,r :<C-u>rmframe<CR>
+
 source ~/.private.vimperatorrc
 
