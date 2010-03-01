@@ -175,7 +175,7 @@ set complete& complete+=k
 set completeopt& completeopt+=menuone
 let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_SmartCase = 1
-imap <silent> <C-l> <Plug>(neocomplcache_snippets_expand)
+imap <silent> <C-v> <Plug>(neocomplcache_snippets_expand)
 let g:NeoComplCache_SnippetsDir = $HOME.'/.vim/snippets'
 if !exists('g:NeoComplCache_DictionaryFileTypeLists')
   let g:NeoComplCache_DictionaryFileTypeLists = {}
