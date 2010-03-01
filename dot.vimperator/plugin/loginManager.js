@@ -199,7 +199,7 @@ function Service(service) //{{{
 } //}}}
 
 function encode(content)
-    [k+"="+encodeURIComponent(content[k]) for(k in content)].join("&");
+    [encodeURIComponent(k)+"="+encodeURIComponent(content[k]) for(k in content)].join("&");
 function request(url, content, onload, onerror)
 {
     let req = new XMLHttpRequest;
