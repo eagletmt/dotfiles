@@ -3,21 +3,26 @@ liberator.plugins.pixiv = (function() {
   let $U = libly.$U;
 
   let pixivManager = {
-    bookmark_illust: function(id, tt, comment, next) {
-      let params = {
-        mode: 'add',
-        tt: tt,
-        id: id,
-        type: 'illust',
-        restrict: '0',
-        tag: args.map(function(t) encodeURIComponent(t)).join('+'),
-        comment: comment,
-      };
-      let q = [k + '=' + params[k] for (k in params)].join('&');
+    bookmark_illust: function(id, tags, comment, next) {
+      let req = new libly.Request('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id, null, {id: id});
+      req.addEventListener('onSuccess', function(res) {
+        let m = res.responseText.match(/name="tt" value="([^"]+)"/);
+        let params = {
+          mode: 'add',
+          tt: m[1],
+          id: res.req.options.id,
+          type: 'illust',
+          restrict: '0',
+          tag: tags.map(function(t) encodeURIComponent(t)).join('+'),
+          comment: comment,
+        };
+        let q = [k + '=' + params[k] for (k in params)].join('&');
 
-      let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
-      req.addEventListener('onSuccess', next);
-      req.post();
+        let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
+        req.addEventListener('onSuccess', next);
+        req.post();
+      });
+      req.get();
     },
     bookmark_user: function(id, next) {
       let req = new libly.Request('http://www.pixiv.net/bookmark_add.php?type=user&id=' + id, null, {id: id});
@@ -50,14 +55,13 @@ liberator.plugins.pixiv = (function() {
 
   commands.addUserCommand(['pixivBookmark'], 'pixiv bookmark',
     function(args) {
-      if (!buffer.URI.match(/www\.pixiv\.net\/member_illust\.php\?.*illust_id=\d+/)) {
+      if (!buffer.URI.match(/www\.pixiv\.net\/member_illust\.php\?.*illust_id=(\d+)/)) {
         liberator.echoerr('not a pixiv illust page');
         return;
       }
 
-      let tt = $U.getFirstNodeFromXPath('//input[@name="tt"]').value;
-      let id = buffer.URI.match(/illust_id=(\d+)/)[1];
-      pixivManager.bookmark_illust(id, tt, '', function(res) {
+      let id = RegExp.$1;
+      pixivManager.bookmark_illust(id, args, '', function(res) {
         let m = res.responseText.match(/<strong class="link_visited">\[ <a href="[^"]+">(.+?)<\/a> \]<\/strong>(.+?)<br \/>/);
         liberator.echo('[' + m[1] + '] ' + m[2]);
       });
