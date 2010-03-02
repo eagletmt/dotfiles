@@ -42,7 +42,10 @@ cnoremap <C-h> <BS>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-i> <Tab>
+cnoremap <C-S-i> <S-Tab>
 inoremap <C-m> <CR>
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
 
 set complete& complete+=t
 
