@@ -9,9 +9,19 @@ snippet main
     }
 
 snippet main
-    int main(void)
+    int main()
     {
         ${0}
         return 0;
+    }
+
+snippet for
+    for (${1}::iterator ${2}(${3}.begin()); $2 != $3.end(); ++$2) {
+        ${0}
+    }
+
+snippet cfor
+    for (${1}::const_iterator ${2}(${3}.begin()); $2 != $3.end(); ++$2) {
+        ${0}
     }
 
