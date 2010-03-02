@@ -138,13 +138,13 @@ EOM
 " http://code.google.com/p/vimperator-labs/source/detail?r=492ac8e5eeadf5cc14f819590c7b68da6ab375e2
 
 " twitter
-nnoremap -urls='twitter\.com/[A-Za-z0-9_]+/status' i :inreplyto<CR>
+nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' i :inreplyto<CR>
 
 " tumblr
-nnoremap -urls='[-a-z0-9]+\.tumblr\.com/post/' i :tombloo ReBlog\ -\ Tumblr<CR>
+nnoremap <silent> -urls='[-a-z0-9]+\.tumblr\.com/post/' i :tombloo ReBlog\ -\ Tumblr<CR>
 
 " pixiv
-nnoremap -urls='www\.pixiv\.net/member_illust\.php\?mode=medium&illust_id=\d+' b :pixivBookmark<Space>
+nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' b :pixivBookmark<Space>
 javascript <<EOM
 mappings.addUserMap([modes.NORMAL], ['B'], '',
     function() {
@@ -162,16 +162,16 @@ mappings.addUserMap([modes.NORMAL], ['i'], '',
     },
     { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
 EOM
-nnoremap -urls='www\.pixiv\.net\/member(?:_illust)?\.php\?id=\d+' B :js liberator.plugins.pixiv.bookmark_user(buffer.URI.match(/id=(\d+)/)[1])<CR>
+nnoremap <silent> -urls='www\.pixiv\.net\/member(?:_illust)?\.php\?id=\d+' B :js liberator.plugins.pixiv.bookmark_user(buffer.URI.match(/id=(\d+)/)[1])<CR>
 
 " nicovideo, youtube
-nnoremap -urls='www\.(youtube\.com|nicovideo\.jp)/watch' x :stseek! -5<CR>
-nnoremap -urls='www\.(youtube\.com|nicovideo\.jp)/watch' X :stseek! -10<CR>
-nnoremap -urls='www\.(youtube\.com|nicovideo\.jp)/watch' s :stseek! +5<CR>
-nnoremap -urls='www\.(youtube\.com|nicovideo\.jp)/watch' S :stseek! +10<CR>
-nnoremap -urls='www\.(youtube\.com|nicovideo\.jp)/watch' v :stvolume! -10<CR>
-nnoremap -urls='www\.(youtube\.com|nicovideo\.jp)/watch' V :stvolume! +10<CR>
-nnoremap -urls='www\.(youtube\.com|nicovideo\.jp)/watch' a :stplay<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' x :stseek! -5<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' X :stseek! -10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' s :stseek! +5<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' S :stseek! +10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' v :stvolume! -10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' V :stvolume! +10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' a :stplay<CR>
 
 autocmd LocationChange www\.pixiv\.net/jump\.php :js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
 
