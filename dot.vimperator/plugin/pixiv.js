@@ -1,6 +1,7 @@
 liberator.plugins.pixiv = (function() {
   let libly = liberator.plugins.libly;
   let $U = libly.$U;
+
   let pixivManager = {
     bookmark_illust: function(id, tt, comment, next) {
       let params = {
@@ -17,6 +18,33 @@ liberator.plugins.pixiv = (function() {
       let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
       req.addEventListener('onSuccess', next);
       req.post();
+    },
+    bookmark_user: function(id, next) {
+      let req = new libly.Request('http://www.pixiv.net/bookmark_add.php?type=user&id=' + id, null, {id: id});
+      req.addEventListener('onSuccess', function(res) {
+        let m = res.responseText.match(/name="tt" *value="([^"]+)"/);
+        if (m === null) {
+          let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)<\/div>/);
+          liberator.echo(m[1] + m[2]);
+          return;
+        }
+        let tt = m[1];
+        let params = {
+          mode: 'add',
+          tt: tt,
+          id: res.req.options.id,
+          type: 'user',
+          restrict: '0',
+        };
+        let q = [k + '=' + params[k] for (k in params)].join('&');
+        let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
+        req.addEventListener('onSuccess', function(res) {
+          let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/);
+          liberator.echo(m[1] + m[2]);
+        });
+        req.post();
+      });
+      req.get();
     },
   };
 
