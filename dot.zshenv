@@ -17,7 +17,7 @@ manpath=(/opt/local/share/man(N) /usr/local/share/man(N) /usr/local/man(N) $manp
 typeset -U manpath
 
 # set pkg_config_path
-PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig:/usr/lib/pkgconfig:/Library/Frameworks/Mono.framework/Versions/2.2/lib/pkgconfig"
+PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig:/usr/lib/pkgconfig"
 
 # set editor
 EDITOR='/usr/local/bin/vim'
