@@ -21,6 +21,8 @@ nnoremap ,t :<C-u>copy %TITLE% %URL%<CR>
 set nextpattern=次[のへ],\bnext\b,\bmore\b,^next.*,^>$,^>>$
 set previouspattern=前[のへ],\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
 
+set focuscontent
+
 " my search commands
 nnoremap sg :google<Space>
 nnoremap si :googleimage<Space>
@@ -98,9 +100,6 @@ commands.addUserCommand(['matrixcode'], '',
 EOM
 
 nnoremap ,l :<C-u>matrixcode<CR>
-
-autocmd LocationChange .* set focuscontent
-autocmd LocationChange member\.livedoor\.com/login set nofocuscontent
 
 javascript <<EOM
 commands.addUserCommand(['inreplyto'], '',
