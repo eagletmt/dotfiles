@@ -130,38 +130,6 @@ liberator.globalVariables.userLoginServices = {
 };
 EOM
 
-javascript <<EOM
-let pixivBookmarkUser = function(id) {
-  let libly = liberator.plugins.libly;
-
-  let req = new libly.Request('http://www.pixiv.net/bookmark_add.php?type=user&id=' + id, null, {id: id});
-  req.addEventListener('onSuccess', function(res) {
-    let m = res.responseText.match(/name="tt" *value="([^"]+)"/);
-    if (m === null) {
-      let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)<\/div>/);
-      liberator.echo(m[1] + m[2]);
-      return;
-    }
-    let tt = m[1];
-    let params = {
-      mode: 'add',
-      tt: tt,
-      id: res.req.options.id,
-      type: 'user',
-      restrict: '0',
-    };
-    let q = [k + '=' + params[k] for (k in params)].join('&');
-    let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
-    req.addEventListener('onSuccess', function(res) {
-      let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/);
-      liberator.echo(m[1] + m[2]);
-    });
-    req.post();
-  });
-  req.get();
-};
-EOM
-
 " http://vimperator.g.hatena.ne.jp/nokturnalmortum/20100128/1264675483
 " http://code.google.com/p/vimperator-labs/source/detail?r=c61fb6b0248a51d103d66a24eca6162ddb96902f
 " http://code.google.com/p/vimperator-labs/source/detail?r=0e37f641edc2fbed0da05201113f711b2eb88a19
@@ -179,7 +147,10 @@ nnoremap -urls='[-a-z0-9]+\.tumblr\.com/post/' i :tombloo ReBlog\ -\ Tumblr<CR>
 nnoremap -urls='www\.pixiv\.net/member_illust\.php\?mode=medium&illust_id=\d+' b :pixivBookmark<Space>
 javascript <<EOM
 mappings.addUserMap([modes.NORMAL], ['B'], '',
-    function() pixivBookmarkUser(liberator.plugins.libly.$U.getFirstNodeFromXPath('id("rpc_u_id")').innerHTML),
+    function() {
+      liberator.plugins.pixiv.bookmark_user(
+        liberator.plugins.libly.$U.getFirstNodeFromXPath('id("rpc_u_id")').innerHTML);
+    },
     { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
 mappings.addUserMap([modes.NORMAL], ['i'], '',
     function() {
@@ -191,7 +162,7 @@ mappings.addUserMap([modes.NORMAL], ['i'], '',
     },
     { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
 EOM
-nnoremap -urls='www\.pixiv\.net\/member(?:_illust)?\.php\?id=\d+' B :js pixivBookmarkUser(buffer.URI.match(/id=(\d+)/)[1])<CR>
+nnoremap -urls='www\.pixiv\.net\/member(?:_illust)?\.php\?id=\d+' B :js liberator.plugins.pixiv.bookmark_user(buffer.URI.match(/id=(\d+)/)[1])<CR>
 
 " nicovideo, youtube
 nnoremap -urls='www\.(youtube\.com|nicovideo\.jp)/watch' x :stseek! -5<CR>
