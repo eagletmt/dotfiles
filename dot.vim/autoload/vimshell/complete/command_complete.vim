@@ -1,8 +1,7 @@
 "=============================================================================
 " FILE: command_complete.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 22 Oct 2009
-" Usage: Just source this file.
+" Last Modified: 11 Jun 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -25,12 +24,36 @@
 " }}}
 "=============================================================================
 
+function! vimshell#complete#command_complete#complete()"{{{
+    let &iminsert = 0
+    let &imsearch = 0
+
+    if !vimshell#check_prompt()
+        " Ignore.
+        return ''
+    endif
+
+    if vimshell#get_cur_text() =~ '^\s*\%(\\[^[:alnum:].-]\|[[:alnum:]@/.-_+,#$%~=*]\)\+\s'
+        " Args completion.
+
+        return vimshell#complete#args_complete#complete()
+    endif
+
+    " Command completion.
+
+    if exists(':NeoComplCacheDisable') && exists('*neocomplcache#complfunc#completefunc_complete#call_completefunc')
+        return neocomplcache#complfunc#completefunc_complete#call_completefunc('vimshell#complete#command_complete#omnifunc')
+    else
+        " Set complete function.
+        let &l:omnifunc = 'vimshell#complete#command_complete#omnifunc'
+        
+        return "\<C-x>\<C-o>\<C-p>"
+    endif
+endfunction"}}}
+
 function! vimshell#complete#command_complete#omnifunc(findstart, base)"{{{
     if a:findstart
-        " Get cursor word.
-        let l:cur_text = (col('.') < 2)? '' : getline('.')[: col('.')-2]
-
-        return match(l:cur_text, '\%([[:alnum:]_+~-]\|\\[ ]\)*$')
+        return len(vimshell#get_prompt())
     endif
 
     " Save option.
@@ -47,79 +70,35 @@ function! vimshell#complete#command_complete#omnifunc(findstart, base)"{{{
 
     " Restore option.
     let &ignorecase = l:ignorecase_save
-    let &l:omnifunc = ''
+    if &l:omnifunc != 'vimshell#complete#auto_complete#omnifunc'
+        let &l:omnifunc = 'vimshell#complete#auto_complete#omnifunc'
+    endif
 
     return l:complete_words
 endfunction"}}}
 
 function! s:get_complete_commands(cur_keyword_str)"{{{
-    let l:ret = []
-    let l:pattern = printf('v:val =~ "^%s"', a:cur_keyword_str)
-
-    let l:home_pattern = '^'.substitute($HOME, '\\', '/', 'g').'/'
-    " Check dup.
-    let l:check = {}
-    for keyword in filter(split(substitute(globpath(&cdpath, a:cur_keyword_str . '*'), '\\', '/', 'g'), '\n'), 'isdirectory(v:val)')
-        if !has_key(l:check, keyword)
-            let l:check[keyword] = keyword
-        endif
+    if a:cur_keyword_str =~ '/'
+        " Filename completion.
+        return vimshell#complete#helper#files(a:cur_keyword_str)
+    endif
+    
+    let l:directories = vimshell#complete#helper#directories(a:cur_keyword_str)
+    for l:keyword in l:directories
+        let l:keyword.word = './' . l:keyword.word
     endfor
-    for keyword in values(l:check)
-        if keyword !~ '/'
-            let l:dict = { 'word' : './' . keyword, 'abbr' : keyword . '/', 'menu' : '[Dir]', 'icase' : 1, 'rank' : 6 }
-        else
-            let l:menu = '[CD]'
-            if !filewritable(keyword)
-                let l:menu .= ' [-]'
-            endif
+    
+    let l:ret =    l:directories
+                \+ vimshell#complete#helper#cdpath_directories(a:cur_keyword_str)
+                \+ vimshell#complete#helper#aliases(a:cur_keyword_str)
+                \+ vimshell#complete#helper#specials(a:cur_keyword_str)
+                \+ vimshell#complete#helper#internals(a:cur_keyword_str)
 
-            " Substitute home path.
-            let keyword = substitute(keyword, l:home_pattern, '\~/', '')
-            let l:dict = { 'word' : keyword, 'abbr' : keyword . '/', 'menu' : l:menu, 'icase' : 1, 'rank' : 5 }
-        endif
-        call add(l:ret, l:dict)
-    endfor
-
-    for keyword in filter(keys(b:vimshell_alias_table), l:pattern)
-        let l:dict = { 'word' : keyword, 'abbr' : keyword, 'icase' : 1, 'rank' : 5 }
-        if len(b:vimshell_alias_table[keyword]) > 15
-            let l:dict.menu = '[Alias] ' . printf("%s..%s", b:vimshell_alias_table[keyword][:8], b:vimshell_alias_table[keyword][-4:])
-        else
-            let l:dict.menu = '[Alias] ' . b:vimshell_alias_table[keyword]
-        endif
-        call add(l:ret, l:dict)
-    endfor 
-
-    for keyword in filter(keys(g:vimshell#special_func_table), l:pattern)
-        let l:dict = { 'word' : keyword, 'abbr' : keyword, 'menu' : '[Special]', 'icase' : 1, 'rank' : 5 }
-        call add(l:ret, l:dict)
-    endfor 
-
-    for keyword in filter(keys(g:vimshell#internal_func_table), l:pattern)
-        let l:dict = { 'word' : keyword, 'abbr' : keyword, 'menu' : '[Internal]', 'icase' : 1, 'rank' : 5 }
-        call add(l:ret, l:dict)
-    endfor 
-
-    if len(a:cur_keyword_str) >= 2
-        " External commands.
-        if has('win32') || has('win64')
-            let l:path = substitute($PATH, '\\\?;', ',', 'g')
-        else
-            let l:path = substitute($PATH, '/\?:', ',', 'g')
-        endif
-
-        for keyword in map(filter(split(globpath(l:path, a:cur_keyword_str . '*'), '\n'),
-                    \'executable(v:val)'), 'fnamemodify(v:val, ":t")')
-            let l:dict = { 'word' : keyword, 'abbr' : keyword, 'menu' : '[Command]', 'icase' : 1, 'rank' : 5 }
-            call add(l:ret, l:dict)
-        endfor 
+    if len(a:cur_keyword_str) >= 1
+        let l:ret += vimshell#complete#helper#commands(a:cur_keyword_str)
     endif
 
-    return sort(l:ret, 's:compare_rank')
-endfunction"}}}
-
-function! s:compare_rank(i1, i2)"{{{
-    return a:i1.rank < a:i2.rank ? 1 : a:i1.rank == a:i2.rank ? 0 : -1
+    return l:ret
 endfunction"}}}
 
 " vim: foldmethod=marker

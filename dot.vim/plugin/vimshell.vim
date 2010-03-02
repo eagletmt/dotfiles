@@ -2,7 +2,7 @@
 " FILE: vimshell.vim
 " AUTHOR: Janakiraman .S <prince@india.ti.com>(Original)
 "         Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 22 Nov 2009
+" Last Modified: 05 Feb 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -23,7 +23,7 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 5.36, for Vim 7.0
+" Version: 6.04, for Vim 7.0
 "=============================================================================
 
 if v:version < 700
@@ -36,61 +36,21 @@ endif
 let s:save_cpo = &cpo
 set cpo&vim
 
-" Plugin keymapping"{{{
-nnoremap <silent> <Plug>(vimshell_split_switch)  :<C-u>call vimshell#switch_shell(1, '')<CR>
-nnoremap <silent> <Plug>(vimshell_split_create)  :<C-u>call vimshell#create_shell(1, '')<CR>
-nnoremap <silent> <Plug>(vimshell_switch)  :<C-u>call vimshell#switch_shell(0, '')<CR>
-nnoremap <silent> <Plug>(vimshell_create)  :<C-u>call vimshell#create_shell(0, '')<CR>
-nnoremap <silent> <Plug>(vimshell_enter)  :<C-u>call vimshell#process_enter()<CR>
-nnoremap <silent> <Plug>(vimshell_previous_prompt)  :<C-u>call vimshell#mappings#previous_prompt()<CR>
-nnoremap <silent> <Plug>(vimshell_next_prompt)  :<C-u>call vimshell#mappings#next_prompt()<CR>
-nnoremap <silent> <Plug>(vimshell_delete_previous_output)  :<C-u>call vimshell#mappings#delete_previous_output()<CR>
-nnoremap <silent> <Plug>(vimshell_paste_prompt)  :<C-u>call vimshell#mappings#paste_prompt()<CR>
-nnoremap <silent> <Plug>(vimshell_move_end_argument) :<C-u>call vimshell#mappings#move_end_argument()<CR>
-nnoremap <silent> <Plug>(vimshell_hide) :<C-u>hide<CR>
-
-inoremap <expr> <Plug>(vimshell_history_complete_whole)  vimshell#complete#history_complete_whole()
-inoremap <expr> <Plug>(vimshell_history_complete_insert)  vimshell#complete#history_complete_insert()
-inoremap <expr> <Plug>(vimshell_command_complete) pumvisible() ? "\<C-n>" : vimshell#complete#command_complete()
-inoremap <silent> <Plug>(vimshell_push_current_line)  <ESC>:<C-u>call vimshell#mappings#push_current_line()<CR>
-inoremap <silent> <Plug>(vimshell_insert_last_word)  <ESC>:<C-u>call vimshell#mappings#insert_last_word()<CR>
-inoremap <silent> <Plug>(vimshell_run_help)  <ESC>:<C-u>call vimshell#mappings#run_help()<CR>
-inoremap <silent> <Plug>(vimshell_move_head)  <ESC>:<C-u>call vimshell#mappings#move_head()<CR>
-inoremap <silent> <Plug>(vimshell_delete_line)  <ESC>:<C-u>call vimshell#mappings#delete_line()<CR>
-inoremap <silent> <Plug>(vimshell_clear)  <ESC>:<C-u>call vimshell#mappings#clear()<CR>
-
-if !(exists('g:VimShell_NoDefaultKeyMappings') && g:VimShell_NoDefaultKeyMappings)
-    silent! nmap <unique> <Leader>sp     <Plug>(vimshell_split_switch)
-    silent! nmap <unique> <Leader>sn     <Plug>(vimshell_split_create)
-    silent! nmap <unique> <Leader>sh     <Plug>(vimshell_switch)
-    silent! nmap <unique> <Leader>sc     <Plug>(vimshell_create)
-endif
-"}}}
-
 " Global options definition."{{{
-if !exists('g:VimShell_Prompt')
-    let g:VimShell_Prompt = 'vimshell% '
-endif
-if !exists('g:VimShell_SecondaryPrompt')
-    let g:VimShell_SecondaryPrompt = '%% '
-endif
-if !exists('g:VimShell_UserPrompt')
-    let g:VimShell_UserPrompt = ''
-endif
 if !exists('g:VimShell_IgnoreCase')
     let g:VimShell_IgnoreCase = 1
 endif
 if !exists('g:VimShell_SmartCase')
     let g:VimShell_SmartCase = 0
 endif
-if !exists('g:VimShell_MaxHistoryWidth')
-    let g:VimShell_MaxHistoryWidth = 40
+if !exists('g:VimShell_MaxKeywordWidth')
+    let g:VimShell_MaxKeywordWidth = 40
+endif
+if !exists('g:VimShell_MaxList')
+    let g:VimShell_MaxList = 100
 endif
 if !exists('g:VimShell_UseCkw')
     let g:VimShell_UseCkw = 0
-endif
-if !exists('g:VimShell_ExecuteFileList')
-    let g:VimShell_ExecuteFileList = {}
 endif
 if !exists('g:VimShell_EnableInteractive')
     let g:VimShell_EnableInteractive = 0
@@ -122,12 +82,33 @@ let g:VimShell_VimshrcPath = expand(g:VimShell_VimshrcPath)
 if !isdirectory(fnamemodify(g:VimShell_VimshrcPath, ':p:h'))
     call mkdir(fnamemodify(g:VimShell_VimshrcPath, ':p:h'), 'p')
 endif
+if !exists('g:VimShell_EscapeColors')
+    let g:VimShell_EscapeColors = [
+                \'#3c3c3c', '#ff6666', '#66ff66', '#ffd30a', '#1e95fd', '#ff13ff', '#1bc8c8', '#C0C0C0', 
+                \'#686868', '#ff6666', '#66ff66', '#ffd30a', '#6699ff', '#f820ff', '#4ae2e2', '#ffffff'
+                \]
+endif
+"}}}
+
+" Plugin keymappings"{{{
+nnoremap <silent> <Plug>(vimshell_split_switch)  :<C-u>call vimshell#switch_shell(1, '')<CR>
+nnoremap <silent> <Plug>(vimshell_split_create)  :<C-u>call vimshell#create_shell(1, '')<CR>
+nnoremap <silent> <Plug>(vimshell_switch)  :<C-u>call vimshell#switch_shell(0, '')<CR>
+nnoremap <silent> <Plug>(vimshell_create)  :<C-u>call vimshell#create_shell(0, '')<CR>
+
+if !(exists('g:VimShell_NoDefaultKeyMappings') && g:VimShell_NoDefaultKeyMappings)
+    silent! nmap <unique> <Leader>sp     <Plug>(vimshell_split_switch)
+    silent! nmap <unique> <Leader>sn     <Plug>(vimshell_split_create)
+    silent! nmap <unique> <Leader>sh     <Plug>(vimshell_switch)
+    silent! nmap <unique> <Leader>sc     <Plug>(vimshell_create)
+endif
 "}}}
 
 command! -nargs=? -complete=dir VimShell call vimshell#switch_shell(0, <q-args>)
 command! -nargs=? -complete=dir VimShellCreate call vimshell#create_shell(0, <q-args>)
-command! -nargs=+ -complete=shellcmd VimShellExecute call vimshell#internal#bg#vimshell_bg(vimshell#parser#split_args(<q-args>))
-command! -nargs=+ -complete=shellcmd VimShellInteractive call vimshell#internal#iexe#vimshell_iexe(vimshell#parser#split_args(<q-args>))
+command! -nargs=? -complete=dir VimShellPop call vimshell#switch_shell(1, <q-args>)
+command! -nargs=+ -complete=customlist,vimshell#complete#vimshell_execute_complete#completefunc VimShellExecute call vimshell#internal#bg#vimshell_bg(<q-args>)
+command! -nargs=+ -complete=customlist,vimshell#complete#vimshell_execute_complete#completefunc VimShellInteractive call vimshell#internal#iexe#vimshell_iexe(<q-args>)
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

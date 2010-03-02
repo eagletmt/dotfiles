@@ -1,7 +1,8 @@
 "=============================================================================
-" FILE: vimsh.vim
+" FILE: bcd.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 28 Dec 2009
+" Last Modified: 23 Sep 2009
+" Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -22,19 +23,9 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.2, for Vim 7.0
+" Version: 1.0, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.3:
-"     - Improved error handling.
-"
-"   1.2:
-"     - Print all error.
-"     - Improved error print format.
-"
-"   1.1:
-"     - Improved parser.
-"
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -47,43 +38,35 @@
 ""}}}
 "=============================================================================
 
-function! vimshell#internal#vimsh#execute(program, args, fd, other_info)
-    " Create new vimshell or execute script.
+function! vimshell#internal#bcd#execute(program, args, fd, other_info)
+    " Change working directory with buffer directory.
+
     if empty(a:args)
-        call vimshell#print_prompt()
-        call vimshell#create_shell(0)
-        return 1
+        " Move to alternate buffer directory.
+        let l:bufname = bufnr('#')
+    elseif len(a:args) > 2
+        call vimshell#error_line(a:fd, 'Too many arguments.')
+        return
     else
-        " Filename escape.
-        let l:filename = join(a:args, ' ')
-
-        if filereadable(l:filename)
-            let l:scripts = readfile(l:filename)
-
-            let l:other_info = { 'has_head_spaces' : 0, 'is_interactive' : 0, 'is_background' : 0 }
-            let l:i = 0
-            let l:skip_prompt = 0
-            for l:script in l:scripts
-                try
-                    let l:skip_prompt = vimshell#parser#eval_script(l:script, l:other_info)
-                catch /.*/
-                    let l:message = (v:exception !~# '^Vim:')? v:exception : v:exception . ' ' . v:throwpoint
-                    call vimshell#error_line({}, printf('%s(%d): %s', join(a:args, ' '), l:i, l:message))
-                    return 0
-                endtry
-
-                let l:i += 1
-            endfor
-
-            if l:skip_prompt
-                " Skip prompt.
-                return 1
-            endif
-        else
-            " Error.
-            call vimshell#error_line(a:fd, printf('Not found the script "%s".', l:filename))
-        endif
+        let l:bufname = bufnr(a:args[0])
     endif
-
-    return 0
+    
+    let l:bufnumber = bufnr(l:bufname)
+    
+    if l:bufnumber >= 0
+        let l:bufdir = fnamemodify(bufname(l:bufnumber), ':p:h')
+        if isdirectory(l:bufdir)
+            if empty(w:vimshell_directory_stack) || getcwd() != w:vimshell_directory_stack[0]
+                " Push current directory.
+                call insert(w:vimshell_directory_stack, getcwd())
+            endif
+            
+            " Move to directory.
+            lcd `=l:bufdir`
+        else
+            call vimshell#error_line(a:fd, printf('Directory "%s" is not found.', l:bufdir))
+        endif
+    else
+        call vimshell#error_line(a:fd, printf('Buffer "%s" is not found.', l:arguments))
+    endif
 endfunction

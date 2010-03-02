@@ -1,8 +1,7 @@
 "=============================================================================
 " FILE: exe.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 06 Sep 2009
-" Usage: Just source this file.
+" Last Modified: 25 Dec 2009
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -23,9 +22,13 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.7, for Vim 7.0
+" Version: 1.8, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   1.8:
+"     - Improved echo.
+"     - Use vimproc.vim.
+"
 "   1.7:
 "     - Improved kill processes.
 "
@@ -51,13 +54,6 @@
 "
 "   1.0: Initial version.
 ""}}}
-"-----------------------------------------------------------------------------
-" TODO: "{{{
-"     - Nothing.
-""}}}
-" Bugs"{{{
-"     -
-""}}}
 "=============================================================================
 
 function! vimshell#internal#exe#execute(program, args, fd, other_info)"{{{
@@ -67,12 +63,13 @@ function! vimshell#internal#exe#execute(program, args, fd, other_info)"{{{
             return 0
         endif
 
+        echo 'Running command.'
+        call append(line('$'), '')
         while exists('b:vimproc_sub')
-            echo 'Running command.'
-            call interactive#execute_pipe_out()
-            redraw
-            echo ''
+            call vimshell#interactive#execute_pipe_out()
         endwhile
+        redraw
+        echo ''
         let b:vimshell_system_variables['status'] = b:vimproc_status
     else
         let l:fd = a:fd
@@ -89,10 +86,9 @@ endfunction"}}}
 function! s:init_process(fd, args)
     if exists('b:vimproc_sub')
         " Delete zombee process.
-        call interactive#force_exit()
+        call vimshell#interactive#force_exit()
     endif
 
-    let l:proc = proc#import()
     let l:sub = []
 
     " Search pipe.
@@ -108,9 +104,9 @@ function! s:init_process(fd, args)
     for command in l:commands
         try
             if g:VimShell_UsePopen2
-                call add(l:sub, l:proc.popen2(command))
+                call add(l:sub, vimproc#popen2(command))
             else
-                call add(l:sub, l:proc.popen3(command))
+                call add(l:sub, vimproc#popen3(command))
             endif
         catch 'list index out of range'
             if empty(command)
@@ -126,7 +122,6 @@ function! s:init_process(fd, args)
     endfor
 
     " Set variables.
-    let b:vimproc = l:proc
     let b:vimproc_sub = l:sub
     let b:vimproc_fd = a:fd
 

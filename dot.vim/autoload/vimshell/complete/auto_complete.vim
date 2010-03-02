@@ -1,8 +1,7 @@
 "=============================================================================
-" FILE: clear.vim
-" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 11 Dec 2009
-" Usage: Just source this file.
+" FILE: auto_complete.vim
+" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
+" Last Modified: 11 Jun 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -23,32 +22,23 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.2, for Vim 7.0
-"-----------------------------------------------------------------------------
-" ChangeLog: "{{{
-"   1.2:
-"     - Syntax clear.
-"
-"   1.1:
-"     - Supported vimshell Ver.3.2.
-"
-"   1.0:
-"     - Initial version.
-""}}}
-"-----------------------------------------------------------------------------
-" TODO: "{{{
-"     - Nothing.
-""}}}
-" Bugs"{{{
-"     -
-""}}}
 "=============================================================================
 
-function! vimshell#internal#clear#execute(program, args, fd, other_info)
-    " Clean up the screen.
-    % delete _
-    syntax clear
-    highlight clear
-    
-    runtime! syntax/vimshell.vim
-endfunction
+function! vimshell#complete#auto_complete#omnifunc(findstart, base)"{{{
+    if a:findstart && !vimshell#check_prompt()
+        " Ignore.
+        return -1
+    endif
+
+    if vimshell#get_cur_text() =~ '^\s*\%(\\[^[:alnum:].-]\|[[:alnum:]@/.-_+,#$%~=*]\)\+\s'
+        " Args completion.
+
+        return vimshell#complete#args_complete#omnifunc(a:findstart, a:base)
+    else
+        " Command completion.
+
+        return vimshell#complete#command_complete#omnifunc(a:findstart, a:base)
+    endif
+endfunction"}}}
+
+" vim: foldmethod=marker

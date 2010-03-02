@@ -1,8 +1,7 @@
 "=============================================================================
 " FILE: history_complete.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 22 Oct 2009
-" Usage: Just source this file.
+" Last Modified: 19 Jun 2009
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -25,16 +24,55 @@
 " }}}
 "=============================================================================
 
+function! vimshell#complete#history_complete#whole()"{{{
+    let &iminsert = 0
+    let &imsearch = 0
+
+    if !vimshell#check_prompt()
+        " Ignore.
+        return ''
+    endif
+
+    " Command completion.
+
+    if exists(':NeoComplCacheDisable') && exists('*neocomplcache#complfunc#completefunc_complete#call_completefunc')
+        return neocomplcache#complfunc#completefunc_complete#call_completefunc('vimshell#complete#history_complete#omnifunc_whole')
+    else
+        " Set complete function.
+        let &l:omnifunc = 'vimshell#complete#history_complete#omnifunc_whole'
+        
+        return "\<C-x>\<C-o>\<C-p>"
+    endif
+endfunction"}}}
+function! vimshell#complete#history_complete#insert()"{{{
+    let &iminsert = 0
+    let &imsearch = 0
+    
+    if !vimshell#check_prompt()
+        " Ignore.
+        return ''
+    endif
+
+    " Command completion.
+
+    if exists(':NeoComplCacheDisable') && exists('*neocomplcache#complfunc#completefunc_complete#call_completefunc')
+        return neocomplcache#complfunc#completefunc_complete#call_completefunc('vimshell#complete#history_complete#omnifunc_insert')
+    else
+        " Set complete function.
+        let &l:omnifunc = 'vimshell#complete#history_complete#omnifunc_insert'
+        
+        return "\<C-x>\<C-o>\<C-p>"
+    endif
+endfunction"}}}
+
 function! vimshell#complete#history_complete#omnifunc_whole(findstart, base)"{{{
     if a:findstart
-        let l:escaped = escape(getline('.'), '"')
-        let l:prompt_pos = match(substitute(l:escaped, "'", "''", 'g'), g:VimShell_Prompt)
-        if l:prompt_pos < 0
+        if !vimshell#check_prompt()
             " Not found prompt.
             return -1
         endif
 
-        return len(g:VimShell_Prompt)
+        return len(vimshell#get_prompt())
     endif
 
     " Save options.
@@ -48,36 +86,32 @@ function! vimshell#complete#history_complete#omnifunc_whole(findstart, base)"{{{
     endif
 
     " Collect words.
-    let l:complete_words = g:vimshell#hist_buffer
-    for l:str in split(a:base)
-        let l:words = []
-        for hist in l:complete_words
-            if hist =~ l:str
-                call add(l:words, hist)
+    let l:complete_words = []
+    for hist in g:vimshell#hist_buffer
+        let l:matched = 1
+        for l:str in split(a:base)
+            if hist !~ l:str
+                let l:matched = 0
             endif
         endfor
-
-        let l:complete_words = l:words
-    endfor
-    
-    let l:words = l:complete_words
-    let l:complete_words = []
-    for word in l:words
-        call add(l:complete_words, { 'word' : word, 'abbr' : word, 'dup' : 0 })
+        
+        if l:matched
+            call add(l:complete_words, { 'word' : hist, 'menu' : 'history' })
+        endif
     endfor
 
     " Restore options.
     let &ignorecase = l:ignorecase_save
-    let &l:omnifunc = ''
+    if &l:omnifunc != 'vimshell#complete#auto_complete#omnifunc'
+        let &l:omnifunc = 'vimshell#complete#auto_complete#omnifunc'
+    endif
 
-    return l:complete_words
+    return l:complete_words[:100]
 endfunction"}}}
 function! vimshell#complete#history_complete#omnifunc_insert(findstart, base)"{{{
     if a:findstart
         " Get cursor word.
-        let l:cur_text = (col('.') < 2)? '' : getline('.')[: col('.')-2]
-
-        return match(l:cur_text, '\%([[:alnum:]_+~-]\|\\[ ]\)*$')
+        return match(vimshell#get_cur_text(), '\%([[:alnum:]_+~-]\|\\[ ]\)*$')
     endif
 
     " Save options.
@@ -92,15 +126,17 @@ function! vimshell#complete#history_complete#omnifunc_insert(findstart, base)"{{
     let l:complete_words = []
     for hist in g:vimshell#hist_buffer
         if len(hist) > len(a:base) && hist =~ a:base
-            call add(l:complete_words, { 'word' : hist, 'abbr' : hist, 'dup' : 0 })
+            call add(l:complete_words, { 'word' : hist, 'menu' : 'history' })
         endif
     endfor
 
     " Restore options.
     let &ignorecase = l:ignorecase_save
-    let &l:omnifunc = ''
+    if &l:omnifunc != 'vimshell#complete#auto_complete#omnifunc'
+        let &l:omnifunc = 'vimshell#complete#auto_complete#omnifunc'
+    endif
 
-    return l:complete_words
+    return l:complete_words[:100]
 endfunction"}}}
 
 " vim: foldmethod=marker

@@ -1,8 +1,7 @@
 "=============================================================================
 " FILE: parser.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 12 Oct 2009
-" Usage: Just source this file.
+" Last Modified: 12 Jun 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,9 +28,18 @@ function! vimshell#parser#eval_script(script, other_info)"{{{
     let l:skip_prompt = 0
     " Split statements.
     for l:statement in vimshell#parser#split_statements(a:script)
+        " Skip blank.
+        let l:statement = matchstr(l:statement, '^\s*\zs.*')
+        
         " Get program.
-        let l:program = matchstr(l:statement, '^\s*\zs[^[:blank:]]*')
-        let l:script = substitute(l:statement, '^\s*'.l:program, '', '')
+        let l:program = matchstr(l:statement, '^\%(\\[^[:alnum:].-]\|[[:alnum:]@/.-_+,#$%~=*]\)\+')
+        if l:program != '' && l:program[0] == '~'
+            " Parse tilde.
+            let l:program = substitute($HOME, '\\', '/', 'g') . l:program[1:]
+        endif
+
+        
+        let l:script = l:statement[len(l:program) :]
 
         for galias in keys(b:vimshell_galias_table)
             let l:script = substitute(l:script, '\s\zs'.galias.'\ze\%(\s\|$\)', b:vimshell_galias_table[galias], 'g')
@@ -59,7 +67,7 @@ function! vimshell#parser#eval_script(script, other_info)"{{{
             endif
 
             " Expand tilde.
-            if l:script =~ ' \~'
+            if l:script =~ '\~'
                 let l:script = s:parse_tilde(l:script)
             endif
 
@@ -97,8 +105,13 @@ function! vimshell#parser#eval_script(script, other_info)"{{{
         if l:fd.stdout != ''
             if l:fd.stdout =~ '^>'
                 let l:fd.stdout = l:fd.stdout[1:]
-            elseif l:fd.stdout != '/dev/null'
-                " Open file.
+            elseif l:fd.stdout == '/dev/null'
+                " Nothing.
+            elseif l:fd.stdout == '/dev/clip'
+                " Clear.
+                let @+ = ''
+            else
+                " Create file.
                 call writefile([], l:fd.stdout)
             endif
         endif
@@ -109,7 +122,6 @@ function! vimshell#parser#eval_script(script, other_info)"{{{
         endif
 
         let l:skip_prompt = vimshell#execute_command(l:program, l:args, l:fd, a:other_info)
-        call interactive#highlight_escape_sequence()
         redraw
     endfor
 
@@ -251,6 +263,43 @@ function! vimshell#parser#split_args(script)"{{{
 
     return l:args
 endfunction"}}}
+function! vimshell#parser#check_wildcard()"{{{
+    let l:wildcard = matchstr(vimshell#get_cur_text(), '[^[:blank:]]*$')
+    return l:wildcard =~ '[[*?]\|^\\[()|]'
+endfunction"}}}
+function! vimshell#parser#expand_wildcard(wildcard)"{{{
+    " Exclude wildcard.
+    let l:wildcard = a:wildcard
+    let l:exclude = matchstr(l:wildcard, '\~.*$')
+    if l:exclude != ''
+        " Trunk l:wildcard.
+        let l:wildcard = l:wildcard[: len(l:wildcard)-len(l:exclude)-1]
+    endif
+
+    " Expand wildcard.
+    let l:expanded = split(escape(glob(l:wildcard), ' '), '\n')
+    let l:exclude_wilde = split(escape(glob(l:exclude[1:]), ' '), '\n')
+    if !empty(l:exclude_wilde)
+        let l:candidates = l:expanded
+        let l:expanded = []
+        for candidate in l:candidates
+            let l:found = 0
+
+            for ex in l:exclude_wilde
+                if candidate == ex
+                    let l:found = 1
+                    break
+                endif
+            endfor
+
+            if l:found == 0
+                call add(l:expanded, candidate)
+            endif
+        endfor
+    endif
+
+    return filter(l:expanded, 'v:val != "." && v:val != ".."')
+endfunction"}}}
 
 " Parse helper.
 function! s:parse_block(script)"{{{
@@ -301,8 +350,13 @@ function! s:parse_tilde(script)"{{{
         if a:script[i] == ' ' && a:script[i+1] == '~'
             " Tilde.
             " Expand home directory.
-            let l:script .= ' ' . escape($HOME, '\ ')
+            let l:script .= ' ' . escape(substitute($HOME, '\\', '/', 'g'), '\ ')
             let l:i += 2
+        elseif l:i == 0 && a:script[i] == '~'
+            " Tilde.
+            " Expand home directory.
+            let l:script .= escape(substitute($HOME, '\\', '/', 'g'), '\ ')
+            let l:i += 1
         else
             let [l:script, l:i] = s:skip_else(l:script, a:script, l:i)
         endif
@@ -374,36 +428,7 @@ function! s:parse_wildcard(script)"{{{
             " Trunk l:script.
             let l:script = l:script[: -len(l:wildcard)+1]
 
-            " Exclude wildcard.
-            let l:exclude = matchstr(l:wildcard, '\~.*$')
-            if l:exclude != ''
-                " Trunk l:wildcard.
-                let l:wildcard = l:wildcard[: len(l:wildcard)-len(l:exclude)-1]
-            endif
-
-            " Expand wildcard.
-            let l:expanded = split(escape(glob(l:wildcard), ' '), '\n')
-            let l:exclude_wilde = split(escape(glob(l:exclude[1:]), ' '), '\n')
-            if !empty(l:exclude_wilde)
-                let l:candidates = l:expanded
-                let l:expanded = []
-                for candidate in l:candidates
-                    let l:found = 0
-
-                    for ex in l:exclude_wilde
-                        if candidate == ex
-                            let l:found = 1
-                            break
-                        endif
-                    endfor
-
-                    if l:found == 0
-                        call add(l:expanded, candidate)
-                    endif
-                endfor
-            endif
-
-            let l:script .= join(filter(l:expanded, 'v:val != "." && v:val != ".."'))
+            let l:script .= join(vimshell#parser#expand_wildcard(l:wildcard))
             let l:i = matchend(a:script, '^[^[:blank:]]*', l:i)
         else
             let [l:script, l:i] = s:skip_else(l:script, a:script, l:i)

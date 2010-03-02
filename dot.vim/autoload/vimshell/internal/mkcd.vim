@@ -1,7 +1,8 @@
 "=============================================================================
-" FILE: vimsh.vim
+" FILE: mkcd.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 28 Dec 2009
+" Last Modified: 20 Sep 2009
+" Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -22,19 +23,9 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.2, for Vim 7.0
+" Version: 1.0, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.3:
-"     - Improved error handling.
-"
-"   1.2:
-"     - Print all error.
-"     - Improved error print format.
-"
-"   1.1:
-"     - Improved parser.
-"
 "   1.0:
 "     - Initial version.
 ""}}}
@@ -47,43 +38,27 @@
 ""}}}
 "=============================================================================
 
-function! vimshell#internal#vimsh#execute(program, args, fd, other_info)
-    " Create new vimshell or execute script.
+function! vimshell#internal#mkcd#execute(program, args, fd, other_info)
+    " Make directory and change the working directory.
+    
     if empty(a:args)
-        call vimshell#print_prompt()
-        call vimshell#create_shell(0)
-        return 1
+        " Move to HOME directory.
+        let l:arguments = $HOME
+    elseif len(a:args) == 2
+        " Substitute current directory.
+        let l:arguments = substitute(getcwd(), a:args[0], a:args[1], 'g')
+    elseif len(a:args) > 2
+        call vimshell#error_line(a:fd, 'Too many arguments.')
+        return
     else
         " Filename escape.
-        let l:filename = join(a:args, ' ')
-
-        if filereadable(l:filename)
-            let l:scripts = readfile(l:filename)
-
-            let l:other_info = { 'has_head_spaces' : 0, 'is_interactive' : 0, 'is_background' : 0 }
-            let l:i = 0
-            let l:skip_prompt = 0
-            for l:script in l:scripts
-                try
-                    let l:skip_prompt = vimshell#parser#eval_script(l:script, l:other_info)
-                catch /.*/
-                    let l:message = (v:exception !~# '^Vim:')? v:exception : v:exception . ' ' . v:throwpoint
-                    call vimshell#error_line({}, printf('%s(%d): %s', join(a:args, ' '), l:i, l:message))
-                    return 0
-                endtry
-
-                let l:i += 1
-            endfor
-
-            if l:skip_prompt
-                " Skip prompt.
-                return 1
-            endif
-        else
-            " Error.
-            call vimshell#error_line(a:fd, printf('Not found the script "%s".', l:filename))
-        endif
+        let l:arguments = substitute(a:args[0], '^\~\ze[/\\]', substitute($HOME, '\\', '/', 'g'), '')
     endif
 
-    return 0
+    if !isdirectory(l:arguments) && !filereadable(l:arguments)
+        " Make directory.
+        call mkdir(l:arguments)
+    endif
+    
+    return vimshell#internal#cd#execute('cd', a:args, a:fd, a:other_info)
 endfunction

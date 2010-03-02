@@ -1,8 +1,7 @@
 "=============================================================================
-" FILE: clear.vim
-" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 11 Dec 2009
-" Usage: Just source this file.
+" FILE: bcd.vim
+" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
+" Last Modified: 27 Dec 2009
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -23,32 +22,22 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.2, for Vim 7.0
-"-----------------------------------------------------------------------------
-" ChangeLog: "{{{
-"   1.2:
-"     - Syntax clear.
-"
-"   1.1:
-"     - Supported vimshell Ver.3.2.
-"
-"   1.0:
-"     - Initial version.
-""}}}
-"-----------------------------------------------------------------------------
-" TODO: "{{{
-"     - Nothing.
-""}}}
-" Bugs"{{{
-"     -
-""}}}
 "=============================================================================
 
-function! vimshell#internal#clear#execute(program, args, fd, other_info)
-    " Clean up the screen.
-    % delete _
-    syntax clear
-    highlight clear
+function! vimshell#complete#internal#bcd#get_complete_words(args)"{{{
+    let l:ret = vimshell#complete#helper#buffers(a:args[-1])
+    for l:keyword in l:ret
+        let l:abbr = fnamemodify(l:keyword.word, ':p:h')
+        if len(l:abbr) > g:VimShell_MaxKeywordWidth
+            let l:over_len = len(l:abbr) - g:VimShell_MaxKeywordWidth
+            let l:prefix_len = (l:over_len > 10) ?  10 : l:over_len
+            let l:abbr = printf('%s~%s', l:abbr[: l:prefix_len - 1], l:abbr[l:over_len+l:prefix_len :])
+        endif
+        let l:keyword.menu .= ' ' . l:abbr
+        
+        let l:keyword.abbr = fnamemodify(l:keyword.word, ':t')
+    endfor
     
-    runtime! syntax/vimshell.vim
-endfunction
+    return l:ret
+endfunction"}}}
+" vim: foldmethod=marker

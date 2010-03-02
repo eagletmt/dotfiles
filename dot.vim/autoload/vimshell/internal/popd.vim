@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: popd.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 10 Sep 2009
+" Last Modified: 12 Jul 2009
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,13 +23,9 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.4, for Vim 7.0
+" Version: 1.3, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
-"   1.4:
-"     - Fixed default value bug.
-"     - Improved popd behavior.
-"
 "   1.3:
 "     - Improved error message.
 "
@@ -61,29 +57,26 @@ function! vimshell#internal#popd#execute(program, args, fd, other_info)
     endif
 
     let l:cnt = 0
-    let l:arguments = join(a:args, ' ')
+    let l:arguments = join(a:args)
     if l:arguments =~ '^\d\+$'
         let l:pop = str2nr(l:arguments)
     elseif empty(l:arguments)
         " Default pop value.
-        let l:pop = 0
+        let l:pop = 1
     else
         " Error.
         call vimshell#error_line(a:fd, 'Arguments error .')
         return
     endif
+    
     if l:pop >= len(w:vimshell_directory_stack)
         " Overflow.
         call vimshell#error_line(a:fd, printf("Not found '%d' in directory stack.", l:pop))
         return
     endif
 
-    execute 'cd ' . w:vimshell_directory_stack[l:pop]
+    lcd `=w:vimshell_directory_stack[l:pop]`
 
     " Pop from stack.
-    if l:pop == 0
-        let w:vimshell_directory_stack = w:vimshell_directory_stack[1:]
-    else
-        let w:vimshell_directory_stack = w:vimshell_directory_stack[: l:pop-1] + w:vimshell_directory_stack[l:pop+1 :]
-    endif
+    let w:vimshell_directory_stack = w:vimshell_directory_stack[l:pop+1:]
 endfunction

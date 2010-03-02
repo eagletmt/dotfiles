@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: syntax/vimshell.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 19 Oct 2009
+" Last Modified: 15 Jun 2010
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,11 +23,19 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 3.8, for Vim 7.0
+" Version: 3.9, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   3.10:
+"     - Fixed secondary prompt error.
+"
+"   3.9:
+"     - Improved directory highlight.
+"     - Deleted keywords.
+"
 "   3.8:
 "     - Added keywords.
+"     - Use vimshell#get_prompt().
 "
 "   3.7:
 "     - Added user prompt.
@@ -98,8 +106,8 @@ elseif exists("b:current_syntax")
   finish
 endif
 
-execute 'syn match VimShellPrompt ' . "'".g:VimShell_Prompt."'"
-execute 'syn match VimShellPrompt ' . "'".g:VimShell_SecondaryPrompt."'"
+execute 'syn match VimShellPrompt ' . "'". vimshell#get_prompt() ."'"
+execute 'syn match VimShellPrompt ' . "'". vimshell#get_secondary_prompt() ."'"
 syn match   VimShellUserPrompt   '^\[%\] .*$'
 syn region   VimShellString   start=+'+ end=+'+ oneline
 syn region   VimShellString   start=+"+ end=+"+ contains=VimShellQuoted oneline
@@ -121,27 +129,21 @@ syn match   VimShellSpecial           '[|<>;&;]' contained
 syn match   VimShellVariable          '$\h\w*' contained
 syn match   VimShellVariable          '$$\h\w*' contained
 syn region   VimShellVariable  start=+${+ end=+}+ contained
-syn keyword  vimshInternal        
-            \alias bg cd clear dirs echo exe exit galias gcd gexe h hide histdel history iexe
-            \ls nop one open popd pwd repeat screen sexe shell sudo view vim vimdiff vimsh
-            \contained
-syn keyword  vimshSpecial         command internal ev let vexe
-            \contained
-if has('win32') || ('win64')
+if vimshell#iswin()
     syn match   VimShellArguments         '\s/[?:,_[:alnum:]]\+\ze\%(\s\|$\)' contained
-    syn match   VimShellDirectory         '[/~]\=\f\+[/\\]\f*'
+    syn match   VimShellDirectory         '\%(\f\s\?\)\+[/\\]\ze\%(\s\|$\)'
     syn match   VimShellLink              '\([[:alnum:]_.-]\+\.lnk\)'
 else
-    syn match   VimShellDirectory         '[/~]\=\f\+/\f*'
+    syn match   VimShellDirectory         '\%(\f\s\?\)\+/\ze\%(\s\|$\)'
     syn match   VimShellLink              '\(^\|\s\)[[:alnum:]_.][[:alnum:]_.-]\+@'
 endif
 
-execute "syn region   VimShellExe start='" . g:VimShell_Prompt . "' end='[^[:blank:]]\\+\\zs[[:blank:]\\n]' contained contains=VimShellPrompt,VimShellSpecial,VimShellConstants,VimShellArguments,VimShellString,VimShellComment"
+execute "syn region   VimShellExe start='" . vimshell#get_prompt() . "' end='[^[:blank:]]\\+\\zs[[:blank:]\\n]' contained contains=VimShellPrompt,VimShellSpecial,VimShellConstants,VimShellArguments,VimShellString,VimShellComment"
 syn match VimShellExe '[|;]\s*\f\+' contained contains=VimShellSpecial,VimShellArguments
-execute "syn region   VimShellLine start='" . g:VimShell_Prompt ."' end='$' keepend contains=VimShellExe,VimShellDirectory,VimShellConstants,VimShellArguments, VimShellQuoted,VimShellString,VimShellVariable,VimShellSpecial,VimShellComment"
+execute "syn region   VimShellLine start='" . vimshell#get_prompt() ."' end='$' keepend contains=VimShellExe,VimShellDirectory,VimShellConstants,VimShellArguments, VimShellQuoted,VimShellString,VimShellVariable,VimShellSpecial,VimShellComment"
 
-execute "syn region   VimShellExe start='" . g:VimShell_SecondaryPrompt . "' end='[^[:blank:]]\\+\\zs[[:blank:]\\n]' contained contains=VimShellPrompt,VimShellSpecial,VimShellConstants,VimShellArguments,VimShellString,VimShellComment"
-execute "syn region   VimShellLine start='" . g:VimShell_SecondaryPrompt ."' end='$' keepend contains=VimShellExe,VimShellDirectory,VimShellConstants,VimShellArguments, VimShellQuoted,VimShellString,VimShellVariable,VimShellSpecial,VimShellComment"
+execute "syn region   VimShellExe start='" . vimshell#get_secondary_prompt() . "' end='[^[:blank:]]\\+\\zs[[:blank:]\\n]' contained contains=VimShellPrompt,VimShellSpecial,VimShellConstants,VimShellArguments,VimShellString,VimShellComment"
+execute "syn region   VimShellLine start='" . vimshell#get_secondary_prompt() ."' end='$' keepend contains=VimShellExe,VimShellDirectory,VimShellConstants,VimShellArguments, VimShellQuoted,VimShellString,VimShellVariable,VimShellSpecial,VimShellComment"
 
 if has('gui_running')
     hi VimShellPrompt  gui=UNDERLINE guifg=#80ffff guibg=NONE
@@ -168,4 +170,4 @@ hi def link VimShellDotFiles Identifier
 hi def link VimShellError Error
 hi def link VimShellErrorHidden Ignore
 
-let b:current_syntax = "vimshell"
+let b:current_syntax = 'vimshell'

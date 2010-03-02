@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: open.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 14 Sep 2009
+" Last Modified: 03 Feb 2010
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -23,9 +23,13 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.1, for Vim 7.0
+" Version: 1.3, for Vim 7.0
 "-----------------------------------------------------------------------------
 " ChangeLog: "{{{
+"   1.3: Improved detect for mac.
+"
+"   1.2: Improved environment detect.
+"
 "   1.1: Improved behaivior.
 "
 "   1.0: Initial version.
@@ -42,15 +46,32 @@
 function! vimshell#internal#open#execute(program, args, fd, other_info)"{{{
     " Open file.
 
-    if has('win32') || has('win64')
-        execute printf('silent ! start %s', join(a:args))
+    " Detect desktop environment.
+    if vimshell#iswin()
+        let l:filename = join(a:args)
+        if &termencoding != '' && &encoding != &termencoding
+            " Convert encoding.
+            let l:filename = iconv(l:filename, &encoding, &termencoding)
+        endif
+
+        if executable('cmdproxy.exe') && exists('*vimproc#system')
+            " Use vimproc.
+            call vimproc#system(printf('cmdproxy /C "start \"\" \"%s\""', l:filename))
+        else
+            execute printf('silent ! start "" "%s"', l:filename)
+        endif
         return 0
-    elseif has('mac')
+    elseif executable('open')
         let l:args = ['open'] + a:args
-    elseif executable(vimshell#getfilename('gnome-open'))
-        let l:args = ['gnome-open'] + a:args
-    elseif executable(vimshell#getfilename('kfmclient'))
+    elseif exists('$KDE_FULL_SESSION') && $KDE_FULL_SESSION ==# 'true'
+        " KDE.
         let l:args = ['kfmclient', 'exec'] + a:args
+    elseif exists('$GNOME_DESKTOP_SESSION_ID')
+        " GNOME.
+        let l:args = ['gnome-open'] + a:args
+    elseif executable('exo-open')
+        " Xfce.
+        let l:args = ['exo-open'] + a:args
     else
         throw 'open: Not supported.'
     endif

@@ -1,8 +1,7 @@
 "=============================================================================
 " FILE: mappings.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 19 Oct 2009
-" Usage: Just source this file.
+" Last Modified: 28 Jun 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -25,7 +24,7 @@
 " }}}
 "=============================================================================
 
-" VimShell key-mappings functions."{{{
+" VimShell key-mappings functions.
 function! vimshell#mappings#push_current_line()"{{{
     " Check current line.
     if match(getline('.'), vimshell#escape_match(vimshell#get_prompt())) < 0
@@ -86,7 +85,7 @@ function! vimshell#mappings#delete_previous_output()"{{{
         execute printf('%s,%sdelete', l:prev_line+1, l:next_line-1)
         call append(line('.')-1, "* Output was deleted *")
     endif
-    call vimshell#next_prompt()
+    call vimshell#mappings#next_prompt()
 endfunction"}}}
 function! vimshell#mappings#insert_last_word()"{{{
     let l:word = ''
@@ -132,7 +131,6 @@ function! vimshell#mappings#run_help()"{{{
         call vimshell#execute_internal_command('bg', ['man', '-P', 'cat', l:program], 
                     \{}, {'is_interactive' : 0, 'is_background' : 1})
     endif
-    0
 endfunction"}}}
 function! vimshell#mappings#paste_prompt()"{{{
     if match(getline('.'), vimshell#escape_match(vimshell#get_prompt())) < 0
@@ -146,7 +144,7 @@ function! vimshell#mappings#paste_prompt()"{{{
         " Set prompt line.
         call setline(line('$'), getline('.'))
     endif
-    normal! G
+    $
 endfunction"}}}
 function! vimshell#mappings#move_head()"{{{
     call search(vimshell#escape_match(vimshell#get_prompt()), 'be', line('.'))
@@ -163,7 +161,7 @@ function! vimshell#mappings#delete_line()"{{{
     let l:col = col('.')
     let l:mcol = col('$')
     call setline(line('.'), vimshell#get_prompt() . getline('.')[l:col :])
-    call vimshell#move_head()
+    call vimshell#mappings#move_head()
     if l:col == l:mcol-1
         startinsert!
     endif
@@ -196,6 +194,13 @@ function! vimshell#mappings#clear()"{{{
         startinsert!
     endif
 endfunction"}}}
+function! vimshell#mappings#expand_wildcard()"{{{
+    " Wildcard.
+    let l:wildcard = matchstr(vimshell#get_cur_text(), '[^[:blank:]]*$')
+    let l:expanded = vimshell#parser#expand_wildcard(l:wildcard)
+    
+    return (pumvisible() ? "\<C-e>" : '')
+                \ . repeat("\<BS>", len(l:wildcard)) . join(l:expanded)
+endfunction"}}}
 
-"}}}
 " vim: foldmethod=marker
