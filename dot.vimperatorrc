@@ -52,19 +52,12 @@ set complete& complete+=t
 " migemo_hint.js
 set hintmatching=custom
 
-" feedSomeKey_2.js
-autocmd LocationChange .* fmapc
-" Google Reader
-autocmd LocationChange www\.google\.(co\.jp|com)/reader :fmap! -vkey j k n p m s t v a A r S N P X O gh ga gs gt gu u / ?
-" Fast ladder
-autocmd LocationChange reader\.livedoor\.com/reader :fmap a s j k ? p o w c < > v r
-" Tumblr, Google
-autocmd LocationChange www\.(google|tumblr)\.com :fmap j k o
-" GMail
-autocmd LocationChange mail\.google\.com/mail :fmap! j k n p o x u s e ? g i #
-" quick switch
-nnoremap <silent> e :fmap j k o<CR>
-nnoremap <silent> E :fmapc<CR>
+" feedSomeKey_3.js
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
+lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
+lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
+lazy fmaps -u='www\.tumblr\.com/dashboard' j k p o
 
 nnoremap ; :
 nnoremap \' ;
