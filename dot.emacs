@@ -46,3 +46,6 @@
 (setq-default tab-width 2 indent-tabs-mode nil)
 (global-set-key "\C-m" 'newline-and-indent)
 
+;; show candidates on minibuffer
+(iswitchb-mode t)
+(iswitchb-default-keybindings)
