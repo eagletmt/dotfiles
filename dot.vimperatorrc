@@ -57,7 +57,14 @@ command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
-lazy fmaps -u='www\.tumblr\.com/dashboard' j k p o
+
+" ldrize_cooperation.js
+let g:ldrc_enable = "true"
+let g:ldrc_captureMappings = "['j','k','p','o']"
+let g:ldrc_intelligence_bind = "true"
+let g:ldrc_hints = "true"
+let g:ldrc_skip = "0.2"
+nnoremap <silent> e :toggleldrizecooperation<CR>
 
 nnoremap ; :
 nnoremap \' ;
