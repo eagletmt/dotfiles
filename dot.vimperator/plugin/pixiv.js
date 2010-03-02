@@ -63,7 +63,11 @@ liberator.plugins.pixiv = (function() {
       let id = RegExp.$1;
       pixivManager.bookmark_illust(id, args, '', function(res) {
         let m = res.responseText.match(/<strong class="link_visited">\[ <a href="[^"]+">(.+?)<\/a> \]<\/strong>(.+?)<br \/>/);
-        liberator.echo('[' + m[1] + '] ' + m[2]);
+        if (m === null) {
+          liberator.echo('bookmark modified');
+        } else {
+          liberator.echo('[' + m[1] + '] ' + m[2]);
+        }
       });
     },
     {
