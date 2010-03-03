@@ -43,10 +43,7 @@ liberator.plugins.pixiv = (function() {
         };
         let q = [k + '=' + params[k] for (k in params)].join('&');
         let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
-        req.addEventListener('onSuccess', function(res) {
-          let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/);
-          liberator.echo(m[1] + m[2]);
-        });
+        req.addEventListener('onSuccess', next);
         req.post();
       });
       req.get();
@@ -107,4 +104,3 @@ liberator.plugins.pixiv = (function() {
 
   return pixivManager;
 })();
-

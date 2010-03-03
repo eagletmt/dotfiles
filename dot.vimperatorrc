@@ -151,9 +151,24 @@ javascript <<EOM
 mappings.addUserMap([modes.NORMAL], ['B'], '',
     function() {
       liberator.plugins.pixiv.bookmark_user(
-        liberator.plugins.libly.$U.getFirstNodeFromXPath('id("rpc_u_id")').innerHTML);
+        liberator.plugins.libly.$U.getFirstNodeFromXPath('id("rpc_u_id")').innerHTML,
+        function(res) {
+          let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/);
+          liberator.echo(m[1] + m[2]);
+        });
     },
     { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
+
+mappings.addUserMap([modes.NORMAL], ['B'], '',
+    function() {
+      liberator.plugins.pixiv.bookmark_user(buffer.URI.match(/id=(\d+)/)[1],
+        function(res) {
+          let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/);
+          liberator.echo(m[1] + m[2]);
+        });
+    },
+    { matchingUrls: /www\.pixiv\.net\/member(?:_illust)?\.php\?id=\d+/ });
+
 mappings.addUserMap([modes.NORMAL], ['i'], '',
     function() {
       let e = document.createEvent('MouseEvent');
@@ -164,7 +179,6 @@ mappings.addUserMap([modes.NORMAL], ['i'], '',
     },
     { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
 EOM
-nnoremap <silent> -urls='www\.pixiv\.net\/member(?:_illust)?\.php\?id=\d+' B :js liberator.plugins.pixiv.bookmark_user(buffer.URI.match(/id=(\d+)/)[1])<CR>
 
 " nicovideo, youtube
 nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' x :stseek! -5<CR>
