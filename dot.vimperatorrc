@@ -47,6 +47,13 @@ cnoremap <C-S-i> <S-Tab>
 inoremap <C-m> <CR>
 inoremap <C-p> <Up>
 inoremap <C-n> <Down>
+javascript <<EOM
+mappings.addUserMap(
+    [modes.COMMAND_LINE],
+    ['<C-c>'],
+    'Copy current commandline',
+    function() util.copyToClipboard(commandline.command));
+EOM
 
 set complete=tsl
 
