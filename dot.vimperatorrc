@@ -199,6 +199,11 @@ nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' a :stplay<CR>
 
 autocmd LocationChange www\.pixiv\.net/jump\.php :js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
 
+" no-reading.js
+let g:no_reading_do_echo = 1
+let g:no_reading_on_statusline = 1
+let g:no_reading_statusline_limit = 2000
+
 javascript <<EOM
 commands.addUserCommand(['rmframe'], '',
     function(args) {
