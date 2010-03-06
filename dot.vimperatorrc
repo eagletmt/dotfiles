@@ -48,7 +48,7 @@ inoremap <C-m> <CR>
 inoremap <C-p> <Up>
 inoremap <C-n> <Down>
 
-set complete& complete+=t
+set complete=tsl
 
 " migemo_hint.js
 set hintmatching=custom
