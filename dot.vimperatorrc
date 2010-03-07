@@ -11,6 +11,8 @@ nnoremap J 5<C-e>
 nnoremap K 5<C-y>
 nnoremap h gT
 nnoremap l gt
+nnoremap D :<C-u>tabattach<Space>
+nnoremap b B
 nnoremap <C-q> <C-z>
 nnoremap ,s :source ~/.vimperatorrc<CR>
 nnoremap <C-r> :restart<CR>
