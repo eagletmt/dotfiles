@@ -1,0 +1,16 @@
+style -name twitter twitter.com #container { opacity: 0.90 !important; }
+
+style -name pixiv www.pixiv.net .ads_area { display: none !important }
+
+style -name nagaharu ivory.ap.teacup.com <<EOM
+#sidemenu { display: none !important; }
+#sidemenu2 { display: none !important; }
+EOM
+
+style -name pku acm.pku.edu.cn <<EOM
+table {
+  background-image: none !important;
+  background-color: #eaeffd;
+}
+EOM
+

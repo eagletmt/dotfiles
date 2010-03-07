@@ -4,6 +4,7 @@
 " config
 set! network.dns.disableIPv6=true
 colorscheme evening-tmp
+colorscheme sites
 
 " keymap
 nnoremap J 5<C-e>
