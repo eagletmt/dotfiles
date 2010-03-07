@@ -24,19 +24,21 @@ set previouspattern=前[のへ],\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
 
 set focuscontent
 
-" my search commands
-nnoremap sg :google<Space>
-nnoremap si :googleimage<Space>
-nnoremap se :eijiro<Space>
-nnoremap sb :blogsearch<Space>
-nnoremap st :twittersearch<Space>
-nnoremap sh :hoogle<Space>
-nnoremap sc :googlecode<Space>
-nnoremap sk :<C-u>tabopen http://twitter.com/
-nnoremap sp :<C-u>tabopen http://acm.pku.edu.cn/JudgeOnline/problem?id=
-command! -nargs=+ Unicodemotion tabopen http://fuba.moaningnerds.org/unicodemoticon/?<args>
-nnoremap sm :Unicodemotion<Space>
-command! -nargs=+ Rlo tabopen http://fuba.moaningnerds.org/conv/rlo.cgi?<args>
+" search commands
+silent bmark -title='Google' -tags=vimp -keyword=gs http://www.google.com/search?q=%s
+nnoremap sg :<C-u>tabopen gs<Space>
+silent bmark -title='Google Images' -tags=vimp -keyword=gi http://images.google.com/images?q=%s
+nnoremap si :<C-u>tabopen gi<Space>
+silent bmark -title='Twitter検索' -tags=vimp -keyword=ts http://pcod.no-ip.org/yats/search?query=%s
+nnoremap st :<C-u>tabopen ts<Space>
+silent bmark -title='Hoogle' -tags=vimp -keyword=hs http://www.haskell.org/hoogle/?hoogle=%s
+nnoremap sh :<C-u>tabopen hs<Space>
+silent bmark -title='Google Code Search' -tags=vimp -keyword=gc http://www.google.com/codesearch?q=%s
+nnoremap sc :<C-u>tabopen gc<Space>
+silent bmark -title='Twitter' -tags=vimp -keyword=tw https://twitter.com/%s
+nnoremap sk :<C-u>tabopen tw<Space>
+silent bmark -title='POJ' -tags=vimp -keyword=poj http://acm.pku.edu.cn/JudgeOnline/problem?id=
+nnoremap sp :<C-u>tabopen poj<Space>
 command! ldr javascript liberator.open('http://reader.livedoor.com/subscribe/' + buffer.URI)
 cnoremap <C-j> <Nop>
 cnoremap <C-h> <BS>
