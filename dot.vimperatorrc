@@ -223,5 +223,7 @@ commands.addUserCommand(['rmframe'], '',
 EOM
 nnoremap ,r :<C-u>rmframe<CR>
 
+source ~/.vimperator/colors/persona.css
+
 source ~/.private.vimperatorrc
 

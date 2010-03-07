@@ -1,0 +1,8 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+#liberator-completions-content > div > div {
+  background:             url('back.png');
+  background-position:    right bottom;
+  background-attachment:  fixed;
+  background-repeat:      no-repeat;
+}
+
