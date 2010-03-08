@@ -155,8 +155,12 @@ liberator.plugins.subscldr = (function() {
     function postSubscription(info, opts) {
       liberator.log("subscribe:" + info.toSource());
 
+      var folder_id = "0";
+      if (opts.folder && info.folder_ids[opts.folder]) {
+        folder_id = info.folder_ids[opts.folder];
+      }
       var postBody= "url=" + encodeURIComponent(info.target_url) +
-                    "&folder_id=0" +
+                    "&folder_id=" + folder_id +
                     "&rate=" + (opts.rate || "0") +
                     "&register=1" +
                     "&feedlink=" + encodeURIComponent(info.feedlinks[0]) +
@@ -189,14 +193,15 @@ liberator.plugins.subscldr = (function() {
       "Register feed subscriptions to " + servicename + ".",
       function(args) {
         try {
-          handleFeedRequest({rate: args["-rate"]});
+          handleFeedRequest({rate: args["-rate"], folder: args["-folder"]});
         } catch (e) {
           liberator.echoerr(e);
         }
       },
       {
         options: [
-          [["-rate", "-r"], commands.OPTION_INT]
+          [["-rate", "-r"], commands.OPTION_INT],
+          [["-folder", "-f"], commands.OPTION_STRING],
         ]
       },
       true  // Use in DEVELOP
@@ -209,7 +214,8 @@ liberator.plugins.subscldr = (function() {
        target_url: null,
        register: 1,
        apiKey: null,
-       feedlinks: []
+       feedlinks: [],
+       folder_ids: {},
     };
 
     $LXs('id("feed_candidates")/xhtml:li', htmldoc).forEach( function(item) {
@@ -228,6 +234,12 @@ liberator.plugins.subscldr = (function() {
 
     subscribeInfo.apiKey = $LX('//*[@name="ApiKey"]', htmldoc).value;
     if (!subscribeInfo.apiKey) throw "Can't get API key for subscription!";
+
+    var select = $LX('//*[@name="folder_id"]', htmldoc);
+    if (!select) throw "Can't get foldr_id";
+    $LXs('*', select).forEach( function(item) {
+      subscribeInfo.folder_ids[item.innerHTML] = item.value;
+    });
     return subscribeInfo;
   }
 
