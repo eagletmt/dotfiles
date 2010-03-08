@@ -4,7 +4,6 @@
 " config
 set! network.dns.disableIPv6=true
 colorscheme evening-tmp
-colorscheme sites
 
 " keymap
 nnoremap J 5<C-e>
@@ -227,7 +226,16 @@ commands.addUserCommand(['rmframe'], '',
 EOM
 nnoremap ,r :<C-u>rmframe<CR>
 
-source ~/.vimperator/colors/persona.css
+" load styles
+javascript <<EOM
+io.getRuntimeDirectories('styles').forEach(function(dir) {
+  dir.readDirectory().forEach(function(file) {
+    if (file.exists() && file.isFile() && /\.css$/.test(file.path)) {
+      io.source(file.path);
+    }
+  });
+});
+EOM
 
 source ~/.private.vimperatorrc
 

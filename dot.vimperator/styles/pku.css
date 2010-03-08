@@ -1,0 +1,9 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain(acm.pku.edu.cn) {
+  table {
+    background-image: none !important;
+    background-color: #eaeffd;
+  }
+}
+
