@@ -1,0 +1,17 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain(www.pixiv.net) {
+  .ads_area { display: none !important }
+}
+
+@-moz-document url-prefix(http://ivory.ap.teacup.com/nagaharuhenyo2/) {
+  #sidemenu { display: none !important; }
+  #sidemenu2 { display: none !important; }
+}
+
+@-moz-document url-prefix(http://blog.livedoor.jp/wakusoku/) {
+  #sub, #extra, .article-footer, .column-inner-2 > table {
+    display: none !important;
+  }
+}
+

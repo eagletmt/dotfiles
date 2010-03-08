@@ -1,7 +1,0 @@
-@namespace url(http://www.w3.org/1999/xhtml);
-
-@-moz-document url-prefix(http://ivory.ap.teacup.com/nagaharuhenyo2/) {
-  #sidemenu { display: none !important; }
-  #sidemenu2 { display: none !important; }
-}
-
