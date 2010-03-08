@@ -77,7 +77,20 @@ liberator.plugins.subscldr = (function() {
   function addCommand (command, servicename, endpoint) {
 
     function handleFeedRequest(opts, redirectUrl, force) {
-        var subscribeInfo = getSubscription(redirectUrl);
+        try {
+          var subscribeInfo = getSubscription(redirectUrl);
+        } catch (e if e == "Cannot find subscribe info about this page!") {
+          commandline.input(e + " See Page2Feed preview? [y/N]:",
+            function(ans) {
+              if (ans.toLowerCase().indexOf("y") == 0)
+                liberator.open("http://ic.edge.jp/page2feed/preview/" + (redirectUrl || buffer.URI));
+              else
+                liberator.echo("Canceled.");
+              commandline.close();
+            }
+          );
+          return;
+        }
         var availableLinks = subscribeInfo.feedlinks.filter(function(info) info[1]);
         var alreadySubscribed = availableLinks.length != subscribeInfo.feedlinks.length;
 
