@@ -1,0 +1,8 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url-prefix(http://blog.livedoor.jp/wakusoku/) {
+  #sub, #extra, .article-footer, .column-inner-2 > table {
+    display: none !important;
+  }
+}
+
