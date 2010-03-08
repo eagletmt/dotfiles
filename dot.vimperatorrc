@@ -21,6 +21,8 @@ nnoremap <M-q> <Nop>
 nnoremap <C-t> <M-F>
 nnoremap ,c :<C-u>copy anchor<CR>
 nnoremap ,t :<C-u>copy %TITLE% %URL%<CR>
+nnoremap <silent> ,h :<C-u>emenu Tools.Live HTTP headers<CR>
+nnoremap <silent> ,b :<C-u>emenu Tools.Firebug.Open Firebug<CR>
 
 set nextpattern=次[のへ],\bnext\b,\bmore\b,^next.*,^>$,^>>$
 set previouspattern=前[のへ],\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
