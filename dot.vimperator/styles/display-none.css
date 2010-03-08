@@ -5,8 +5,7 @@
 }
 
 @-moz-document url-prefix(http://ivory.ap.teacup.com/nagaharuhenyo2/) {
-  #sidemenu { display: none !important; }
-  #sidemenu2 { display: none !important; }
+  #sidemenu, #sidemenu2 { display: none !important; }
 }
 
 @-moz-document url-prefix(http://blog.livedoor.jp/wakusoku/) {
