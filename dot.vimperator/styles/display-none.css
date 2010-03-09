@@ -14,7 +14,7 @@
   }
 }
 
-@-moz-document url-prefix(http://stalker.livedoor.biz/) {
+@-moz-document domain(stalker.livedoor.biz) {
   .rss_outline, .rss_outline2, .fullbody, #leftbody, #rightbody {
     display: none !important;
   }
