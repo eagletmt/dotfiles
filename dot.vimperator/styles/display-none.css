@@ -20,3 +20,9 @@
   }
 }
 
+@-moz-document domain(alfalfalfa.com) {
+  .wk, .fullbody, #leftbody, #rightbody, .Hleft, .mrr, .menu, .menu4, .menu6, .mv, #comment {
+    display: none !important;
+  }
+}
+
