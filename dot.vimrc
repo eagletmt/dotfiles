@@ -121,6 +121,7 @@ nnoremap <silent> <C-k> :<C-u>tabclose<CR>
 
 " fuf.vim
 let g:fuf_modesDisable = ['mrucmd']
+let g:fuf_mrufile_exclude = '\.git/COMMIT_EDITMSG$'
 nnoremap [Tab]j :<C-u>FufFileWithCurrentBufferDir!<CR>
 nnoremap [Tab]J :<C-u>FufFile! ~/<CR>
 nnoremap [Tab]i :<C-u>FufBuffer!<CR>
