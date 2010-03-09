@@ -65,7 +65,7 @@ inoremap <C-a> <C-o>^
 inoremap <C-k> <C-o>C
 
 let g:mapleader = ' '
-nnoremap ,s :source $MYVIMRC<CR>
+nnoremap ,s :source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif<CR>
 nnoremap ,d :helptags ~/.vim/doc<CR>
 nnoremap ,m :setlocal buftype=nofile<CR>
 
