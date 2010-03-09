@@ -41,7 +41,7 @@ silent bmark -title='Google Code Search' -tags=vimp -keyword=gc http://www.googl
 nnoremap sc :<C-u>tabopen gc<Space>
 silent bmark -title='Twitter' -tags=vimp -keyword=tw https://twitter.com/%s
 nnoremap sk :<C-u>tabopen tw<Space>
-silent bmark -title='POJ' -tags=vimp -keyword=poj http://acm.pku.edu.cn/JudgeOnline/problem?id=
+silent bmark -title='POJ' -tags=vimp -keyword=poj http://acm.pku.edu.cn/JudgeOnline/problem?id=%s
 nnoremap sp :<C-u>tabopen poj<Space>
 command! ldr javascript liberator.open('http://reader.livedoor.com/subscribe/' + buffer.URI)
 cnoremap <C-j> <Nop>
