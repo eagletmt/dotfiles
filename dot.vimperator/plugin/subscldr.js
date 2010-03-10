@@ -163,7 +163,7 @@ liberator.plugins.subscldr = (function() {
         endpoint,
         null,
         {
-          asyncronus: false,
+          asynchronous: true,
           postBody: postBody
         }
       );
