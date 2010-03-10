@@ -14,6 +14,13 @@
   }
 }
 
+@-moz-document url-prefix(http://blog.livedoor.jp/goldennews/) {
+  #kiziue, #topparts, #leftbody, #rightbody, .date, .rakuten_under,
+  .trackbackurlbody, .related-articles {
+    display: none !important;
+  }
+}
+
 @-moz-document domain(stalker.livedoor.biz) {
   .rss_outline, .rss_outline2, .fullbody, #leftbody, #rightbody {
     display: none !important;
@@ -22,6 +29,12 @@
 
 @-moz-document domain(alfalfalfa.com) {
   .wk, .fullbody, #leftbody, #rightbody, .Hleft, .mrr, .menu, .menu4, .menu6, .mv, #comment {
+    display: none !important;
+  }
+}
+
+@-moz-document domain(majikichisokuhou.blog34.fc2.com) {
+  .plugin1_outline, .plugin2_outline, .plugin3_body, .comment_outline, #kanrendesu {
     display: none !important;
   }
 }
