@@ -108,20 +108,11 @@ liberator.plugins.subscldr = (function() {
           return;
         }
 
-        switch (availableLinks.length) {
-        case 0:
-          if (alreadySubscribed)
-            liberator.echo("The feed of this site has already been subscribed.");
-          else
-            // Maybe never reach here.
-            liberator.echoerr("SITE FEED NOT AVAILABLE!!!");
-          break;
-        case 1:
+        if (availableLinks.length == 1) {
           liberator.log("FEED ONLY ONE!!");
           subscribeInfo.feedlinks = [availableLinks[0][0], true];
           postSubscription(subscribeInfo, opts);
-          break;
-        default:
+        } else {
           liberator.log("SOME FEED AVAILABLE");
           selectFeed( availableLinks.map(function(i) [i[0], i[2]]),
             function(sel) {
@@ -226,6 +217,9 @@ liberator.plugins.subscldr = (function() {
       liberator.log("input:" + feedlink.href);
       subscribeInfo.feedlinks.push([feedlink.href, (yet != null), (title ? title.textContent : '' ) + ' / ' + (users ? users.textContent :  '0 user')]);
     });
+    if (subscribeInfo.feedlinks.filter(function(info) info[1]).length == 0) {
+      throw "The feed of this site has already been subscribed.";
+    }
 
     var target_url = $LX('id("target_url")', htmldoc);
     if (!target_url) throw "Cannot find subscribe info about this page!";
