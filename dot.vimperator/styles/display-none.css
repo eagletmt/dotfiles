@@ -39,3 +39,7 @@
   }
 }
 
+@-moz-document domain(d.hatena.ne.jp) {
+  #keyword-amazon, .keyword-ad { display: none !important; }
+}
+
