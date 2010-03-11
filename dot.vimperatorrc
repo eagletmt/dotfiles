@@ -1,11 +1,19 @@
-" 1.1 (created: 2008/06/03 19:37:22)
-" vim: set ft=vimperator:
+" vim: set ft=vimperator fdm=marker:
 
-" config
+" config {{{1
+set nextpattern=次[のへ],\bnext\b,\bmore\b,^next.*,^>$,^>>$
+set previouspattern=前[のへ],\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
+set focuscontent
+set complete=tsl
+" migemo_hint.js
+set hintmatching=custom 
+
 set! network.dns.disableIPv6=true
+
 colorscheme evening-tmp
 
-" keymap
+" keymaps {{{1
+" normal mode {{{2
 nnoremap J 5<C-e>
 nnoremap K 5<C-y>
 nnoremap h gT
@@ -22,28 +30,10 @@ nnoremap ,c :<C-u>copy anchor<CR>
 nnoremap ,t :<C-u>copy %TITLE% %URL%<CR>
 nnoremap <silent> ,h :<C-u>emenu Tools.Live HTTP headers<CR>
 nnoremap <silent> ,b :<C-u>emenu Tools.Firebug.Open Firebug<CR>
+nnoremap ; :
+nnoremap \' ;
 
-set nextpattern=次[のへ],\bnext\b,\bmore\b,^next.*,^>$,^>>$
-set previouspattern=前[のへ],\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
-
-set focuscontent
-
-" search commands
-silent bmark -title='Google' -tags=vimp -keyword=gs http://www.google.com/search?q=%s
-nnoremap sg :<C-u>tabopen gs<Space>
-silent bmark -title='Google Images' -tags=vimp -keyword=gi http://images.google.com/images?q=%s
-nnoremap si :<C-u>tabopen gi<Space>
-silent bmark -title='Twitter検索' -tags=vimp -keyword=ts http://pcod.no-ip.org/yats/search?query=%s
-nnoremap st :<C-u>tabopen ts<Space>
-silent bmark -title='Hoogle' -tags=vimp -keyword=hs http://www.haskell.org/hoogle/?hoogle=%s
-nnoremap sh :<C-u>tabopen hs<Space>
-silent bmark -title='Google Code Search' -tags=vimp -keyword=gc http://www.google.com/codesearch?q=%s
-nnoremap sc :<C-u>tabopen gc<Space>
-silent bmark -title='Twitter' -tags=vimp -keyword=tw https://twitter.com/%s
-nnoremap sk :<C-u>tabopen tw<Space>
-silent bmark -title='POJ' -tags=vimp -keyword=poj http://acm.pku.edu.cn/JudgeOnline/problem?id=%s
-nnoremap sp :<C-u>tabopen poj<Space>
-command! ldr javascript liberator.open('http://reader.livedoor.com/subscribe/' + buffer.URI)
+" commandline mode {{{2
 cnoremap <C-j> <Nop>
 cnoremap <C-h> <BS>
 cnoremap <C-p> <Up>
@@ -61,18 +51,30 @@ mappings.addUserMap(
     function() util.copyToClipboard(commandline.command));
 EOM
 
-set complete=tsl
+" search commands {{{1
+silent bmark -title='Google' -tags=vimp -keyword=gs http://www.google.com/search?q=%s
+nnoremap sg :<C-u>tabopen gs<Space>
+silent bmark -title='Google Images' -tags=vimp -keyword=gi http://images.google.com/images?q=%s
+nnoremap si :<C-u>tabopen gi<Space>
+silent bmark -title='Twitter検索' -tags=vimp -keyword=ts http://pcod.no-ip.org/yats/search?query=%s
+nnoremap st :<C-u>tabopen ts<Space>
+silent bmark -title='Hoogle' -tags=vimp -keyword=hs http://www.haskell.org/hoogle/?hoogle=%s
+nnoremap sh :<C-u>tabopen hs<Space>
+silent bmark -title='Google Code Search' -tags=vimp -keyword=gc http://www.google.com/codesearch?q=%s
+nnoremap sc :<C-u>tabopen gc<Space>
+silent bmark -title='Twitter' -tags=vimp -keyword=tw https://twitter.com/%s
+nnoremap sk :<C-u>tabopen tw<Space>
+silent bmark -title='POJ' -tags=vimp -keyword=poj http://acm.pku.edu.cn/JudgeOnline/problem?id=%s
+nnoremap sp :<C-u>tabopen poj<Space>
 
-" migemo_hint.js
-set hintmatching=custom
-
-" feedSomeKey_3.js
+" plugins {{{1
+" feedSomeKey_3.js {{{2
 command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
 
-" ldrize_cooperation.js
+" ldrize_cooperation.js {{{2
 let g:ldrc_enable = "true"
 let g:ldrc_captureMappings = "['j','k','p','o']"
 let g:ldrc_intelligence_bind = "true"
@@ -80,20 +82,14 @@ let g:ldrc_hints = "true"
 let g:ldrc_skip = "0.2"
 nnoremap <silent> e :toggleldrizecooperation<CR>
 
-nnoremap ; :
-nnoremap \' ;
-
-" hatena bookmark
+" hatena bookmark {{{2
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
 
-command! GBkmk javascript liberator.open('http://www.google.com/bookmarks/mark?op=add&title=' + encodeURIComponent(buffer.title) + '&bkmk=' + encodeURIComponent(buffer.URI), liberator.NEW_TAB)
-nnoremap sa :GBkmk<CR>
-
-" multi_requester.js
+" multi_requester.js {{{2
 nnoremap m <Nop>
 nnoremap ma :<C-u>mr<Space>alc<Space>
 
-" refcontrol.js
+" refcontrol.js {{{2
 let g:refcontrol_enabled = "true"
 javascript <<EOM
 liberator.globalVariables.refcontrol = {
@@ -103,37 +99,14 @@ liberator.globalVariables.refcontrol = {
 };
 EOM
 
-javascript <<EOM
-commands.addUserCommand(['matrixcode'], '',
-  function(args) {
-    var $LX = plugins.libly.$U.getFirstNodeFromXPath;
-    var $LXs = plugins.libly.$U.getNodesFromXPath;
-    $LXs('//th[@align="left"]').slice(2).forEach(function(t) {
-      var x = t.innerHTML;
-      $LX('../td/input', t).value = liberator.globalVariables.matrix_code[x[1]][x[3]-1];
-    });
-    $LX('//input[@type="submit"]').click();
-  }, null, true);
-EOM
-
-nnoremap ,l :<C-u>matrixcode<CR>
-
-javascript <<EOM
-commands.addUserCommand(['inreplyto'], '',
-    function(args) {
-      var a = plugins.libly.$U.getFirstNodeFromXPath('//span[contains(@class,"entry-meta")]/a[2]');
-      if (a) {
-        liberator.open(a.href);
-      }
-    }, null, true);
-EOM
-
+" tombloo.js {{{2
+nnoremap <silent> -urls='[-a-z0-9]+\.tumblr\.com/post/' i :tombloo ReBlog\ -\ Tumblr<CR>
 nnoremap qr :<C-u>tombloo ReBlog\ -\ Tumblr<CR>
 
-" hint-tombloo.js
+" hint-tombloo.js {{{2
 let g:hint_tombloo_key = 'r'
 
-" loginManager.js
+" loginManager.js {{{2
 javascript <<EOM
 liberator.globalVariables.userLoginServices = {
   livedoor: {
@@ -146,20 +119,50 @@ liberator.globalVariables.userLoginServices = {
 };
 EOM
 
-" http://vimperator.g.hatena.ne.jp/nokturnalmortum/20100128/1264675483
-" http://code.google.com/p/vimperator-labs/source/detail?r=c61fb6b0248a51d103d66a24eca6162ddb96902f
-" http://code.google.com/p/vimperator-labs/source/detail?r=0e37f641edc2fbed0da05201113f711b2eb88a19
-"
-" -urls
-" http://code.google.com/p/vimperator-labs/source/detail?r=492ac8e5eeadf5cc14f819590c7b68da6ab375e2
+" stella.js {{{2
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' x :stseek! -5<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' X :stseek! -10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' s :stseek! +5<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' S :stseek! +10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' v :stvolume! -10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' V :stvolume! +10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' a :stplay<CR>
 
-" twitter
+" no-reading.js {{{2
+let g:no_reading_do_echo = 1
+let g:no_reading_on_statusline = 1
+let g:no_reading_statusline_limit = 2000
+
+" my small commands {{{1
+" matrixcode {{{2
+javascript <<EOM
+commands.addUserCommand(['matrixcode'], '',
+  function(args) {
+    var $LX = plugins.libly.$U.getFirstNodeFromXPath;
+    var $LXs = plugins.libly.$U.getNodesFromXPath;
+    $LXs('//th[@align="left"]').slice(2).forEach(function(t) {
+      var x = t.innerHTML;
+      $LX('../td/input', t).value = liberator.globalVariables.matrix_code[x[1]][x[3]-1];
+    });
+    $LX('//input[@type="submit"]').click();
+  }, null, true);
+EOM
+nnoremap ,l :<C-u>matrixcode<CR>
+
+" inreplyto {{{2
+javascript <<EOM
+commands.addUserCommand(['inreplyto'], '',
+    function(args) {
+      var a = plugins.libly.$U.getFirstNodeFromXPath('//span[contains(@class,"entry-meta")]/a[2]');
+      if (a) {
+        liberator.open(a.href);
+      }
+    }, null, true);
+EOM
 nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' i :inreplyto<CR>
 
-" tumblr
-nnoremap <silent> -urls='[-a-z0-9]+\.tumblr\.com/post/' i :tombloo ReBlog\ -\ Tumblr<CR>
 
-" pixiv
+" pixiv {{{2
 nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' b :pixivBookmark<Space>
 javascript <<EOM
 mappings.addUserMap([modes.NORMAL], ['B'], '',
@@ -194,39 +197,10 @@ mappings.addUserMap([modes.NORMAL], ['i'], '',
     { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
 EOM
 
-" nicovideo, youtube
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' x :stseek! -5<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' X :stseek! -10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' s :stseek! +5<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' S :stseek! +10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' v :stvolume! -10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' V :stvolume! +10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' a :stplay<CR>
-
 autocmd LocationChange www\.pixiv\.net/jump\.php :js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
 
-" no-reading.js
-let g:no_reading_do_echo = 1
-let g:no_reading_on_statusline = 1
-let g:no_reading_statusline_limit = 2000
-
-javascript <<EOM
-commands.addUserCommand(['rmframe'], '',
-    function(args) {
-      if (buffer.URI.match(/ow\.ly/)) {
-        var xpath = 'id("tools")/a[contains(@class, "close")]';
-      } else if (buffer.URI.match(/am6\.jp/)) {
-        var xpath = 'id("navBar")/a[contains(@class, "right")]';
-      } else {
-        liberator.echoerr('removeframe: unknown site: ' + buffer.URI);
-        return false;
-      }
-      liberator.open(plugins.libly.$U.getFirstNodeFromXPath(xpath).href);
-    }, null, true);
-EOM
-nnoremap ,r :<C-u>rmframe<CR>
-
-" load styles
+" extra {{{1
+" load styles {{{2
 javascript <<EOM
 io.getRuntimeDirectories('styles').forEach(function(dir) {
   dir.readDirectory().forEach(function(file) {
@@ -237,5 +211,6 @@ io.getRuntimeDirectories('styles').forEach(function(dir) {
 });
 EOM
 
+" load private settings {{{2
 source ~/.private.vimperatorrc
 
