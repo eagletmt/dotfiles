@@ -95,9 +95,9 @@ autocmd BufEnter *.hs,*.lhs :call s:SetToCabalBuild()
 nnoremap : ;
 nnoremap ; :
 
-nnoremap ,s :source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif<CR>
-nnoremap ,d :helptags ~/.vim/doc<CR>
-nnoremap ,m :setlocal buftype=nofile<CR>
+nnoremap ,s :<C-u>source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif<CR>
+nnoremap ,d :<C-u>helptags ~/.vim/doc<CR>
+nnoremap ,m :<C-u>setlocal buftype=nofile bufhidden=hide noswapfile<CR>
 
 nnoremap <silent> <C-m> :<C-u>tabnew<CR>
 nnoremap <silent> <C-n> :<C-u>tabnext<CR>
