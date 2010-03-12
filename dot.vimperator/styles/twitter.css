@@ -2,5 +2,6 @@
 
 @-moz-document domain(twitter.com) {
   #container { opacity: 0.90 !important; }
+  .hovercard { display: none !important; }
 }
 
