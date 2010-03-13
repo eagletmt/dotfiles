@@ -21,7 +21,6 @@ nnoremap l gt
 nnoremap D :<C-u>tabattach<Space>
 nnoremap b B
 nnoremap <C-q> <C-z>
-nnoremap ,s :source ~/.vimperatorrc<CR>
 nnoremap <C-r> :restart<CR>
 nnoremap <M-c> Y
 nnoremap <M-q> <Nop>
@@ -32,6 +31,9 @@ nnoremap <silent> ,h :<C-u>emenu Tools.Live HTTP headers<CR>
 nnoremap <silent> ,b :<C-u>emenu Tools.Firebug.Open Firebug<CR>
 nnoremap ; :
 nnoremap \' ;
+javascript <<EOM
+mappings.addUserMap([modes.NORMAL], [',s'], 'reload rc file', function() io.source(io.getRCFile().path));
+EOM
 
 " commandline mode {{{2
 cnoremap <C-j> <Nop>
