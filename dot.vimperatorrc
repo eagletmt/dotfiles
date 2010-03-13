@@ -24,7 +24,7 @@ nnoremap <C-q> <C-z>
 nnoremap <C-r> :restart<CR>
 nnoremap <M-c> Y
 nnoremap <M-q> <Nop>
-nnoremap <C-t> <M-F>
+nnoremap <C-t> <M-S-F>
 nnoremap ,c :<C-u>copy anchor<CR>
 nnoremap ,t :<C-u>copy %TITLE% %URL%<CR>
 nnoremap <silent> ,h :<C-u>emenu Tools.Live HTTP headers<CR>
