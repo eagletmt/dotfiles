@@ -54,19 +54,33 @@ mappings.addUserMap(
 EOM
 
 " search commands {{{1
-silent bmark -title='Google' -tags=vimp -keyword=gs http://www.google.com/search?q=%s
+"silent bmark -title='Google' -tags=vimp -keyword=gs http://www.google.com/search?q=%s
+"silent bmark -title='Google Images' -tags=vimp -keyword=gi http://images.google.com/images?q=%s
+"silent bmark -title='Twitter検索' -tags=vimp -keyword=ts http://pcod.no-ip.org/yats/search?query=%s
+"silent bmark -title='Hoogle' -tags=vimp -keyword=hs http://www.haskell.org/hoogle/?hoogle=%s
+"silent bmark -title='Google Code Search' -tags=vimp -keyword=gc http://www.google.com/codesearch?q=%s
+"silent bmark -title='Twitter' -tags=vimp -keyword=tw https://twitter.com/%s
+"silent bmark -title='POJ' -tags=vimp -keyword=poj http://acm.pku.edu.cn/JudgeOnline/problem?id=%s
+javascript <<EOM
+[['Google', 'http://www.google.com/search?q=%s', 'gs'],
+ ['Google Images', 'http://images.google.com/images?q=%s', 'gi'],
+ ['Twitter検索', 'http://pcod.no-ip.org/yats/search?query=%s', 'ts'],
+ ['Hoogle', 'http://www.haskell.org/hoogle/?hoogle=%s', 'hs'],
+ ['Google Code Search', 'http://www.google.com/codesearch?q=%s', 'gc'],
+ ['Twitter', 'https://twitter.com/%s', 'tw'],
+ ['POJ', 'http://acm.pku.edu.cn/JudgeOnline/problem?id=%s', 'poj'],
+].forEach(function (b) {
+  if (!bookmarks.isBookmarked(b[1])) {
+    bookmarks.add(false, b[0], b[1], b[2], ['vimp'], false);
+  }
+});
+EOM
 nnoremap sg :<C-u>tabopen gs<Space>
-silent bmark -title='Google Images' -tags=vimp -keyword=gi http://images.google.com/images?q=%s
 nnoremap si :<C-u>tabopen gi<Space>
-silent bmark -title='Twitter検索' -tags=vimp -keyword=ts http://pcod.no-ip.org/yats/search?query=%s
 nnoremap st :<C-u>tabopen ts<Space>
-silent bmark -title='Hoogle' -tags=vimp -keyword=hs http://www.haskell.org/hoogle/?hoogle=%s
 nnoremap sh :<C-u>tabopen hs<Space>
-silent bmark -title='Google Code Search' -tags=vimp -keyword=gc http://www.google.com/codesearch?q=%s
 nnoremap sc :<C-u>tabopen gc<Space>
-silent bmark -title='Twitter' -tags=vimp -keyword=tw https://twitter.com/%s
 nnoremap sk :<C-u>tabopen tw<Space>
-silent bmark -title='POJ' -tags=vimp -keyword=poj http://acm.pku.edu.cn/JudgeOnline/problem?id=%s
 nnoremap sp :<C-u>tabopen poj<Space>
 
 " plugins {{{1
