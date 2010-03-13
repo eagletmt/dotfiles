@@ -1,0 +1,194 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain(news4vip.livedoor.biz) {
+  /* original: http://az-store.nrym.org/archive/kawatarou/note/opera/2chblogcss.htm */
+  * {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 100% !important;
+  }
+
+  div#banner table,
+  div.newsflash,
+  div.pager,
+  h2.date,
+  div.article_tags,
+  div.amazlet-box,
+  div.posted,
+  div.menu,
+  div.trackbackurlbody,
+  div#trackback,
+  div#comment,
+  div#takecomment,
+  div#formbody,
+  hr,
+  div.pagetop,
+  div#left,
+  div#right { display: none; }
+
+  body { background: #e8ffff !important; }
+
+  div#banner {
+    background: none !important;
+    padding: 0.5em 0.6em !important;
+    height: auto !important;
+    font-size: 160% !important;
+    color: green !important;
+    font-weight: bold !important;
+  }
+
+  div#wrapper,
+  div#content { float: none !important; }
+
+  div#container,
+  div#banner,
+  div#blogcontainer,
+  div#wrapper,
+  div#content,
+  div#blog { width: auto !important; }
+
+  div#articlebody { background: none !important; }
+
+  div#content { margin: 1em !important; }
+
+  div.blogbody {
+    background: #eff9f9;
+    border: 2px #5e98ff solid;
+  }
+
+  h3.title {
+    border: none !important;
+    padding: 0.5em 1em !important;
+    color: white !important;
+    font-size: 120% !important;
+    background: #5e98ff !important;
+  }
+
+  div.main,
+  div.mainmore {
+    padding: 1em !important;
+    font-size: 90% !important;
+    font-weight: bold !important;
+  }
+
+  div.aa,
+  div.rr,
+  div.r1,
+  div.r2,
+  div.r3,
+  div.r4 {
+    color: black !important;
+    font-size: 110% !important;
+    font-weight: normal !important;
+    margin-left: 1em !important;
+  }
+}
+
+
+@-moz-document domain(alfalfalfa.com) {
+  /* original: http://az-store.nrym.org/archive/kawatarou/note/opera/2chblogcss.htm */
+  * {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 100% !important;
+  }
+
+  div.tmk,
+  div.keyword,
+  div.b2,
+  div.an,
+  div.menu7,
+  div.mv,
+  div.Hleft,
+  div.mrr,
+  div.menu4,
+  div.menu6,
+  div.takecommenthead,
+  div.trackbackhead,
+  div#commentbody,
+  div#formbody,
+  blockquote > div.main,
+  div.description,
+  div.posted4,
+  div.datebody,
+  iframe,
+  div.menu3,
+  img[src="http://alfalfa.livedoor.biz/h_b.gif"],
+  div.posted3,
+  a[href^="http://hb.afl.rakuten.co.jp/"],
+  a[href^="http://pt.afl.rakuten.co.jp/"],
+  a[href^="http://www.amazon.co.jp/"],
+  div.menu,
+  div#left,
+  div#right,
+  div#footer,
+  div#outfooter { display: none !important; }
+
+  div#wrapper,
+  div#content { float:none !important; }
+
+  div#container,
+  div#blogcontainer,
+  div#wrapper,
+  div#content{ width: auto !important; }
+
+  body { background-color: #f2e8c6 !important; }
+
+  div.blogbodybottom{ border: none !important; }
+
+  div#banner {
+    background: none !important;
+    border: none !important;
+    padding: 0.8em 1em !important;
+  }
+
+  h1.blogtitle { font-size: 160% !important; }
+
+  div.titlebody {
+    border: none !important;
+    padding: 1em !important;
+    background-color: #dbbb8c;
+  }
+
+  h1.title { font-size: 120% !important; }
+
+  h1.title a { color: black !important; }
+
+  div#content { margin: 1em !important; }
+
+  div.main,
+  div.mainmore {
+    padding: 1em !important;
+    font-size: 90% !important;
+    font-weight: bold !important;
+  }
+
+  div.rr,
+  div.r1,
+  div.r2 {
+    color: black !important;
+    font-size: 110% !important;
+    font-weight: normal !important;
+    margin-left: 1em !important;
+  }
+}
+
+@-moz-document domain(waranote.blog76.fc2.com) {
+  h1,
+  iframe,
+  div#secondary-column,
+  div.entry-footer,
+  hr,
+  table,
+  div.fc2_footer,
+  h5#comment-top,
+  h4.comment-post,
+  div.kakikomi { display: none !important; }
+
+  * { margin: 0 !important; }
+
+  div.entry-body { margin-top: 2em; padding: 2% 2% !important; }
+  
+  div#primary-column { width: 100% !important; }
+}
+

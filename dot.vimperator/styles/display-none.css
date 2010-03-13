@@ -8,27 +8,9 @@
   #sidemenu, #sidemenu2 { display: none !important; }
 }
 
-@-moz-document url-prefix(http://blog.livedoor.jp/wakusoku/) {
-  #sub, #extra, .article-footer, .column-inner-2 > table {
-    display: none !important;
-  }
-}
-
 @-moz-document url-prefix(http://blog.livedoor.jp/goldennews/) {
   #kiziue, #topparts, #leftbody, #rightbody, .date, .rakuten_under,
   .trackbackurlbody, .related-articles {
-    display: none !important;
-  }
-}
-
-@-moz-document domain(stalker.livedoor.biz) {
-  .rss_outline, .rss_outline2, .fullbody, #leftbody, #rightbody {
-    display: none !important;
-  }
-}
-
-@-moz-document domain(alfalfalfa.com) {
-  .wk, .fullbody, #leftbody, #rightbody, .Hleft, .mrr, .menu, .menu4, .menu6, .mv, #comment {
     display: none !important;
   }
 }
@@ -40,7 +22,7 @@
 }
 
 @-moz-document domain(d.hatena.ne.jp) {
-  #keyword-amazon, .keyword-ad { display: none !important; }
+  #keyword-amazon, .keyword-ad, .ad { display: none !important; }
 }
 
 #ESSSEARCH_FRAME { display: none !important }

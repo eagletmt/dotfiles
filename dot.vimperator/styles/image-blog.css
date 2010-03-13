@@ -1,0 +1,55 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url-prefix(http://blog.livedoor.jp/wakusoku/) {
+  div#content { margin: 0 !important; }
+  div.column-inner { margin: 0 !important; }
+
+  div#header2,
+  div.blog-title-outer,
+  div.article-category-outer,
+  div.related-articles,
+  div#article-options,
+  div.article-pager-type2,
+  div#sub,
+  div#extra,
+  div.article-footer,
+  div.column-inner-2 > table,
+  div.article-body > :not(div) { display: none !important; }
+
+  div.article-date-outer,
+  div.article-header,
+  h2.article-title,
+  div.article-title-outer { padding: 0 !important; }
+
+  div#container,
+  div.article-body { background-color: #efefef !important; }
+
+  div.article-body-more > :not(ol) { display: none !important; }
+
+  div.article-body-more > ol {
+    -moz-column-count: 2 !important;
+    -moz-column-width: 10em !important;
+    -moz-column-gap: 1em !important;
+  }
+}
+
+@-moz-document domain(stalker.livedoor.biz) {
+  div#banner,
+  div#left,
+  div#right,
+  div.fullbody:first-child,
+  div.posted,
+  div.portal-links,
+  div.mainmore + div,
+  div.related-articles,
+  div.trackbackurlbody,
+  div#comment,
+  div#comment-form,
+  div.menu { display: none !important; }
+
+  * { 
+    background: none !important;
+    background-color: #efefef !important;
+  }
+}
+
