@@ -192,3 +192,20 @@
   div#primary-column { width: 100% !important; }
 }
 
+@-moz-document domain(majikichisokuhou.blog34.fc2.com) {
+  div#header_outline,
+  div.plugin1_outline,
+  div.plugin2_outline,
+  div.plugin3_body,
+  div.ently_navi,
+  div#center-left,
+  div.comment_outline,
+  div.trackback_outline,
+  div#kanrendesu,
+  hr { display: none !important; }
+
+  div#center { width: 100% !important; }
+
+  div.ently_body { background: #f0f0b0; }
+}
+
