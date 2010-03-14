@@ -15,12 +15,6 @@
   }
 }
 
-@-moz-document domain(majikichisokuhou.blog34.fc2.com) {
-  .plugin1_outline, .plugin2_outline, .plugin3_body, .comment_outline, #kanrendesu {
-    display: none !important;
-  }
-}
-
 @-moz-document domain(d.hatena.ne.jp) {
   #keyword-amazon, .keyword-ad, .ad { display: none !important; }
 }
