@@ -217,9 +217,6 @@ liberator.plugins.subscldr = (function() {
       liberator.log("input:" + feedlink.href);
       subscribeInfo.feedlinks.push([feedlink.href, (yet != null), (title ? title.textContent : '' ) + ' / ' + (users ? users.textContent :  '0 user')]);
     });
-    if (subscribeInfo.feedlinks.filter(function(info) info[1]).length == 0) {
-      throw "The feed of this site has already been subscribed.";
-    }
 
     var target_url = $LX('id("target_url")', htmldoc);
     if (!target_url) throw "Cannot find subscribe info about this page!";
