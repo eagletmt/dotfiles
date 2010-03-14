@@ -53,3 +53,17 @@
   }
 }
 
+@-moz-document domain(zipdeyaruo.blog42.fc2.com) {
+  div#header,
+  a[href^="http://www.movienta.com/"],
+  div.EntryDate,
+  pre.aa,
+  div.fc2_footer,
+  div.EntryBase,
+  div.CategoryEntry,
+  div.EntryCommentTitle,
+  div.EntryCommentTitle + div.EntryBody { display: none !important; }
+
+  div#main-column { width: 100% !important; }
+}
+
