@@ -149,6 +149,9 @@ let g:no_reading_do_echo = 1
 let g:no_reading_on_statusline = 1
 let g:no_reading_statusline_limit = 2000
 
+" maine_coon.js {{{2
+let g:maine_coon_default = "ac"
+
 " my small commands {{{1
 " matrixcode {{{2
 javascript <<EOM
