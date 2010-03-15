@@ -4,10 +4,6 @@
   .ads_area { display: none !important }
 }
 
-@-moz-document url-prefix(http://ivory.ap.teacup.com/nagaharuhenyo2/) {
-  #sidemenu, #sidemenu2 { display: none !important; }
-}
-
 @-moz-document url-prefix(http://blog.livedoor.jp/goldennews/) {
   #kiziue, #topparts, #leftbody, #rightbody, .date, .rakuten_under,
   .trackbackurlbody, .related-articles {

@@ -1,0 +1,24 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url-prefix(http://ivory.ap.teacup.com/nagaharuhenyo2/) {
+  div#sidemenu,
+  div#sidemenu2,
+  div#tctoptitlelay > h1,
+  div#tctoptitlelay > p,
+  div#tctopfreelay,
+  span.category { display: none !important; }
+
+  div#tcmainlay { width: 100% !important; }
+
+  div.postdate,
+  div.posttitle,
+  div.postcommtb { border-color: white !important; }
+
+  div.postdate > h2 { color: silver !important; }
+
+  div#tcpbody { border: none !important; }
+
+  a { color: limegreen !important; }
+  a:visited { color: darkkhaki !important; }
+}
+
