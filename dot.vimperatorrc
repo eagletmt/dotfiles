@@ -5,6 +5,7 @@ set nextpattern=次[のへ],\bnext\b,\bmore\b,^next.*,^>$,^>>$
 set previouspattern=前[のへ],\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
 set focuscontent
 set complete=tsl
+set showtabline=0
 " migemo_hint.js
 set hintmatching=custom 
 
