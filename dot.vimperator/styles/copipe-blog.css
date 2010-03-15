@@ -206,6 +206,8 @@
 
   div#center { width: 100% !important; }
 
-  div.ently_body { background: #f0f0b0; }
+  div.ently_body { background: lemonchiffon; }
+
+  h2.ently_title { background: sandybrown !important; background-image: none !important; }
 }
 
