@@ -206,7 +206,7 @@
 
   div#center { width: auto !important; }
 
-  div.ently_body { background: lemonchiffon; }
+  div.ently_body { background: lemonchiffon; font-size: small !important; }
 
   h2.ently_title { background: sandybrown !important; background-image: none !important; }
 }
