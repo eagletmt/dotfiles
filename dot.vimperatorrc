@@ -181,7 +181,6 @@ commands.addUserCommand(['inreplyto'], '',
 EOM
 nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' i :inreplyto<CR>
 
-
 " pixiv {{{2
 nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' b :pixivBookmark<Space>
 javascript <<EOM
@@ -229,6 +228,17 @@ io.getRuntimeDirectories('styles').forEach(function(dir) {
     }
   });
 });
+EOM
+
+" aliases {{{2
+" http://vimperator.g.hatena.ne.jp/nokturnalmortum/20100306/1267811912
+javascript <<EOM
+let (c = modules.userContext) {
+  c.echo = liberator.echo;
+  c.log = liberator.log;
+  c.__defineGetter__('doc', function() content.document.wrappedJSObject);
+  c.__defineGetter__('win', function() content.document.wrappedJSObject);
+}
 EOM
 
 " load private settings {{{2
