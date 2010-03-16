@@ -1,17 +1,17 @@
 @namespace url(http://www.w3.org/1999/xhtml);
 
-@-moz-document domain(www.pixiv.net) {
+@-moz-document domain("www.pixiv.net") {
   .ads_area { display: none !important }
 }
 
-@-moz-document url-prefix(http://blog.livedoor.jp/goldennews/) {
+@-moz-document url-prefix("http://blog.livedoor.jp/goldennews/") {
   #kiziue, #topparts, #leftbody, #rightbody, .date, .rakuten_under,
   .trackbackurlbody, .related-articles {
     display: none !important;
   }
 }
 
-@-moz-document domain(d.hatena.ne.jp) {
+@-moz-document domain("d.hatena.ne.jp") {
   #keyword-amazon, .keyword-ad, .ad { display: none !important; }
 }
 

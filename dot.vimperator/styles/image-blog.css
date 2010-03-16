@@ -1,6 +1,6 @@
 @namespace url(http://www.w3.org/1999/xhtml);
 
-@-moz-document url-prefix(http://blog.livedoor.jp/wakusoku/) {
+@-moz-document url-prefix("http://blog.livedoor.jp/wakusoku/") {
   div#content { margin: 0 !important; }
   div.column-inner { margin: 0 !important; }
 
@@ -33,7 +33,7 @@
   }
 }
 
-@-moz-document domain(stalker.livedoor.biz) {
+@-moz-document domain("stalker.livedoor.biz") {
   div#banner,
   div#left,
   div#right,
@@ -53,7 +53,7 @@
   }
 }
 
-@-moz-document domain(zipdeyaruo.blog42.fc2.com) {
+@-moz-document domain("zipdeyaruo.blog42.fc2.com") {
   div#header,
   a[href^="http://www.movienta.com/"],
   div.EntryDate,
