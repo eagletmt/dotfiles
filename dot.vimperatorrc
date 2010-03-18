@@ -235,6 +235,8 @@ let (c = modules.userContext) {
   c.log = liberator.log;
   c.__defineGetter__('doc', function() content.document.wrappedJSObject);
   c.__defineGetter__('win', function() content.document.wrappedJSObject);
+  c.$LX = function(xpath, context) liberator.plugins.libly.$U.getFirstNodeFromXPath(xpath, context);
+  c.$LXs = function(xpath, context) liberator.plugins.libly.$U.getNodesFromXPath(xpath, context);
 }
 EOM
 
