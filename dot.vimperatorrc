@@ -103,7 +103,7 @@ let g:ldrc_captureMappings = "['j','k','p','o']"
 let g:ldrc_intelligence_bind = "true"
 let g:ldrc_hints = "true"
 let g:ldrc_skip = "0.2"
-nnoremap <silent> e :toggleldrizecooperation<CR>
+nnoremap <silent> e :<C-u>toggleldrizecooperation<CR>
 
 " hatena bookmark {{{2
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
