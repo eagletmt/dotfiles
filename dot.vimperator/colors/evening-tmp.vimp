@@ -6,7 +6,9 @@
 " and
 " :colorscheme evening
 
-hi StatusLine           color: #333;     background: #ddd;
+hi CmdLine              font-family: "VL Gothic", monospace;
+
+hi StatusLine           font-family: "VL Gothic", monospace;  font-weight: normal;  color: #333;     background: #ddd;
 
 hi Normal               color: #ddd;     background: #333;
 hi InfoMsg              color: #ddd;     background: #333;
@@ -17,8 +19,9 @@ hi Question             color: GreenYellow;background: #333;
 hi WarningMsg           color: yellow;   background: #333;
 hi NonText                               background: #333;
 
+hi CompItem             font-family: "VL Gothic", monospace;
 hi CompItem[selected]   color: #333;     background: #ddd; opacity: 0.6;
-hi CompTitle            color: GreenYellow; background: #000 opacity: 0.8;
+hi CompTitle            font-family: "VL Gothic", monospace; color: GreenYellow; background: #000 opacity: 0.8;
 
 hi Title                color: Orchid;
 hi Indicator            color: DodgerBlue;
@@ -29,6 +32,9 @@ hi Function             color: Khaki;
 hi URL                  color: GreenYellow;
 
 hi ErrorMsg             color: Orchid;  background: #333;
+
+hi Hint                 font-family: "VL Gothic", monospace;  font-weight: bold;  color: white; background-color: red;
+
 set! browser.tabs.closeButtons=3
 style about:blank html { background-color:#333; }
 style -name tab chrome://* <<EOM
