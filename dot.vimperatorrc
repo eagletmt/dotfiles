@@ -43,9 +43,8 @@ cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-i> <Tab>
 cnoremap <C-S-i> <S-Tab>
-inoremap <C-m> <CR>
-inoremap <C-p> <Up>
-inoremap <C-n> <Down>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
 javascript <<EOM
 mappings.addUserMap(
     [modes.COMMAND_LINE],
@@ -53,6 +52,13 @@ mappings.addUserMap(
     'Copy current commandline',
     function() util.copyToClipboard(commandline.command));
 EOM
+
+" insert mode {{{2
+inoremap <C-m> <CR>
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
 
 " search commands {{{1
 "silent bmark -title='Google' -tags=vimp -keyword=gs http://www.google.com/search?q=%s
