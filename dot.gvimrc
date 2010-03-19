@@ -3,6 +3,8 @@ if has('gui_macvim')
   set fuoptions=maxvert,maxhorz
   set transparency=15
   nnoremap ,f :<C-u>set invfullscreen<CR>
+else
+  set guifont=VL\ Gothic:h11
 endif
 
 colorscheme candy
