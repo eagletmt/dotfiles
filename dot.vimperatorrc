@@ -239,5 +239,5 @@ let (c = modules.userContext) {
 EOM
 
 " load private settings {{{2
-source ~/.private.vimperatorrc
+source! ~/vimperatorrc.local
 
