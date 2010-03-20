@@ -22,7 +22,7 @@ nnoremap l gt
 nnoremap D :<C-u>tabattach<Space>
 nnoremap b B
 nnoremap <C-q> <C-z>
-nnoremap <C-r> :restart<CR>
+nnoremap <C-r> :<C-u>restart<CR>
 nnoremap <M-c> Y
 nnoremap <M-q> <Nop>
 nnoremap <C-t> <M-S-F>
@@ -97,14 +97,14 @@ let g:ldrc_captureMappings = "['j','k','p','o']"
 let g:ldrc_intelligence_bind = "true"
 let g:ldrc_hints = "true"
 let g:ldrc_skip = "0.2"
-nnoremap <silent> e :toggleldrizecooperation<CR>
+nnoremap <silent> e :<C-u>toggleldrizecooperation<CR>
 
 " hatena bookmark {{{2
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
 
 " multi_requester.js {{{2
 nnoremap m <Nop>
-nnoremap ma :<C-u>mr<Space>alc<Space>
+nnoremap ma :<C-u>mr alc<Space>
 
 " refcontrol.js {{{2
 let g:refcontrol_enabled = "true"
@@ -117,7 +117,7 @@ liberator.globalVariables.refcontrol = {
 EOM
 
 " tombloo.js {{{2
-nnoremap <silent> -urls='[-a-z0-9]+\.tumblr\.com/post/' i :tombloo ReBlog\ -\ Tumblr<CR>
+nnoremap <silent> -urls='[-a-z0-9]+\.tumblr\.com/post/' i :<C-u>tombloo ReBlog\ -\ Tumblr<CR>
 nnoremap qr :<C-u>tombloo ReBlog\ -\ Tumblr<CR>
 
 " hint-tombloo.js {{{2
@@ -137,13 +137,13 @@ liberator.globalVariables.userLoginServices = {
 EOM
 
 " stella.js {{{2
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' x :stseek! -5<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' X :stseek! -10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' s :stseek! +5<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' S :stseek! +10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' v :stvolume! -10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' V :stvolume! +10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' a :stplay<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' x :<C-u>stseek! -5<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' X :<C-u>stseek! -10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' s :<C-u>stseek! +5<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' S :<C-u>stseek! +10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' v :<C-u>stvolume! -10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' V :<C-u>stvolume! +10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' a :<C-u>stplay<CR>
 
 " no-reading.js {{{2
 let g:no_reading_do_echo = 1
@@ -176,10 +176,10 @@ commands.addUserCommand(['inreplyto'], '',
       }
     }, null, true);
 EOM
-nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' i :inreplyto<CR>
+nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' i :<C-u>inreplyto<CR>
 
 " pixiv {{{2
-nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' b :pixivBookmark<Space>
+nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' b :<C-u>pixivBookmark<Space>
 javascript <<EOM
 mappings.addUserMap([modes.NORMAL], ['B'], '',
     function() {
@@ -213,7 +213,7 @@ mappings.addUserMap([modes.NORMAL], ['i'], '',
     { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
 EOM
 
-autocmd LocationChange www\.pixiv\.net/jump\.php :js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
+autocmd LocationChange www\.pixiv\.net/jump\.php :<C-u>js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
 
 " amazon {{{2
 nnoremap <silent> -urls='www\.amazon\.(com|co\.jp)' x :<C-u>js liberator.open(win.location.protocol+'//'+win.location.host+'/dp/'+$LX('//b[starts-with(text(), "ASIN") or starts-with(text(), "ISBN-10")]').nextSibling.nodeValue.trim())<CR>
