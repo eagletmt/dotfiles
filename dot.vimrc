@@ -332,8 +332,8 @@ endfunction
 nnoremap <silent> <Space>ao :<C-u>call <SID>move_window_into_tab_page(0)<CR>
 
 " private {{{1
-if filereadable(expand('~/.private.vim'))
-  source ~/.private.vim
+if filereadable(expand('~/vimrc.local'))
+  source ~/vimrc.local
 endif
 
 " vim: set fdm=marker:

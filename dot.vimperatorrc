@@ -11,14 +11,18 @@ set hintmatching=custom
 
 set! network.dns.disableIPv6=true
 
-colorscheme evening-tmp
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+
+lazy colorscheme evening-tmp
 
 " keymaps {{{1
 " normal mode {{{2
 nnoremap J 5<C-e>
 nnoremap K 5<C-y>
 nnoremap h gT
+nnoremap <C-p> gT
 nnoremap l gt
+nnoremap <C-n> gt
 nnoremap D :<C-u>tabattach<Space>
 nnoremap b B
 nnoremap <C-q> <C-z>
@@ -32,6 +36,8 @@ nnoremap <silent> ,h :<C-u>emenu Tools.Live HTTP headers<CR>
 nnoremap <silent> ,b :<C-u>emenu Tools.Firebug.Open Firebug<CR>
 nnoremap ; :
 nnoremap \' ;
+nnoremap <A-h> h
+nnoremap <A-l> l
 javascript <<EOM
 mappings.addUserMap([modes.NORMAL], [',s'], 'reload rc file', function() io.source(io.getRCFile().path));
 EOM
@@ -43,9 +49,8 @@ cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-i> <Tab>
 cnoremap <C-S-i> <S-Tab>
-inoremap <C-m> <CR>
-inoremap <C-p> <Up>
-inoremap <C-n> <Down>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
 javascript <<EOM
 mappings.addUserMap(
     [modes.COMMAND_LINE],
@@ -53,6 +58,13 @@ mappings.addUserMap(
     'Copy current commandline',
     function() util.copyToClipboard(commandline.command));
 EOM
+
+" insert mode {{{2
+inoremap <C-m> <CR>
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
 
 " search commands {{{1
 "silent bmark -title='Google' -tags=vimp -keyword=gs http://www.google.com/search?q=%s
@@ -86,7 +98,6 @@ nnoremap sp :<C-u>tabopen poj<Space>
 
 " plugins {{{1
 " feedSomeKey_3.js {{{2
-command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
@@ -149,6 +160,14 @@ nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' a :<C-u>stplay
 let g:no_reading_do_echo = 1
 let g:no_reading_on_statusline = 1
 let g:no_reading_statusline_limit = 2000
+
+" ime_controller.js {{{2
+javascript <<EOM
+if (liberator.has('windows')) {
+  liberator.globalVariables.ex_ime_mode = 'auto';
+  liberator.globalVariables.textarea_ime_mode = 'auto';
+}
+EOM
 
 " my small commands {{{1
 " matrixcode {{{2
@@ -244,5 +263,5 @@ let (c = modules.userContext) {
 EOM
 
 " load private settings {{{2
-source ~/.private.vimperatorrc
+source! ~/vimperatorrc.local
 
