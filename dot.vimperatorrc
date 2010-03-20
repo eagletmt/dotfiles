@@ -156,6 +156,14 @@ let g:no_reading_do_echo = 1
 let g:no_reading_on_statusline = 1
 let g:no_reading_statusline_limit = 2000
 
+" ime_controller.js {{{2
+javascript <<EOM
+if (liberator.has('windows')) {
+  liberator.globalVariables.ex_ime_mode = 'auto';
+  liberator.globalVariables.textarea_ime_mode = 'auto';
+}
+EOM
+
 " my small commands {{{1
 " matrixcode {{{2
 javascript <<EOM
