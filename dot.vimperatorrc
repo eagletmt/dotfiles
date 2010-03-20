@@ -11,7 +11,9 @@ set hintmatching=custom
 
 set! network.dns.disableIPv6=true
 
-colorscheme evening-tmp
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+
+lazy colorscheme evening-tmp
 
 " keymaps {{{1
 " normal mode {{{2
@@ -96,7 +98,6 @@ nnoremap sp :<C-u>tabopen poj<Space>
 
 " plugins {{{1
 " feedSomeKey_3.js {{{2
-command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g
