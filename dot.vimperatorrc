@@ -18,7 +18,9 @@ colorscheme evening-tmp
 nnoremap J 5<C-e>
 nnoremap K 5<C-y>
 nnoremap h gT
+nnoremap <C-p> gT
 nnoremap l gt
+nnoremap <C-n> gt
 nnoremap D :<C-u>tabattach<Space>
 nnoremap b B
 nnoremap <C-q> <C-z>
@@ -32,6 +34,8 @@ nnoremap <silent> ,h :<C-u>emenu Tools.Live HTTP headers<CR>
 nnoremap <silent> ,b :<C-u>emenu Tools.Firebug.Open Firebug<CR>
 nnoremap ; :
 nnoremap \' ;
+nnoremap <A-h> h
+nnoremap <A-l> l
 javascript <<EOM
 mappings.addUserMap([modes.NORMAL], [',s'], 'reload rc file', function() io.source(io.getRCFile().path));
 EOM
