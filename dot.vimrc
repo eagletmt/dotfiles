@@ -20,6 +20,7 @@ set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8,euc-jp,cp932
 set ambiwidth=double
+set fileformats=unix,dos
 
 " indent {{{2
 set expandtab
@@ -36,7 +37,11 @@ set modelines=5
 
 " swap {{{2
 set swapfile
-set directory=~/.vim/swap
+if has('windows')
+  set directory=~/vimfiles/swap
+else
+  set directory=~/.vim/swap
+endif
 if !isdirectory(&directory)
   call mkdir(&directory, 'p')
 endif
@@ -45,7 +50,11 @@ endif
 set backup
 set writebackup
 set backupcopy=yes
-set backupdir=~/.vim/backup
+if has('windows')
+  set backupdir=~/vimfiles/backup
+else
+  set backupdir=~/.vim/backup
+endif
 set backupext=.bak
 if !isdirectory(&backupdir)
   call mkdir(&backupdir, 'p')
@@ -96,7 +105,12 @@ nnoremap : ;
 nnoremap ; :
 
 nnoremap ,s :<C-u>source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif<CR>
-nnoremap ,d :<C-u>helptags ~/.vim/doc<CR>
+if has('windows')
+  nnoremap ,d :<C-u>helptags ~/vimfiles/doc<CR>
+else
+  nnoremap ,d :<C-u>helptags ~/.vim/doc<CR>
+endif
+
 nnoremap ,m :<C-u>setlocal buftype=nofile bufhidden=hide noswapfile<CR>
 
 nnoremap <silent> <C-m> :<C-u>tabnew<CR>
@@ -196,7 +210,11 @@ set completeopt& completeopt+=menuone
 let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_SmartCase = 1
 imap <silent> <C-v> <Plug>(neocomplcache_snippets_expand)
-let g:NeoComplCache_SnippetsDir = $HOME.'/.vim/snippets'
+if has('windows')
+  let g:NeoComplCache_SnippetsDir = $HOME.'/vimfiles/snippets'
+else
+  let g:NeoComplCache_SnippetsDir = $HOME.'/.vim/snippets'
+endif
 if !exists('g:NeoComplCache_DictionaryFileTypeLists')
   let g:NeoComplCache_DictionaryFileTypeLists = {}
   let g:NeoComplCache_DictionaryFileTypeLists.haskell = $HOME.'/.vim/dict/haskell.dict'
@@ -268,7 +286,11 @@ let g:poj_default_lang_ext = 'cc'
 let g:poj_work_dir = '~/work/poj'
 
 " hatena.vim {{{2
-set runtimepath+=~/.vim/hatena
+if has('windows')
+  set runtimepath+=~/vimfiles/hatena
+else
+  set runtimepath+=~/.vim/hatena
+endif
 let g:hatena_user = 'eagletmt'
 
 " misc {{{1
