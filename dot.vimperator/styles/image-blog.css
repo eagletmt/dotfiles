@@ -67,3 +67,46 @@
   div#main-column { width: 100% !important; }
 }
 
+@-moz-document domain("kamisoku.blog47.fc2.com") {
+  div#header,
+  div#left-block,
+  div#right-block,
+  div.klink,
+  div.rsslink,
+  div.rsslink2,
+  div.cn,
+  iframe,
+  div#kanrendesu,
+  div#commentcont,
+  form.commentform,
+  dl#trackbackbody,
+  div.rsslinkf,
+  h3,
+  div.fc2_footer { display: none !important; }
+
+  div#center-block {
+    background-image: none !important;
+    margin: 0 !important;
+  }
+
+  body {
+    background-image: none !important;
+    background-color: LightBlue !important;
+  }
+
+  div#side {
+    border: none !important;
+  }
+
+  div.content {
+    border: none !important;
+    background-image: none !important;
+    -moz-column-count: 2;
+    -moz-column-gap: 2em;
+  }
+
+  div.content > a {
+    padding-bottom: 5em !important;
+  }
+}
+
