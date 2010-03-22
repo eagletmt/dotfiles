@@ -15,5 +15,6 @@
   #keyword-amazon, .keyword-ad, .ad { display: none !important; }
 }
 
-#ESSSEARCH_FRAME { display: none !important }
+div#ESSSEARCH_FRAME,
+div#ReSearchFormWrapper { display: none !important }
 
