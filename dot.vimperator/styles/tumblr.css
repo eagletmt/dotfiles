@@ -1,0 +1,23 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain("tumblr.com") {
+  * { -moz-border-radius: 0px !important; }
+
+  img#content_tab_left { display: none !important; }
+
+  #content_tab {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  li[id^="post"][class*="is_mine"] {
+    opacity: 0.5 !important;
+    max-height: 1em !important;
+    overflow: hidden !important;
+  }
+  li[id^="post"][class*="is_mine"] img,
+  li[id^="post"][class*="is_mine"] blockquote {
+    display: none !important;
+  }
+}
+
