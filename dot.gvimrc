@@ -1,4 +1,7 @@
 set columns=160 lines=40
+set imdisable
+set guioptions=erL
+
 if has('gui_macvim')
   set fuoptions=maxvert,maxhorz
   set transparency=15
