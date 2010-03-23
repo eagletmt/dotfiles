@@ -15,6 +15,10 @@
   #keyword-amazon, .keyword-ad, .ad { display: none !important; }
 }
 
+@-moz-document domain("www.mediafire.com") {
+  div#catfish_div { display: none !important; }
+}
+
 div#ESSSEARCH_FRAME,
 div#ReSearchFormWrapper { display: none !important }
 
