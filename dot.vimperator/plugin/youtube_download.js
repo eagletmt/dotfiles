@@ -36,7 +36,11 @@
       let fmt = args['-fmt'] || available_formats()[0];
 
       let uri = makeURI('http://www.youtube.com/get_video?fmt=' + fmt + '&video_id=' + video_id + '&t=' + t);
-      let file = io.File(liberator.globalVariables.yt_save_dir || '~');
+      let dm = services.get('downloadManager');
+      let file =
+        liberator.globalVariables.yt_save_dir
+        ? io.File(liberator.globalVariables.yt_save_dir)
+        : dm.userDownloadsDirectory;
       if (!file.exists() || !file.isDirectory()) {
         file.create(Ci.nsIFile.DIRECTORY_TYPE, 0777);
       }
@@ -45,7 +49,6 @@
       let fileUri = makeFileURI(file);
 
       let persist = makeWebBrowserPersist();
-      let dm = services.get('downloadManager');
       let download = dm.addDownload(0, uri, fileUri, name, null, null, null, null, persist);
       persist.progressListener = download;
       persist.saveURI(uri, null, null, null, null, file);
