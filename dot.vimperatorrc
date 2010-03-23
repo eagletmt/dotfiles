@@ -261,6 +261,9 @@ commands.addUserCommand(['mada[kana]'], 'madakana?',
   null, true);
 EOM
 
+" hatena {{{2
+nnoremap <silent> -urls='[dg]\.hatena\.ne\.jp|anond\.hatelabo\.jp' x :<C-u>js $LXs('//a[@class="keyword" or @class="okeyword"]').forEach(function(e) e.parentNode.replaceChild(e.firstChild, e))<CR>
+
 " extra {{{1
 " load styles {{{2
 javascript <<EOM
