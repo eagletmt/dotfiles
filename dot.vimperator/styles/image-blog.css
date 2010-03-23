@@ -55,7 +55,10 @@
 
 @-moz-document domain("zipdeyaruo.blog42.fc2.com") {
   div#header,
+  div#headline,
+  div#right-column,
   a[href^="http://www.movienta.com/"],
+  a[href^="http://www.manko-s.com/"],
   div.EntryDate,
   pre.aa,
   div.fc2_footer,
@@ -107,6 +110,21 @@
 
   div.content > a {
     padding-bottom: 5em !important;
+  }
+}
+
+@-moz-document domain("nijigazo.2chblog.jp") {
+  div#header2,
+  div#sub,
+  div#extra,
+  iframe,
+  div#article-options { display: none !important; }
+
+  div.column-inner { margin: 0 !important; }
+
+  div.article-body-more {
+    -moz-column-count: 2;
+    -moz-column-gap: 2em;
   }
 }
 
