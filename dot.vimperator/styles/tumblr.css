@@ -19,5 +19,9 @@
   li[id^="post"][class*="is_mine"] blockquote {
     display: none !important;
   }
+
+  #following {
+    display: none !important;
+  }
 }
 
