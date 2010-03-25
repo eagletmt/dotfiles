@@ -115,7 +115,43 @@ javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://h
 
 " multi_requester.js {{{2
 nnoremap m <Nop>
+nnoremap mm :<C-u>mr<Space>
 nnoremap ma :<C-u>mr alc<Space>
+nnoremap mt :<C-u>mr twitter-search-pcod-no-jp<Space>
+javascript <<EOM
+liberator.globalVariables.multi_requester_siteinfo = [
+  { // {{{3 twitter-fav
+    name: 'twitter-fav',
+    description: 'fav',
+    url: 'http://twitter.com/%s/favorites',
+    xpath: 'id("timeline")',
+  },
+  { // {{{3 twitter-search
+    name: 'twitter-search',
+    description: 'search twitter',
+    url: 'http://search.twitter.com/search?q=%s',
+    xpath: '//li[contains(@class, "result")]',
+  },
+  { // {{{3 twitter-replies
+    name: 'twitter-replies',
+    description: 'twitter replies',
+    url: 'http://twitter.com/replies',
+    xpath: '//li[contains(@class, "hentry")]',
+  },
+  { // {{{3 retweeted_of_mine
+    name: 'retweeted-of-mine',
+    description: 'retweeted of mine',
+    url: 'http://twitter.com/retweeted_of_mine',
+    xpath: '//li[contains(@class, "hentry")]',
+  },
+  { // {{{3 twitter-followers
+    name: 'twitter-followers',
+    description: 'twitter followers',
+    url: 'http://twitter.com/%s/followers',
+    xpath: '//tr[contains(@class, "user")]',
+  },
+];
+EOM
 
 " refcontrol.js {{{2
 let g:refcontrol_enabled = "true"
