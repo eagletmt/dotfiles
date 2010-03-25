@@ -173,7 +173,7 @@ let g:hint_tombloo_key = 'r'
 " loginManager.js {{{2
 javascript <<EOM
 liberator.globalVariables.userLoginServices = {
-  livedoor: {
+  livedoor: { // {{{3
     HOST: ["https://member.livedoor.com", "http://member.livedoor.com"],
     LOGIN: "/login/index",
     LOGOUT: "/login/logout",
@@ -236,7 +236,7 @@ nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' i :<C-u>inreplyto<CR
 " pixiv {{{2
 nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' b :<C-u>pixivBookmark<Space>
 javascript <<EOM
-mappings.addUserMap([modes.NORMAL], ['B'], '',
+mappings.addUserMap([modes.NORMAL], ['B'], '',  // {{{3 bookmark_user
     function() {
       liberator.plugins.pixiv.bookmark_user(
         liberator.plugins.libly.$U.getFirstNodeFromXPath('id("rpc_u_id")').innerHTML,
@@ -247,7 +247,7 @@ mappings.addUserMap([modes.NORMAL], ['B'], '',
     },
     { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
 
-mappings.addUserMap([modes.NORMAL], ['B'], '',
+mappings.addUserMap([modes.NORMAL], ['B'], '',  // {{{3 bookmark_user
     function() {
       liberator.plugins.pixiv.bookmark_user(buffer.URI.match(/id=(\d+)/)[1],
         function(res) {
