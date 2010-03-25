@@ -23,6 +23,7 @@ hi CompItem             font-family: "VL Gothic", monospace;
 hi CompItem[selected]   color: #333;     background: #ddd; opacity: 0.6;
 hi CompTitle            font-family: "VL Gothic", monospace; color: GreenYellow; background: #000 opacity: 0.8;
 
+hi Tag                  color: SkyBlue;
 hi Title                color: Orchid;
 hi Indicator            color: DodgerBlue;
 hi String               color: Orchid;
