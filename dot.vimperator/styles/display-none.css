@@ -20,5 +20,6 @@
 }
 
 div#ESSSEARCH_FRAME,
+div#re-search,
 div#ReSearchFormWrapper { display: none !important }
 
