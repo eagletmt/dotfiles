@@ -1,6 +1,7 @@
 liberator.plugins.pixiv = (function() {
   let libly = liberator.plugins.libly;
   let $U = libly.$U;
+  let tags_cache = {};
 
   let pixivManager = {
     bookmark_illust: function(id, tags, comment, next) {
@@ -53,6 +54,7 @@ liberator.plugins.pixiv = (function() {
         return;
       }
 
+      tags_cache = {};
       let id = RegExp.$1;
       pixivManager.bookmark_illust(id, args, '', function(res) {
         let m = res.responseText.match(/<strong class="link_visited">\[ <a href="[^"]+">(.+?)<\/a> \]<\/strong>(.+?)<br \/>/);
@@ -66,21 +68,28 @@ liberator.plugins.pixiv = (function() {
     {
       completer: function(context, args) {
         let id = buffer.URI.match(/illust_id=(\d+)/)[1];
-        util.httpGet('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id, function(res) {
-          let doc = createHTMLDocument(res.responseText);
+        let url = 'http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id;
+        if (tags_cache[url]) {
+          context.title = ['tag (cached)'];
+          context.completions = [[t, ''] for each(t in tags_cache[url]) if (args.every(function(a) a != t))];
+        } else {
+          util.httpGet('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id, function(res) {
+            let doc = createHTMLDocument(res.responseText);
 
-          let tags = [];
-          let div = doc.getElementsByClassName('bookmark_add_area');
-          [div[0], div[1]].forEach(function(e) {
-            let as = e.getElementsByTagName('a');
-            for each(a in as) {
-              tags.push(decodeURIComponent(a.getAttribute('onclick').match(/'([^']+)'/)[1]));
-            }
+            let tags = [];
+            let div = doc.getElementsByClassName('bookmark_add_area');
+            [div[0], div[1]].forEach(function(e) {
+              let as = e.getElementsByTagName('a');
+              for each(a in as) {
+                tags.push(decodeURIComponent(a.getAttribute('onclick').match(/'([^']+)'/)[1]));
+              }
+            });
+
+            tags_cache[url] = tags;
+            context.title = ['tag'];
+            context.completions = [[t, ''] for each(t in tags) if (args.every(function(a) a != t))];
           });
-
-          context.title = ['tag'];
-          context.completions = [[t, ''] for each(t in tags)];
-        });
+        }
       },
       literal: -1,
     },
