@@ -4,13 +4,12 @@ liberator.plugins.pixiv = (function() {
 
   let pixivManager = {
     bookmark_illust: function(id, tags, comment, next) {
-      let req = new libly.Request('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id, null, {id: id});
-      req.addEventListener('onSuccess', function(res) {
+      util.httpGet('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id, function(res) {
         let m = res.responseText.match(/name="tt" value="([^"]+)"/);
         let params = {
           mode: 'add',
           tt: m[1],
-          id: res.req.options.id,
+          id: id,
           type: 'illust',
           restrict: '0',
           tag: tags.map(function(t) encodeURIComponent(t)).join('+'),
@@ -22,11 +21,9 @@ liberator.plugins.pixiv = (function() {
         req.addEventListener('onSuccess', next);
         req.post();
       });
-      req.get();
     },
     bookmark_user: function(id, next) {
-      let req = new libly.Request('http://www.pixiv.net/bookmark_add.php?type=user&id=' + id, null, {id: id});
-      req.addEventListener('onSuccess', function(res) {
+      util.httpGet('http://www.pixiv.net/bookmark_add.php?type=user&id=' + id, function(res) {
         let m = res.responseText.match(/name="tt" *value="([^"]+)"/);
         if (m === null) {
           let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)<\/div>/);
@@ -37,7 +34,7 @@ liberator.plugins.pixiv = (function() {
         let params = {
           mode: 'add',
           tt: tt,
-          id: res.req.options.id,
+          id: id,
           type: 'user',
           restrict: '0',
         };
@@ -46,7 +43,6 @@ liberator.plugins.pixiv = (function() {
         req.addEventListener('onSuccess', next);
         req.post();
       });
-      req.get();
     },
   };
 
@@ -70,8 +66,7 @@ liberator.plugins.pixiv = (function() {
     {
       completer: function(context, args) {
         let id = buffer.URI.match(/illust_id=(\d+)/)[1];
-        let req = new libly.Request('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id);
-        req.addEventListener('onSuccess', function(res) {
+        util.httpGet('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id, function(res) {
           let doc = createHTMLDocument(res.responseText);
 
           let tags = [];
@@ -86,7 +81,6 @@ liberator.plugins.pixiv = (function() {
           context.title = ['tag'];
           context.completions = [[t, ''] for each(t in tags)];
         });
-        req.get();
       },
       literal: -1,
     },
