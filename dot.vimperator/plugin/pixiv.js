@@ -79,7 +79,7 @@ liberator.plugins.pixiv = (function() {
           [div[0], div[1]].forEach(function(e) {
             let as = e.getElementsByTagName('a');
             for each(a in as) {
-              tags.push(decodeURI(a.getAttribute('onclick').match(/'([^']+)'/)[1]));
+              tags.push(decodeURIComponent(a.getAttribute('onclick').match(/'([^']+)'/)[1]));
             }
           });
 
