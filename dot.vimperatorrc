@@ -257,13 +257,18 @@ mappings.addUserMap([modes.NORMAL], ['B'], '',  // {{{3 bookmark_user
     },
     { matchingUrls: /www\.pixiv\.net\/member(?:_illust)?\.php\?id=\d+/ });
 
-mappings.addUserMap([modes.NORMAL], ['i'], '',
+mappings.addUserMap([modes.NORMAL], ['i'], '',  // {{{3 append illust
     function() {
-      let e = document.createEvent('MouseEvent');
-      // https://developer.mozilla.org/en/DOM/event.initMouseEvent
-      e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-      let a = plugins.libly.$U.getFirstNodeFromXPath('//a[contains(@href, "mode=") and not(contains(@href, "mode=medium"))]');
-      a.dispatchEvent(e);
+      if (content.document.getElementById('bigmode')) {
+        return;
+      }
+      let img = util.evaluateXPath('//a[contains(@href, "mode=big")]/child::img').snapshotItem(0).cloneNode(true);
+      img.src = img.src.replace(/_m/, '');
+
+      let div = content.document.createElement('div');
+      div.id = 'bigmode';
+      div.appendChild(img);
+      util.evaluateXPath('id("illust_contents")').snapshotItem(0).appendChild(div);
     },
     { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
 EOM
