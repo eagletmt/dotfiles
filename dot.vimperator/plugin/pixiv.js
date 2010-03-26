@@ -73,37 +73,21 @@ liberator.plugins.pixiv = (function() {
           context.title = ['tag (cached)'];
           context.completions = [[t, ''] for each(t in tags_cache[url]) if (args.every(function(a) a != t))];
         } else {
-          util.httpGet('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id, function(res) {
-            let doc = createHTMLDocument(res.responseText);
-
-            let tags = [];
-            let div = doc.getElementsByClassName('bookmark_add_area');
-            [div[0], div[1]].forEach(function(e) {
-              let as = e.getElementsByTagName('a');
-              for each(a in as) {
-                tags.push(decodeURIComponent(a.getAttribute('onclick').match(/'([^']+)'/)[1]));
-              }
-            });
+          let req = new libly.Request('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id);
+          req.addEventListener('onSuccess', function(res) {
+            let tags = res.getHTMLDocument('//div[@class="bookmark_add_area"]/ul/li/a')
+                        .map(function(a) a.firstChild.nodeValue);
 
             tags_cache[url] = tags;
             context.title = ['tag'];
-            context.completions = [[t, ''] for each(t in tags) if (args.every(function(a) a != t))];
+            context.completions = [[t, ''] for each(t in tags) if (args.indexOf(t) == -1)];
           });
+          req.get();
         }
       },
       literal: -1,
     },
     true);
-
-  function createHTMLDocument(text) {
-    let c = window.content;
-    let doc = c.document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-    let range = c.document.createRange();
-    range.selectNodeContents(c.document.documentElement);
-    let content = doc.adoptNode(range.createContextualFragment(text));
-    doc.documentElement.appendChild(content);
-    return doc;
-  }
 
   return pixivManager;
 })();
