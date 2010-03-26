@@ -214,8 +214,8 @@ nnoremap <silent> ,l :<C-u>matrixcode<CR>
 " inreplyto {{{2
 javascript <<EOM
 commands.addUserCommand(['inreplyto'], '',
-    function(args) {
-      var a = plugins.libly.$U.getFirstNodeFromXPath('//span[contains(@class,"entry-meta")]/a[2]');
+    function() {
+      let a = util.evaluateXPath('//span[contains(@class,"entry-meta")]/a[2]').snapshotItem(0);
       if (a) {
         liberator.open(a.href);
       }
@@ -229,7 +229,7 @@ javascript <<EOM
 mappings.addUserMap([modes.NORMAL], ['B'], '',  // {{{3 bookmark_user
     function() {
       liberator.plugins.pixiv.bookmark_user(
-        liberator.plugins.libly.$U.getFirstNodeFromXPath('id("rpc_u_id")').innerHTML,
+        content.document.getElementById('rpc_u_id').innerHTML,
         function(res) {
           let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/);
           liberator.echo(m[1] + m[2]);
