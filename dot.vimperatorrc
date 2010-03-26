@@ -201,17 +201,15 @@ let g:no_reading_statusline_limit = 2000
 " matrixcode {{{2
 javascript <<EOM
 commands.addUserCommand(['matrixcode'], '',
-  function(args) {
-    var $LX = plugins.libly.$U.getFirstNodeFromXPath;
-    var $LXs = plugins.libly.$U.getNodesFromXPath;
-    $LXs('//th[@align="left"]').slice(2).forEach(function(t) {
-      var x = t.innerHTML;
-      $LX('../td/input', t).value = liberator.globalVariables.matrix_code[x[1]][x[3]-1];
-    });
-    $LX('//input[@type="submit"]').click();
+  function() {
+    for (let e in util.evaluateXPath('//input[@type="password"]')) {
+      let x = e.parentNode.parentNode.textContent.trim();
+      e.value = liberator.globalVariables.matrix_code[x.charCodeAt(1)-65][x[3]-1];
+    };
+    util.evaluateXPath('//input[@type="submit"]').snapshotItem(0).click();
   }, null, true);
 EOM
-nnoremap ,l :<C-u>matrixcode<CR>
+nnoremap <silent> ,l :<C-u>matrixcode<CR>
 
 " inreplyto {{{2
 javascript <<EOM
