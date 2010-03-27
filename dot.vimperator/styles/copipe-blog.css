@@ -211,3 +211,27 @@
   h2.ently_title { background: sandybrown !important; background-image: none !important; }
 }
 
+@-moz-document domain("kanasoku.blog82.fc2.com") {
+  div.header, div#submenu, div#headline, div.left, div#headrank, div.right,
+  div.cent_nepre, div.entryadd, iframe, div.comment > form, div.comment > ol,
+  div.cate_relation, div.entry_state, div.entry_bottom, div.post_tw,
+  div.comment_top, div.trackback,
+  div.tt > br:nth-last-child(1), div.tt > br:nth-last-child(2),
+  div.tt > br:nth-last-child(3),
+  div.ao > br:nth-last-child(1), div.ao > br:nth-last-child(2),
+  div.ao > br:nth-last-child(3),
+  div.ak > br:nth-last-child(1), div.ak > br:nth-last-child(2),
+  div.ak > br:nth-last-child(3),
+  table { display: none; }
+
+  * { font-family: sans-serif !important; }
+  div.aa { font-family: "HenryAA" !important; }
+
+  div.tt { padding-bottom: 1em !important; }
+  div.comment_body { padding-bottom: 0 !important; }
+
+  div#content, div.cent { width: 100% !important; }
+  div.entry, div.entry_body,
+  div.comment, div.prev_next { width: auto !important; }
+}
+
