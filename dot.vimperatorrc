@@ -150,6 +150,12 @@ liberator.globalVariables.multi_requester_siteinfo = [
     url: 'http://twitter.com/%s/followers',
     xpath: '//tr[contains(@class, "user")]',
   },
+  { // {{{3 twitter-user
+    name: 'twitter-user',
+    description: 'twitter user',
+    url: 'http://twitter.com/%s',
+    xpath: 'id("timeline")',
+  },
 ];
 EOM
 
