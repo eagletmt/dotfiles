@@ -20,8 +20,13 @@
     display: none !important;
   }
 
-  #following {
+  #following, #followingvatars {
     display: none !important;
+  }
+
+  .quote,
+  .post-link {
+    font-size: medium !important;
   }
 }
 
