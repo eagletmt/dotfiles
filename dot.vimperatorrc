@@ -225,43 +225,9 @@ nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' i :<C-u>inreplyto<CR
 
 " pixiv {{{2
 nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' b :<C-u>pixivBookmark<Space>
-javascript <<EOM
-mappings.addUserMap([modes.NORMAL], ['B'], '',  // {{{3 bookmark_user
-    function() {
-      liberator.plugins.pixiv.bookmark_user(
-        content.document.getElementById('rpc_u_id').innerHTML,
-        function(res) {
-          let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/);
-          liberator.echo(m[1] + m[2]);
-        });
-    },
-    { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
+nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' v :<C-u>pixivViewBookmark<CR>
+nnoremap <silent> -urls='www\.pixiv\.net/' B :<C-u>pixivUserBookmark<CR>
 
-mappings.addUserMap([modes.NORMAL], ['B'], '',  // {{{3 bookmark_user
-    function() {
-      liberator.plugins.pixiv.bookmark_user(buffer.URI.match(/id=(\d+)/)[1],
-        function(res) {
-          let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/);
-          liberator.echo(m[1] + m[2]);
-        });
-    },
-    { matchingUrls: /www\.pixiv\.net\/member(?:_illust)?\.php\?id=\d+/ });
-
-mappings.addUserMap([modes.NORMAL], ['i'], '',  // {{{3 append illust
-    function() {
-      if (content.document.getElementById('bigmode')) {
-        return;
-      }
-      let img = util.evaluateXPath('//a[contains(@href, "mode=big")]/child::img').snapshotItem(0).cloneNode(true);
-      img.src = img.src.replace(/_m/, '');
-
-      let div = content.document.createElement('div');
-      div.id = 'bigmode';
-      div.appendChild(img);
-      util.evaluateXPath('id("illust_contents")').snapshotItem(0).appendChild(div);
-    },
-    { matchingUrls: /www\.pixiv\.net\/member_illust\.php\?mode=medium&illust_id=\d+/ });
-EOM
 
 autocmd LocationChange www\.pixiv\.net/jump\.php :<C-u>js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
 
