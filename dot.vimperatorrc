@@ -234,6 +234,19 @@ nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' b 
 nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' v :<C-u>pixivViewBookmark<CR>
 nnoremap <silent> -urls='www\.pixiv\.net/' B :<C-u>pixivUserBookmark<CR>
 
+" accsess pixiv constantly {{{3
+javascript <<EOM
+if (PIXIV_ACCESS_INTERVAL) {
+  clearInterval(PIXIV_ACCESS_INTERVAL);
+  liberator.echo('clear interval');
+}
+var PIXIV_ACCESS_INTERVAL = setInterval(function() {
+  let r = util.httpGet('http://www.pixiv.net/mypage.php');
+  if (r.status != 200) {
+    liberator.echoerr('pixiv: ' + r.statusText);
+  }
+},  10 * 60 * 1000);
+EOM
 
 autocmd LocationChange www\.pixiv\.net/jump\.php :<C-u>js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
 
