@@ -19,6 +19,11 @@
   div#catfish_div { display: none !important; }
 }
 
+@-moz-document domain("blogspot.com") {
+  div#twitterFollowBadge,
+  div#Followers1 { display: none !important; }
+}
+
 div#ESSSEARCH_FRAME,
 div#re-search,
 div#ReSearchFormWrapper { display: none !important }
