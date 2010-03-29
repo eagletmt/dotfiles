@@ -1,7 +1,7 @@
 @namespace url(http://www.w3.org/1999/xhtml);
 
 @-moz-document domain("www.pixiv.net") {
-  .ads_area { display: none !important }
+  .ads_area, div.pdgBottom5 + div { display: none !important }
 }
 
 @-moz-document url-prefix("http://blog.livedoor.jp/goldennews/") {
