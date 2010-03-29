@@ -283,14 +283,19 @@ nnoremap <silent> -urls='[dg]\.hatena\.ne\.jp|anond\.hatelabo\.jp' x :<C-u>js $L
 " extra {{{1
 " load styles {{{2
 javascript <<EOM
-io.getRuntimeDirectories('styles').forEach(function(dir) {
-  dir.readDirectory().forEach(function(file) {
-    if (file.exists() && file.isFile() && /\.css$/.test(file.path)) {
-      io.source(file.path);
-    }
-  });
-});
+commands.addUserCommand(['loadstyles', 'lty'], 'Load all styles immediately',
+  function() {
+    io.getRuntimeDirectories('styles').forEach(function(dir) {
+      dir.readDirectory().forEach(function(file) {
+        if (file.exists() && file.isFile() && /\.css$/.test(file.path)) {
+          io.source(file.path);
+        }
+      });
+    });
+  }, { argCount: '0'}, true);
 EOM
+nnoremap ,y :<C-u>loadstyles<CR>
+loadstyles
 
 " aliases {{{2
 " http://vimperator.g.hatena.ne.jp/nokturnalmortum/20100306/1267811912
