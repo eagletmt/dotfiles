@@ -175,6 +175,7 @@ nnoremap qr :<C-u>tombloo ReBlog\ -\ Tumblr<CR>
 
 " hint-tombloo.js {{{2
 let g:hint_tombloo_key = 'r'
+let g:hint_tombloo_xpath = '//img[not(starts-with(@id,"gm_ldrize_"))]'
 
 " loginManager.js {{{2
 javascript <<EOM
