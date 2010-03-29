@@ -144,7 +144,7 @@ liberator.plugins.pixiv = (function() {
           dd += <>
             <dd class="liberator-pixiv-bookmark-entry" highlight="Completions" style="margin: 0; height: 18px;">
               <span class="liberator-pixiv-bookmark-date">{e.date}</span>
-              <span class="liberator-pixiv-bookmark-icon" style="padding: 5px;"><img src={e.imgsrc}/></span>
+              <span class="liberator-pixiv-bookmark-icon"><img src={e.imgsrc}/></span>
               <span class="liberator-pixiv-bookmark-user">{e.user}</span>
               <span class="liberator-pixiv-bookmark-tag" highlight="Tag" style="margin-left: 1em;">{e.tags.join(', ')}</span>
             </dd>
@@ -153,7 +153,7 @@ liberator.plugins.pixiv = (function() {
 
         const TITLE = "\u3053\u306E\u30A4\u30E9\u30B9\u30C8\u3092\u30D6\u30C3\u30AF\u30DE\u30FC\u30AF\u3057\u3066\u3044\u308B\u30E6\u30FC\u30B6\u30FC";
         let xml = <>
-          <dl id="liberator-pixiv-bookmark">
+          <dl id="liberator-pixiv-bookmark" style="margin: 0;">
             <dt highlight="CompTitle">{TITLE}  {r.count}({r.entries.length})</dt>
             {dd}
           </dl>
