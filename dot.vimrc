@@ -37,7 +37,7 @@ set modelines=5
 
 " swap {{{2
 set swapfile
-if has('windows')
+if has('win32')
   set directory=~/vimfiles/swap
 else
   set directory=~/.vim/swap
@@ -50,7 +50,7 @@ endif
 set backup
 set writebackup
 set backupcopy=yes
-if has('windows')
+if has('win32')
   set backupdir=~/vimfiles/backup
 else
   set backupdir=~/.vim/backup
@@ -105,7 +105,7 @@ nnoremap : ;
 nnoremap ; :
 
 nnoremap ,s :<C-u>source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif<CR>
-if has('windows')
+if has('win32')
   nnoremap ,d :<C-u>helptags ~/vimfiles/doc<CR>
 else
   nnoremap ,d :<C-u>helptags ~/.vim/doc<CR>
@@ -210,7 +210,7 @@ set completeopt& completeopt+=menuone
 let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_SmartCase = 1
 imap <silent> <C-v> <Plug>(neocomplcache_snippets_expand)
-if has('windows')
+if has('win32')
   let g:NeoComplCache_SnippetsDir = $HOME.'/vimfiles/snippets'
 else
   let g:NeoComplCache_SnippetsDir = $HOME.'/.vim/snippets'
@@ -286,7 +286,7 @@ let g:poj_default_lang_ext = 'cc'
 let g:poj_work_dir = '~/work/poj'
 
 " hatena.vim {{{2
-if has('windows')
+if has('win32')
   set runtimepath+=~/vimfiles/hatena
 else
   set runtimepath+=~/.vim/hatena
