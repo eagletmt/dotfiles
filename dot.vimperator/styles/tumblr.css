@@ -30,3 +30,8 @@
   }
 }
 
+@-moz-document url-prefix("http://www.tumblr.com/iphone/") {
+  img.photo { float: left !important; }
+  div.photo_post > div.caption { float: right; width: 85%;}
+}
+
