@@ -37,6 +37,12 @@ const SITEINFO = [
     paragraph: '//ul/li',
     link: 'a',
   },
+  {
+    name: 'Twitter following',
+    domain: '^https?://(?:api\.)?twitter\.com/(?:[^/]+/)?(?:followers|friends|following)',
+    paragraph: 'id("follow_grid")/descendant::tr[starts-with(@id, "user_")]',
+    link: 'td/a',
+  },
 ]
 
 const KEYBIND = {

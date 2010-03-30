@@ -66,6 +66,12 @@ var SITEINFO = [
         exampleUrl:   '',
     },
     */
+    {
+        url:          '^https?://(?:api\.)?twitter\.com/(?:[^/]+/)?(?:following|followers)',
+        nextLink:     '//a[@rel="me next"]',
+        pageElement:  'id("follow_grid")/descendant::tr[starts-with(@id, "user_")]',
+        exampleUrl:   'https://twitter.com/following',
+    },
 ]
 var MICROFORMAT = {
     url:          '.*',
