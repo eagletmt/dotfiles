@@ -1,28 +1,18 @@
 @namespace url(http://www.w3.org/1999/xhtml);
 
-@-moz-document url-prefix("http://blog.livedoor.jp/wakusoku/") {
+@-moz-document url-prefix("http://blog.livedoor.jp/wakusoku/") {  /* {{{ */
   div#content { margin: 0 !important; }
   div.column-inner { margin: 0 !important; }
 
-  div#header2,
-  div.blog-title-outer,
-  div.article-category-outer,
-  div.related-articles,
-  div#article-options,
-  div.article-pager-type2,
-  div#sub,
-  div#extra,
-  div.article-footer,
-  div.column-inner-2 > table,
+  div#header2, div.blog-title-outer, div.article-category-outer,
+  div.related-articles, div#article-options, div.article-pager-type2,
+  div#sub, div#extra, div.article-footer, div.column-inner-2 > table,
   div.article-body > :not(div) { display: none !important; }
 
-  div.article-date-outer,
-  div.article-header,
-  h2.article-title,
+  div.article-date-outer, div.article-header, h2.article-title,
   div.article-title-outer { padding: 0 !important; }
 
-  div#container,
-  div.article-body { background-color: #efefef !important; }
+  div#container, div.article-body { background-color: #efefef !important; }
 
   div.article-body-more > :not(ol) { display: none !important; }
 
@@ -31,61 +21,38 @@
     -moz-column-width: 10em !important;
     -moz-column-gap: 1em !important;
   }
-}
+} /* }}} */
 
-@-moz-document domain("stalker.livedoor.biz") {
-  div#banner,
-  div#left,
-  div#right,
-  div.fullbody:first-child,
-  div.posted,
-  div.portal-links,
-  div.mainmore + div,
-  div.related-articles,
-  div.trackbackurlbody,
-  div#comment,
-  div#comment-form,
-  div.menu { display: none !important; }
+@-moz-document domain("stalker.livedoor.biz") { /* {{{ */
+  div#banner, div#left, div#right, div.fullbody:first-child, div.posted,
+  div.portal-links, div.mainmore + div, div.related-articles,
+  div.trackbackurlbody, div#comment, div#comment-form, div.menu {
+    display: none !important;
+  }
 
   * { 
     background: none !important;
     background-color: #efefef !important;
   }
-}
+} /* }}} */
 
-@-moz-document domain("zipdeyaruo.blog42.fc2.com") {
-  div#header,
-  div#headline,
-  div#right-column,
-  a[href^="http://www.movienta.com/"],
-  a[href^="http://www.manko-s.com/"],
-  div.EntryDate,
-  pre.aa,
-  div.fc2_footer,
-  div.EntryBase,
-  div.CategoryEntry,
-  div.EntryCommentTitle,
-  div.EntryCommentTitle + div.EntryBody { display: none !important; }
+@-moz-document domain("zipdeyaruo.blog42.fc2.com") { /* {{{ */
+  div#header, div#headline, div#right-column, div.EntryDate, pre.aa,
+  div.fc2_footer, div.EntryBase, div.CategoryEntry, div.EntryCommentTitle,
+  div.EntryCommentTitle + div.EntryBody,
+  a[href^="http://www.movienta.com/"], a[href^="http://www.manko-s.com/"] {
+    display: none !important;
+  }
 
   div#main-column { width: 100% !important; }
-}
+} /* }}} */
 
-@-moz-document domain("kamisoku.blog47.fc2.com") {
-  div#header,
-  div#left-block,
-  div#right-block,
-  div.klink,
-  div.rsslink,
-  div.rsslink2,
-  div.cn,
-  iframe,
-  div#kanrendesu,
-  div#commentcont,
-  form.commentform,
-  dl#trackbackbody,
-  div.rsslinkf,
-  h3,
-  div.fc2_footer { display: none !important; }
+@-moz-document domain("kamisoku.blog47.fc2.com") { /* {{{ */
+  div#header, div#left-block, div#right-block, div.klink, div.rsslink,
+  div.rsslink2, div.cn, iframe, div#kanrendesu, div#commentcont,
+  form.commentform, dl#trackbackbody, div.rsslinkf, h3, div.fc2_footer {
+    display: none !important;
+  }
 
   div#center-block {
     background-image: none !important;
@@ -111,14 +78,12 @@
   div.content > a {
     padding-bottom: 5em !important;
   }
-}
+} /* }}} */
 
-@-moz-document domain("nijigazo.2chblog.jp") {
-  div#header2,
-  div#sub,
-  div#extra,
-  iframe,
-  div#article-options { display: none !important; }
+@-moz-document domain("nijigazo.2chblog.jp") { /* {{{ */
+  div#header2, div#sub, div#extra, iframe, div#article-options {
+    display: none !important;
+  }
 
   div.column-inner { margin: 0 !important; }
 
@@ -126,5 +91,7 @@
     -moz-column-count: 2;
     -moz-column-gap: 2em;
   }
-}
+} /* }}} */
+
+/* vim: set et ts=2 sw=2 fdm=marker: */
 
