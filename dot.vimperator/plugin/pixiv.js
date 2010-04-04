@@ -167,5 +167,5 @@ liberator.plugins.pixiv = (function() {
   return pixivManager;
 })();
 
-// vim: set et sw=2 ts=2 sts=2:
+// vim: set et sw=2 ts=2 sts=2 fdm=marker:
 
