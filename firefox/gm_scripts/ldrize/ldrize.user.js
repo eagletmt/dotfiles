@@ -43,6 +43,18 @@ const SITEINFO = [
     paragraph: 'id("follow_grid")/descendant::tr[starts-with(@id, "user_")]',
     link: 'td/a',
   },
+  {
+    name: 'pixiv (member_illust)',
+    domain: '^http://www\.pixiv\.net/member_illust\.php\?',
+    paragraph: 'id("content2")/div[a[starts-with(@href, "member_illust.php?mode=big") or starts-with(@href, "member_illust.php?mode=manga")]] | //table[starts-with(@id, "page")]/tbody/tr/td[a[img]]',
+    link: 'a',
+  },
+  {
+    name: 'TINAMI search',
+    domain: '^http://www\.tinami\.com/search/list\?',
+    paragraph: '//div[@class="thumbnail"]/table/tbody/tr/td | //div[@class="deteil"]/div',
+    link: 'descendant::a',
+  },
 ]
 
 const KEYBIND = {
