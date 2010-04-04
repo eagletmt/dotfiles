@@ -113,7 +113,7 @@ endif
 
 nnoremap ,m :<C-u>setlocal buftype=nofile bufhidden=hide noswapfile<CR>
 
-nnoremap <silent> <C-m> :<C-u>tabnew<CR>
+nnoremap <silent> <C-q>n :<C-u>tabnew<CR>
 nnoremap <silent> <C-n> :<C-u>tabnext<CR>
 nnoremap <silent> <C-p> :<C-u>tabprevious<CR>
 nnoremap <silent> <C-k> :<C-u>tabclose<CR>
