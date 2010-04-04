@@ -85,7 +85,7 @@
 }
 
 
-@-moz-document domain(alfalfalfa.com) {
+@-moz-document domain("alfalfalfa.com") {
   /* original: http://az-store.nrym.org/archive/kawatarou/note/opera/2chblogcss.htm */
   * {
     margin: 0 !important;
@@ -173,7 +173,7 @@
   }
 }
 
-@-moz-document domain(waranote.blog76.fc2.com) {
+@-moz-document domain("waranote.blog76.fc2.com") {
   h1,
   iframe,
   div#secondary-column,
