@@ -260,22 +260,24 @@ let g:yt_save_dir = '~/yt'
 " 2ch {{{2
 javascript <<EOM
 commands.addUserCommand(['mada[kana]'], 'madakana?',
-  function() {
-    let req = new plugins.libly.Request('http://qb6.2ch.net/_403/madakana.cgi');
-    req.addEventListener('onSuccess', function(res) {
-      let fonts = res.getHTMLDocument('//*[@color="red"]');
-      if (fonts.length > 0) {
-        fonts.slice(1).forEach(function(f) {
-          let reason = f.previousSibling.previousSibling.previousSibling;
-          liberator.echomsg('madadayo!: <font color="red">' + f.textContent + '</font>: ' + reason.nodeValue.trim());
-        });
-      } else {
-        liberator.echo('madakana: free!');
-      }
-    });
-    req.get();
+  function(args) {
+    const MADAKANA = 'http://qb6.2ch.net/_403/madakana.cgi';
+    if (args.bang) {
+      liberator.open(MADAKANA, liberator.NEW_TAB);
+    } else {
+      let req = new plugins.libly.Request(MADAKANA);
+      req.addEventListener('onSuccess', function(res) {
+        let fonts = res.getHTMLDocument('//*[@color="red"]');
+        if (fonts.length > 0) {
+          fonts.slice(1).forEach(function(f) liberator.echo(f.textContent));
+        } else {
+          liberator.echo('madakana: free!');
+        }
+      });
+      req.get();
+    }
   },
-  null, true);
+  { argCount: '0', bang: true }, true);
 EOM
 
 " hatena {{{2
