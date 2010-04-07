@@ -283,6 +283,23 @@ EOM
 " hatena {{{2
 nnoremap <silent> -urls='[dg]\.hatena\.ne\.jp|anond\.hatelabo\.jp' x :<C-u>js $LXs('//a[@class="keyword" or @class="okeyword"]').forEach(function(e) e.parentNode.replaceChild(e.firstChild, e))<CR>
 
+" tryhaskell {{{2
+javascript <<EOM
+commands.addUserCommand(['hseval'], 'evaluate haskell expression',
+  function(args) {
+    util.httpGet('http://tryhaskell.org/haskell.json?method=eval&expr=' + encodeURIComponent(args.literalArg), function(res) {
+      let json = JSON.parse(res.responseText);
+      if (json.error) {
+        liberator.echoerr('error: ' + json.error);
+      } else if (json.exception) {
+        liberator.echoerr('exception: ' + json.exception);
+      } else {
+        liberator.echo(json.result + ' :: ' + json.type);
+      }
+    });
+  }, { literal: 0 }, true);
+EOM
+
 " extra {{{1
 " load styles {{{2
 javascript <<EOM
