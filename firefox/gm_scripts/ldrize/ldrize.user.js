@@ -55,6 +55,11 @@ const SITEINFO = [
     paragraph: '//div[@class="thumbnail"]/table/tbody/tr/td | //div[@class="deteil"]/div',
     link: 'descendant::a',
   },
+  {
+    name: '東京工業大学 工学部 情報工学科 シラバス',
+    domain: '^http://www\.cs\.titech\.ac\.jp/~syllabus/',
+    paragraph: '//strong[a[@id]]',
+  },
 ]
 
 const KEYBIND = {
