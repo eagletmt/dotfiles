@@ -353,6 +353,17 @@ endfunction
 
 nnoremap <silent> <Space>ao :<C-u>call <SID>move_window_into_tab_page(0)<CR>
 
+" encode.vim {{{2
+nmap <Leader>eu <Plug>encodeURIComponent
+vmap <Leader>eu <Plug>encodeURIComponent
+nmap <Leader>du <Plug>decodeURIComponent
+vmap <Leader>du <Plug>decodeURIComponent
+nmap <Leader>ej <Plug>encodeJSString
+vmap <Leader>ej <Plug>encodeJSString
+nmap <Leader>dj <Plug>decodeJSString
+vmap <Leader>dj <Plug>decodeJSString
+
+" {{{2
 " private {{{1
 if filereadable(expand('~/vimrc.local'))
   source ~/vimrc.local
