@@ -28,10 +28,10 @@
 
   commands.addUserCommand(['ytd[ownload]'], 'download this video',
     function(args) {
-      let yt = content.wrappedJSObject.yt;
-      let video_id = yt.getConfig('VIDEO_ID');
-      let t = yt.getConfig('SWF_ARGS').t;
-      let title = args.literalArg || yt.getConfig('VIDEO_TITLE');
+      let flashvars = get_flashvars();
+      let video_id = flashvars.video_id;
+      let t = flashvars.t;
+      let title = args.literalArg || get_title();
       title = title.replace(/[\/\\]/, '_');
       let fmt = args['-fmt'] || available_formats()[0];
 
@@ -62,12 +62,22 @@
       ],
       completer: function(context, args) {
         context.title = ['filename'];
-        context.completions = [[content.wrappedJSObject.yt.getConfig('VIDEO_TITLE'), 'title']];
+        context.completions = [[get_title(), 'title']];
       },
     }, true);
 
+  function get_flashvars() {
+    let flashvars = {};
+    content.document.getElementById('movie_player').getAttribute('flashvars').split('&').forEach(function(x)
+      let ([k, v] = x.split('=')) flashvars[k] = decodeURIComponent(v));
+    return flashvars;
+  }
+
+  function get_title()
+    content.document.getElementsByClassName('long-title')[0].title;
+
   function available_formats()
-    content.wrappedJSObject.yt.getConfig('SWF_ARGS').fmt_url_map.split('%2C').map(function(u) u.split('%7C')[0]);
+    get_flashvars().fmt_list.split(',').map(function(u) u.split('/')[0]);
 
   function fmt_completer(context, args)
     [[f, FORMAT_INFO[f].desc + ' (' + FORMAT_INFO[f].ext + ')']
