@@ -13,6 +13,7 @@ set title
 set number
 set laststatus=2
 set statusline=[%L]\ %t\ %y%{'['.(&fenc!=''?&fenc:&enc).':'.']'}%r%m%=%c:%l/%L
+colorscheme xoria256
 
 " encoding {{{2
 set encoding=utf-8
