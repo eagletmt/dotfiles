@@ -96,6 +96,9 @@ nnoremap sc :<C-u>tabopen gc<Space>
 nnoremap sk :<C-u>tabopen tw<Space>
 nnoremap sp :<C-u>tabopen poj<Space>
 
+" abbrev {{{1
+iabbrev ID http://www.google.com/accounts/o8/id
+
 " plugins {{{1
 " feedSomeKey_3.js {{{2
 lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
