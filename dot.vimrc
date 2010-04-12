@@ -364,28 +364,7 @@ vmap <Leader>ej <Plug>encodeJSString
 nmap <Leader>dj <Plug>decodeJSString
 vmap <Leader>dj <Plug>decodeJSString
 
-" {{{2 next/previous window or tab
-nnoremap <silent> <Tab> :<C-u>call <SID>NextWindowOrTab()<CR>
-nnoremap <silent> <S-Tab> :<C-u>call <SID>PreviousWindowOrTab()<CR>
-
-function! s:NextWindowOrTab()
-  if winnr() < winnr("$")
-    wincmd w
-  else
-    tabnext
-    1wincmd w
-  endif
-endfunction
-
-function! s:PreviousWindowOrTab()
-  if winnr() > 1
-    wincmd W
-  else
-    tabprevious
-    execute winnr("$") . "wincmd w"
-  endif
-endfunction
-
+" {{{2
 " private {{{1
 if filereadable(expand('~/vimrc.local'))
   source ~/vimrc.local
