@@ -304,6 +304,19 @@ commands.addUserCommand(['hseval'], 'evaluate haskell expression',
   }, { literal: 0 }, true);
 EOM
 
+" google cache {{{2
+javascript <<EOM
+commands.addUserCommand(['gcache'], 'view google cache',
+  function() {
+    const HOST = 'webcache.googleusercontent.com';
+    let l = content.window.location;
+    if (l.host != HOST) {
+      liberator.open(HOST + '/search?q=cache:' + l.host + l.pathname + l.search);
+    }
+  }, { argCount: '0' }, true);
+EOM
+nnoremap <silent> ,q :<C-u>gcache<CR>
+
 " extra {{{1
 " load styles {{{2
 javascript <<EOM
