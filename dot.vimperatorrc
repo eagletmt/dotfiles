@@ -13,7 +13,7 @@ set! network.dns.disableIPv6=true
 
 command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 
-lazy colorscheme evening-tmp
+lazy colorscheme xoria256
 
 " keymaps {{{1
 " normal mode {{{2
