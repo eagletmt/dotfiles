@@ -60,6 +60,12 @@ const SITEINFO = [
     domain: '^http://www\.cs\.titech\.ac\.jp/~syllabus/',
     paragraph: '//strong[a[@id]]',
   },
+  {
+    name: '二次元裏＠ふたば',
+    domain: '^http://jun\.2chan\.net/b/res/',
+    paragraph: '//form[@action="futaba.php"]/table/tbody/tr',
+    link: 'descendant::a[img]',
+  },
 ]
 
 const KEYBIND = {
