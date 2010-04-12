@@ -62,6 +62,10 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 bindkey "^W" vi-backward-kill-word
 
+# stty
+stty sane
+stty -ixon -ixoff # disable C-q, C-s
+
 function psgrep()
 {
   ps aux | cgrep $(echo $1 | sed 's/^\(.\)/[\1]/')
