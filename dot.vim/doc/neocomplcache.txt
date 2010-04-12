@@ -1,6 +1,6 @@
 *neocomplcache.txt*	Ultimate auto completion system for Vim
 
-Version: 4.09
+Version: 4.11
 Author : Shougo <Shougo.Matsu@gmail.com>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -609,6 +609,72 @@ ability of neocomplcache will spread by creating plugin by yourself.
 ==============================================================================
 CHANGELOG					*neocomplcache-changelog*
 
+2010-04-11
+    * Improved command completion text.
+    * Improved command prototype dictionary in vim_complete.
+    * Completed prototype dictionary.
+    * Improved command name search.
+
+2010-04-10
+    * Improved command completion in vim_complete.
+    * Skip head digits in vim_complete.
+    * Highlight color when print prototype.
+
+2010-04-09
+    * Improved _ snippets.
+
+2010-04-06
+    * Improved mappings dictionary.
+    * Lazy caching environment variables.
+    * Added variables dictionary.
+
+2010-04-01
+    * Fixed quickmatch bug.
+
+2010-03-17
+    * Fixed quickmatch bug.
+    * Improved vim_complete performance.
+
+2010-03-16
+    * Deleted obsolute variables.
+    * Improved manual complete.
+    * Improved keyword_filter.
+    * Improved vim_complete.
+
+2010-03-11
+    * Fixed quickmatch bug.
+
+2010-03-06
+    * Improved frequency garbage collect.
+    * Improved buffer caching.
+
+2010-03-05
+    * Improved caching print.
+    * Incleased omni completion rank.
+    * Added snippets_complete help in Japanese.
+
+2010-03-02
+    * Caching disable when bufname is '[Command line]'
+
+2010-02-19
+    * Fixed snippets expand bug.
+    * Fixed interactive filetype.
+    * Fixed manual completion bug.
+
+2010-02-18
+    * Fixed filename pattern.
+
+ChangeLog NeoComplCache 4.00-: {{{
+   4.10:
+    - Fixed interactive Gauche support.
+    - Added omni_complete and vim_complete rank.
+    - Implemented fuzzy filter(experimental).
+    - Improved lingr-vim support.
+    - Implemented spell_complete.vim(experimental)
+    - Improved skk.vim support.
+    - Improved lisp keyword pattern.
+    - Added clojure support.
+    
    4.09:
     - Improved syntax detect in snippets_complete.
     - Improved NeoComplCachePrintSnippets command.
@@ -629,7 +695,6 @@ CHANGELOG					*neocomplcache-changelog*
     - Fixed indent.
     - Supported interactive ocaml.
     
-ChangeLog NeoComplCache 4.00-: {{{
    4.08:
     - Improved keywords in vim_complete.
     - Deleted g:NeoComplCache_NonBufferFileTypeDetect option.
