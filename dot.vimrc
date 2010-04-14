@@ -100,6 +100,12 @@ function! s:SetToCabalBuild()
 endfunction
 autocmd BufEnter *.hs,*.lhs :call s:SetToCabalBuild()
 
+" misc {{{2
+augroup MyAutoCmd
+  autocmd!
+  autocmd BufNew * setlocal textwidth=0
+augroup END
+
 " general keymaps {{{1
 " normal mode {{{2
 nnoremap : ;
