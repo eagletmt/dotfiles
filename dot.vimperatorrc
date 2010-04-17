@@ -318,6 +318,10 @@ commands.addUserCommand(['gcache'], 'view google cache',
 EOM
 nnoremap <silent> ,q :<C-u>gcache<CR>
 
+" cal {{{2
+" https://developer.mozilla.org/ja/XUL/datepicker
+command! -nargs=0 cal js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
+
 " extra {{{1
 " load styles {{{2
 javascript <<EOM
