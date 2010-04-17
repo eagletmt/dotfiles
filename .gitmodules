@@ -1,0 +1,24 @@
+[submodule "dot.vim/bundles/git"]
+	path = dot.vim/bundles/git
+	url = git://github.com/motemen/git-vim.git
+[submodule "dot.vim/bundles/hatena"]
+	path = dot.vim/bundles/hatena
+	url = git://github.com/motemen/hatena-vim.git
+[submodule "dot.vim/bundles/neocomplcache"]
+	path = dot.vim/bundles/neocomplcache
+	url = git://github.com/Shougo/neocomplcache.git
+[submodule "dot.vim/bundles/quickrun"]
+	path = dot.vim/bundles/quickrun
+	url = git://github.com/thinca/vim-quickrun.git
+[submodule "dot.vim/bundles/ref"]
+	path = dot.vim/bundles/ref
+	url = git://github.com/thinca/vim-ref.git
+[submodule "dot.vim/bundles/vimfiler"]
+	path = dot.vim/bundles/vimfiler
+	url = git://github.com/Shougo/vimfiler.git
+[submodule "dot.vim/bundles/vimproc"]
+	path = dot.vim/bundles/vimproc
+	url = git://github.com/Shougo/vimproc.git
+[submodule "dot.vim/bundles/vimshell"]
+	path = dot.vim/bundles/vimshell
+	url = git://github.com/Shougo/vimshell.git
