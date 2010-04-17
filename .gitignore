@@ -1,8 +1,9 @@
 dot.vim/backup/*
 dot.vim/swap/*
 dot.vim/doc/tags*
+dot.vim/bundles/*/doc/tags*
 dot.vim/.netrwhist
 .VimballRecord
 dot.vim/poj
 dot.emacs.d/image-dired
-dot.vim/autoload/proc.so
+dot.vim/bundles/vimproc/autoload/proc.so

@@ -112,11 +112,7 @@ nnoremap : ;
 nnoremap ; :
 
 nnoremap ,s :<C-u>source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif<CR>
-if has('win32')
-  nnoremap ,d :<C-u>helptags ~/vimfiles/doc<CR>
-else
-  nnoremap ,d :<C-u>helptags ~/.vim/doc<CR>
-endif
+nnoremap <silent> ,d :<C-u>call <SID>helptags_all()<CR>
 
 nnoremap ,m :<C-u>setlocal buftype=nofile bufhidden=hide noswapfile<CR>
 
@@ -167,6 +163,10 @@ let g:html_no_pre = 1
 let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 
 " plugins {{{1
+function! s:import_bundle(name)
+  execute 'set runtimepath+=~/' . (has('win32') ? 'vimfiles' : '.vim') . '/bundles/' . a:name
+endfunction
+
 " skk.vim {{{2
 let skk_jisyo = '~/vim-skk-jisyo.utf8'
 if has('mac')
@@ -186,6 +186,7 @@ let skk_use_face = 1
 let g:is_gauche = 1
 
 " fuf.vim {{{2
+call s:import_bundle('fuf')
 let g:fuf_modesDisable = ['mrucmd']
 let g:fuf_mrufile_exclude = '\vCOMMIT_EDITMSG$'
 nnoremap <C-q>j :<C-u>FufFileWithCurrentBufferDir!<CR>
@@ -195,6 +196,7 @@ nnoremap <C-q>m :<C-u>FufMruFile!<CR>
 nnoremap <silent> ,q :<C-u>FufRenewCache<CR>
 
 " quickrun.vim {{{2
+call s:import_bundle('quickrun')
 let g:quickrun_config = {
       \ '*': {'split': '{"rightbelow"}'},
       \ 'lisp': {'command' : 'sbcl --script'},
@@ -206,12 +208,14 @@ nnoremap <Space>sh :<C-u>Wwwsearch -hoogle<Space>
 nnoremap <Space>sg :<C-u>Wwwsearch -google<Space>
 
 " vimshell {{{2
+call s:import_bundle('vimshell')
 let g:VimShell_Prompt = $USER . '% '
 let g:VimShell_UserPrompt = 'getcwd()'
 nmap <Space>v <Plug>(vimshell_create)
 let g:VimShell_EnableAutoLs = 1
 
 " neocomplcache.vim {{{2
+call s:import_bundle('neocomplcache')
 set complete& complete+=k
 set completeopt& completeopt+=menuone
 let g:NeoComplCache_EnableAtStartup = 1
@@ -285,7 +289,7 @@ let g:gist_open_browser_after_post = 1
 let g:gist_browser_command = 'open'
 
 " poj.vim {{{2
-set runtimepath+=~/.vim/poj
+call s:import_bundle('poj')
 let g:poj_user = 'eagletmt_'
 let g:poj_prefer_c = 0
 let g:poj_prefer_cpp = 0
@@ -293,12 +297,20 @@ let g:poj_default_lang_ext = 'cc'
 let g:poj_work_dir = '~/work/poj'
 
 " hatena.vim {{{2
-if has('win32')
-  set runtimepath+=~/vimfiles/hatena
-else
-  set runtimepath+=~/.vim/hatena
-endif
+call s:import_bundle('hatena')
 let g:hatena_user = 'eagletmt'
+
+" ref.vim {{{2
+call s:import_bundle('ref')
+
+" vimfiler  {{{2
+call s:import_bundle('vimfiler')
+
+" git.vim {{{2
+call s:import_bundle('git')
+
+" vimproc {{{2
+call s:import_bundle('vimproc')
 
 " misc {{{1
 " reverse lines {{{2
@@ -369,6 +381,14 @@ nmap <Leader>ej <Plug>encodeJSString
 vmap <Leader>ej <Plug>encodeJSString
 nmap <Leader>dj <Plug>decodeJSString
 vmap <Leader>dj <Plug>decodeJSString
+
+function! s:helptags_all()  " {{{2
+  for path in split(&runtimepath, ',')
+    if isdirectory(path . '/doc')
+      silent execute 'helptags ' . path . '/doc'
+    endif
+  endfor
+endfunction
 
 " {{{2
 " private {{{1
