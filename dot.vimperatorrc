@@ -38,6 +38,7 @@ nnoremap ; :
 nnoremap \' ;
 nnoremap <A-h> h
 nnoremap <A-l> l
+nnoremap \\ <Nop>
 javascript <<EOM
 mappings.addUserMap([modes.NORMAL], [',s'], 'reload rc file', function() io.source(io.getRCFile().path));
 EOM
