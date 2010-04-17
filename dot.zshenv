@@ -13,6 +13,7 @@ case $(uname) in
     PAGER='/opt/local/bin/lv -c';;
 
   Linux)
+    manpath=(/usr/share/man(N) $manpath)
     EDITOR='/usr/bin/vim';
     PAGER='/usr/bin/less';;
 esac
