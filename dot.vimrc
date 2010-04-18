@@ -312,6 +312,13 @@ call s:import_bundle('git')
 " vimproc {{{2
 call s:import_bundle('vimproc')
 
+" onlinejdge.vim {{{2
+call s:import_bundle('onlinejudge')
+let g:onlinejudge_account = {
+      \ 'poj': {'user': 'eagletmt_'},
+      \ 'spoj': {'user': 'eagletmt'},
+      \ }
+
 " misc {{{1
 " reverse lines {{{2
 function! s:reverseLines(line1, line2)

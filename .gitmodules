@@ -22,3 +22,6 @@
 [submodule "dot.vim/bundles/vimshell"]
 	path = dot.vim/bundles/vimshell
 	url = git://github.com/Shougo/vimshell.git
+[submodule "dot.vim/bundles/onlinejudge"]
+	path = dot.vim/bundles/onlinejudge
+	url = git@github.com:eagletmt/onlinejudge-vim.git
