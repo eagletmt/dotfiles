@@ -24,12 +24,11 @@ nnoremap <C-p> gT
 nnoremap l gt
 nnoremap <C-n> gt
 nnoremap D :<C-u>tabattach<Space>
-nnoremap b B
 nnoremap <C-q> <C-z>
 nnoremap <C-r> :<C-u>restart<CR>
 nnoremap <M-c> Y
 nnoremap <M-q> <Nop>
-nnoremap <C-t> <M-S-F>
+nnoremap ,f :<C-u>set fullscreen!<CR>
 nnoremap ,c :<C-u>copy anchor<CR>
 nnoremap ,t :<C-u>copy %TITLE% %URL%<CR>
 nnoremap <silent> ,h :<C-u>emenu Tools.Live HTTP headers<CR>
