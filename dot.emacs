@@ -19,11 +19,6 @@
       (other-window (- arg))))
 
 ;; fullscreen Carbon Emacs
-(when (eq window-system 'mac)
-  (add-hook 'window-setup-hook
-	    (lambda ()
-	      (set-frame-parameter nil 'fullscreen 'fullboth))))
-
 (defun mac-toggle-max-window ()
   (interactive)
   (if (frame-parameter nil 'fullscreen)
