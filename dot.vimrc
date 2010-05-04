@@ -230,6 +230,11 @@ if !exists('g:NeoComplCache_DictionaryFileTypeLists')
   let g:NeoComplCache_DictionaryFileTypeLists = {}
   let g:NeoComplCache_DictionaryFileTypeLists.haskell = $HOME.'/.vim/dict/haskell.dict'
 endif
+if !exists('g:NeoComplCache_OmniPatterns')
+  let g:NeoComplCache_OmniPatterns = {}
+  " disable omni complete
+  let g:NeoComplCache_OmniPatterns.ruby = ''
+endif
 
 " twitvim.vim {{{2
 let g:twitvim_buffer_form = 1
