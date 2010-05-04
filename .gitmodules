@@ -25,3 +25,6 @@
 [submodule "dot.vim/bundles/onlinejudge"]
 	path = dot.vim/bundles/onlinejudge
 	url = git@github.com:eagletmt/onlinejudge-vim.git
+[submodule "dot.vim/bundles/altercmd"]
+	path = dot.vim/bundles/altercmd
+	url = git://github.com/kana/vim-altercmd.git

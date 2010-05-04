@@ -324,6 +324,10 @@ let g:onlinejudge_account = {
       \ 'spoj': {'user': 'eagletmt'},
       \ }
 
+" altercmd {{{2
+call s:import_bundle('altercmd')
+call altercmd#define('ccd', 'cd %:h')
+
 " misc {{{1
 " reverse lines {{{2
 function! s:reverseLines(line1, line2)
