@@ -402,6 +402,21 @@ function! s:helptags_all()  " {{{2
   endfor
 endfunction
 
+" Capture {{{2
+command! -nargs=1 -complete=command Capture call s:cmd_capture(<q-args>)
+
+function! s:cmd_capture(cmd)
+  redir => result
+  silent execute a:cmd
+  redir END
+
+  let bufname = 'Capture: ' . a:cmd
+  new
+  setlocal buftype=nofile bufhidden=hide noswapfile
+  silent file `=bufname`
+  call setline(1, split(result))
+endfunction
+
 " {{{2
 " private {{{1
 if filereadable(expand('~/vimrc.local'))
