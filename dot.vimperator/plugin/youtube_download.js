@@ -74,7 +74,7 @@
   }
 
   function get_title()
-    content.document.getElementsByClassName('long-title')[0].title;
+    content.document.getElementById('watch-headline-title').textContent.trim();
 
   function available_formats()
     get_flashvars().fmt_list.split(',').map(function(u) u.split('/')[0]);
