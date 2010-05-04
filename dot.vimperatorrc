@@ -321,7 +321,7 @@ nnoremap <silent> ,q :<C-u>gcache<CR>
 " https://developer.mozilla.org/ja/XUL/datepicker
 command! -nargs=0 cal js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
 
-" pku {{{
+" pku {{{2
 nnoremap <silent> -urls='acm\.pku\.edu\.cn/JudgeOnline/problem\?id=' w :<C-u>js liberator.open(buffer.URI.replace(/problem\?id=(\d+)/, 'status?problem_id=$1'))<CR>
 
 " extra {{{1
