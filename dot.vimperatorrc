@@ -324,6 +324,19 @@ command! -nargs=0 cal js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
 " pku {{{2
 nnoremap <silent> -urls='acm\.pku\.edu\.cn/JudgeOnline/problem\?id=' w :<C-u>js liberator.open(buffer.URI.replace(/problem\?id=(\d+)/, 'status?problem_id=$1'))<CR>
 
+javascript <<EOM
+commands.addUserCommand(['bgimage'], 'view background image',
+  function() {
+    let doc = content.document;
+    let m = doc.defaultView.getComputedStyle(doc.body, null).backgroundImage.match(/url\s*\(\s*(['"])(.+)\1\s*\)/);
+    if (m) {
+      liberator.open(m[2], liberator.NEW_TAB);
+    } else {
+      liberator.echoerr('background image not found')
+    }
+  }, { argCount: '0' }, true);
+EOM
+
 " extra {{{1
 " load styles {{{2
 javascript <<EOM
