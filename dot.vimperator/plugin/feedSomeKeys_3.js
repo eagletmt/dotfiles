@@ -39,7 +39,7 @@ let PLUGIN_INFO =
   <name lang="ja">feedSomeKeys 3</name>
   <description>feed some defined key events into the Web content</description>
   <description lang="ja">キーイベントをWebコンテンツ側に送る</description>
-  <version>1.7.0</version>
+  <version>1.8.1</version>
   <author mail="anekos@snca.net" homepage="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
   <license>new BSD License (Please read the source code comments of this plugin)</license>
   <license lang="ja">修正BSDライセンス (ソースコードのコメントを参照してください)</license>
@@ -79,7 +79,7 @@ lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
 // }}}
 // INFO {{{
 let INFO = <>
-  <plugin name="feedSomeKeys" version="1.7.0"
+  <plugin name="feedSomeKeys" version="1.8.1"
           href="http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/feedSomeKeys_3.js"
           summary="Feed some defined key events into the Web content"
           lang="en-US"
@@ -92,7 +92,7 @@ let INFO = <>
     </p>
     <item>
       <tags>:fmap</tags>
-      <spec>:fmap <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-urls=<a>urlpattern</a></oa> <a>lhs</a> <a>rhs</a></spec>
+      <spec>:fmap <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <a>lhs</a> <a>rhs</a></spec>
       <description>
         <p>
           Define one mapping.
@@ -105,11 +105,11 @@ let INFO = <>
     </item>
     <item>
       <tags>:fmaps</tags>
-      <spec>:fmaps <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-urls=<a>urlpattern</a></oa> <a>mapping-pair</a> ....</spec>
+      <spec>:fmaps <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <oa>-p<oa>prefix</oa>=<a>prefix</a></oa> <a>mappingpair</a> ....</spec>
       <description>
         <p>
           Two or more mappings are defined at once.
-          <a>mapping-pair</a> is a pair of key names separated by ",".
+          <a>mappingpair</a> is a pair of key names separated by ",".
           <p>e.g. "&lt;Leader>&lt;S-j>,j"</p>
         </p>
         <p>
@@ -144,34 +144,44 @@ let INFO = <>
     <p>
       The value of <a>urlpattern</a> should be regular expression.
     </p>
+    <h3 tag="fmap-xpath">xpath</h3>
+    <p>
+      The XPath for a target element.
+    </p>
+    <h3 tag="fmap-frame-number">framenumber</h3>
+    <p>
+      The number of a target frame.
+      Refer the completion for this number.
+    </p>
     <h3 tag="fmap-event-name-list">eventnamelist</h3>
     <p>
-      <a>eventnamelist</a> is a list of below values.
-      <ul>
-        <li>keypress</li>
-        <li>keydown</li>
-        <li>keyup</li>
-        <li>vkeypress</li>
-        <li>vkeydown</li>
-        <li>vkeyup</li>
-      </ul>
-      <p>"v-" values use virtual key code.</p>
-      <p>The default value of this option is "keypress".</p>
+      <a>eventnamelist</a> is the list constructed with the below values.
     </p>
+    <ul>
+      <li>keypress</li>
+      <li>keydown</li>
+      <li>keyup</li>
+      <li>vkeypress</li>
+      <li>vkeydown</li>
+      <li>vkeyup</li>
+    </ul>
+    <p>"v..." values use virtual key code.</p>
+    <p>The event is generated in the order of writing of each key.</p>
+    <p>The default value of this option is "keypress".</p>
     <h3 tag="fmaps-examples">fmaps examples for .vimperatorrc</h3>
     <p>If you input directly these commands in vimperator commandline, remove the ":lazy".</p>
     <code><ex>
-  :command! -nargs=+ lazy autocmd VimperatorEnter .* &lt;args>
-  :lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
-  :lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
-  :lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
-  :lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p &lt;Space> &lt;S-Space> z b &lt; > q w e,g
-  :lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c t ? d F,f G,g S,s L,l Y,y H,h M,m &lt;Del> &lt;C-S-Left> &lt;C-S-Right>
-  :lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
-  :lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
+:command! -nargs=+ lazy autocmd VimperatorEnter .* &lt;args>
+:lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
+:lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
+:lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
+:lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p &lt;Space> &lt;S-Space> z b &lt; > q w e,g
+:lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c t ? d F,f G,g S,s L,l Y,y H,h M,m &lt;Del> &lt;C-S-Left> &lt;C-S-Right>
+:lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
+:lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
     </ex></code>
   </plugin>
-  <plugin name="feedSomeKeys" version="1.7.0"
+  <plugin name="feedSomeKeys" version="1.8.1"
           href="http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/feedSomeKeys_3.js"
           summary="Feed some defined key events into the Web content"
           lang="ja"
@@ -184,7 +194,7 @@ let INFO = <>
     </p>
     <item>
       <tags>:fmap</tags>
-      <spec>:fmap <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-urls=<a>urlpattern</a></oa> <a>lhs</a> <a>rhs</a></spec>
+      <spec>:fmap <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <a>lhs</a> <a>rhs</a></spec>
       <description>
         <p>
           マッピングを一つ定義します。
@@ -197,11 +207,11 @@ let INFO = <>
     </item>
     <item>
       <tags>:fmaps</tags>
-      <spec>:fmaps <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-urls=<a>urlpattern</a></oa> <a>mapping-pair</a> ....</spec>
+      <spec>:fmaps <oa>-e<oa>vents</oa>=<a>eventnamelist</a></oa> <oa>-x<oa>path</oa>=<a>xpath</a></oa> <oa>-f<oa>rame</oa>=<a>framenumber</a></oa> <oa>-urls=<a>urlpattern</a></oa> <oa>-p<oa>prefix</oa>=<a>prefix</a></oa> <a>mappingpair</a> ....</spec>
       <description>
         <p>
           一度に複数のマッピングを定義できます。
-          <a>mapping-pair</a> は、"," で区切られたキー名の組です。
+          <a>mappingpair</a> は、"," で区切られたキー名の組です。
           <p>例: "&lt;Leader>&lt;S-j>,j"</p>
         </p>
         <p>
@@ -238,29 +248,39 @@ let INFO = <>
     </p>
     <h3 tag="fmap-event-name-list">eventnamelist</h3>
     <p>
-      <a>eventnamelist</a> は以下の値のリストです。
-      <ul>
-        <li>keypress</li>
-        <li>keydown</li>
-        <li>keyup</li>
-        <li>vkeypress</li>
-        <li>vkeydown</li>
-        <li>vkeyup</li>
-      </ul>
-      <p>"v-" のものは、仮想キーコードでイベントを発行します。</p>
-      <p>このオプションのデフォルト値は "keypress" です。</p>
+      <a>eventnamelist</a> は以下の値から構成されたリストです。
+    </p>
+    <ul>
+      <li>keypress</li>
+      <li>keydown</li>
+      <li>keyup</li>
+      <li>vkeypress</li>
+      <li>vkeydown</li>
+      <li>vkeyup</li>
+    </ul>
+    <p>"v..." のものは、仮想キーコードでイベントを発行します。</p>
+    <p>キー毎に、書かれた順にイベントが発行されます。</p>
+    <p>このオプションのデフォルト値は "keypress" です。</p>
+    <h3 tag="fmap-xpath">xpath</h3>
+    <p>
+      キーイベントを送るべき要素を指定するための XPath。
+    </p>
+    <h3 tag="fmap-frame-number">framenumber</h3>
+    <p>
+      キーイベントを送るべきフレームの番号。
+      番号は、補完を参考にしてください。
     </p>
     <h3 tag="fmaps-examples">.vimperatorrc 用の fmaps サンプル</h3>
     <p>コマンドラインで直接に入力するときは、":lazy" を除いてください。</p>
     <code><ex>
-  :command! -nargs=+ lazy autocmd VimperatorEnter .* &lt;args>
-  :lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
-  :lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
-  :lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
-  :lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p &lt;Space> &lt;S-Space> z b &lt; > q w e,g
-  :lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c t ? d F,f G,g S,s L,l Y,y H,h M,m &lt;Del> &lt;C-S-Left> &lt;C-S-Right>
-  :lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
-  :lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
+:command! -nargs=+ lazy autocmd VimperatorEnter .* &lt;args>
+:lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
+:lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
+:lazy fmaps -u='www\.google\.co\.jp/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
+:lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p &lt;Space> &lt;S-Space> z b &lt; > q w e,g
+:lazy fmaps -u='https?://www\.rememberthemilk\.com/home/' j k m i c t ? d F,f G,g S,s L,l Y,y H,h M,m &lt;Del> &lt;C-S-Left> &lt;C-S-Right>
+:lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/list' o j k
+:lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
     </ex></code>
   </plugin>
 </>;
@@ -330,15 +350,14 @@ let INFO = <>
     v;
 
   function or (list, func)
-    let ([head, tail] = list)
-      ((func || v)(head) || (tail && or(tail, func)));
+    (list.length && let ([head,] = list) (func(head) || or(list.slice(1), func)));
 
   function getFrames () {
     function bodyCheck (content)
       (content.document.body.localName.toLowerCase() === 'body');
 
     function get (content)
-      (bodyCheck(content) && result.push(content), Array.slice(content.frames).forEach(get))
+      (bodyCheck(content) && result.push(content), Array.slice(content.frames).forEach(get));
 
     let result = [];
     get(content);
@@ -383,10 +402,11 @@ let INFO = <>
 
     for (let [, keyEvent] in Iterator(events.fromString(keys))) {
       eventNames.forEach(function (eventName) {
+        let ke = util.cloneObject(keyEvent);
         let [, vkey, name] = eventName.match(/^(v)?(.+)$/);
         if (vkey)
-          virtualize(keyEvent);
-        let event = createEvent(name, keyEvent);
+          virtualize(ke);
+        let event = createEvent(name, ke);
         target.dispatchEvent(event);
       });
     }
@@ -394,13 +414,20 @@ let INFO = <>
     modes.passAllKeys = _passAllKeys;
   }
 
-  function regexpValidator (expr) {
-    try {
-      RegExp(expr);
-      return true;
-    } catch (e) {}
-    return false;
-  }
+  function makeTryValidator (func)
+    function (value) {
+      try {
+        liberator.log(value);
+        func(value);
+        return true;
+      } catch (e) {}
+      return false;
+    };
+
+  let regexpValidator = makeTryValidator(RegExp);
+
+  let xpathValidator =
+    makeTryValidator(function (expr) document.evaluate(expr, document, null, null, null))
 
   function makeListValidator (list)
     function (values)
@@ -494,6 +521,13 @@ let INFO = <>
     };
   }
 
+  function frameCompleter (context, args) {
+    return [
+      [i, frame.document.location]
+      for each ([i, frame] in Iterator(getFrames()))
+    ];
+  }
+
 
 
   'fmap fmaps'.split(/\s+/).forEach(function (cmd) {
@@ -501,6 +535,8 @@ let INFO = <>
 
     function action (multi) {
       return function (args) {
+        let prefix = args['-prefix'] || '';
+
         function add ([lhs, rhs]) {
           if (!lhs)
             return;
@@ -508,7 +544,7 @@ let INFO = <>
           rhs = rhs || lhs;
           mappings.addUserMap(
             [modes.NORMAL],
-            [lhs],
+            [prefix + lhs],
             args['description'] || 'by feedSomeKeys_3.js',
             function () {
               function body (win)
@@ -516,6 +552,7 @@ let INFO = <>
 
               let win = document.commandDispatcher.focusedWindow;
               let frames = getFrames();
+
               let elem = body(win);
 
               if (typeof args['-frame'] !== 'undefined') {
@@ -523,8 +560,9 @@ let INFO = <>
                 elem = body(frames[0]);
               }
 
-              if (args['-xpath'])
-                elem = or(frames, function (f) fromXPath(f, args['-xpath'])) || elem;
+              if (args['-xpath']) {
+                elem = or(frames, function (f) fromXPath(f.document, args['-xpath'])) || elem;
+              }
 
               feed(rhs, args['-events'] || ['keypress'], elem);
             },
@@ -545,7 +583,7 @@ let INFO = <>
           let [, lhs, rhs] = args.literalArg.match(/^(\S+)\s+(.*)$/) || args.literalArg;
           if (!rhs) {
             list({
-              filter: args.literalArg.trim(),
+              filter: prefix + args.literalArg.trim(),
               urls: args['-urls'],
               ignoreUrls: !args['-urls']
             });
@@ -564,8 +602,10 @@ let INFO = <>
         literal: 0,
         options: [
           [['-urls', '-u'], commands.OPTION_STRING, regexpValidator, urlCompleter({currentURL: true})],
-          [['-desc', '-description'], commands.OPTION_STRING],
-          [['-frame', '-f'], commands.OPTION_INT],
+          [['-desc', '-description', '-d'], commands.OPTION_STRING],
+          [['-frame', '-f'], commands.OPTION_INT, null, frameCompleter],
+          [['-xpath', '-x'], commands.OPTION_STRING, xpathValidator],
+          [['-prefix', '-p'], commands.OPTION_STRING],
           [
             ['-events', '-e'],
             commands.OPTION_LIST,
@@ -617,7 +657,7 @@ let INFO = <>
 
       let result = {};
       unmap({filter: name, urls: urls, ignoreUrls: args['-ignoreurls'], result: result});
-      liberator.echo(result.matched ?  'Some fmappings were removed.' : 'Not found specifed fmappings.');
+      liberator.echo(result.matched ? 'Some fmappings were removed.' : 'Not found specifed fmappings.');
     },
     {
       literal: 0,
