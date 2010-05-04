@@ -89,13 +89,17 @@
             const feed_url = 'https://mail.google.com/mail/feed/atom';
             var xhr = new XMLHttpRequest();
             xhr.mozBackgroundRequest = true;
-            xhr.open("GET", feed_url, false, gmailUser, gmailPassword);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    var count = parseInt(xhr.responseXML.getElementsByTagName('fullcount')[0].childNodes[0].nodeValue);
+                    gmailBiffIcon.setAttribute('src', count > 0 ? ICON1 : ICON2);
+                    gmailBiffText.setAttribute('value', count > 0 ? 'You have new mail (' + count + ')' : 'No new mail');
+                    setTimeout(arguments.callee, gmailBiffIntervals);
+                }
+            }
+            xhr.open("GET", feed_url, true, gmailUser, gmailPassword);
             xhr.send(null);
 
-            var count = parseInt(xhr.responseXML.getElementsByTagName('fullcount')[0].childNodes[0].nodeValue);
-            gmailBiffIcon.setAttribute('src', count > 0 ? ICON1 : ICON2);
-            gmailBiffText.setAttribute('value', count > 0 ? 'You have new mail (' + count + ')' : 'No new mail');
-            setTimeout(arguments.callee, gmailBiffIntervals);
         } catch(e) {
             liberator.log(e);
             liberator.echoerr("Gmail Biff: " + e);
