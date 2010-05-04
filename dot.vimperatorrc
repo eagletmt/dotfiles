@@ -337,6 +337,34 @@ commands.addUserCommand(['bgimage'], 'view background image',
   }, { argCount: '0' }, true);
 EOM
 
+" altercmd {{{2
+javascript << EOM
+if (typeof abbreviations != 'undefined') {
+  commands.addUserCommand(['altercmd'], 'alter command',
+    function(args) {
+      let abbr = args.shift();
+      abbreviations.add([modes.COMMAND_LINE], abbr,
+        function() {
+          let l = commandline.command;
+          let [,c,,a] = commands.parseCommand(l);
+          if (!/^\s/.test(l) && c == abbr && !a) {
+            return args.join(' ');
+          } else {
+            return abbr;
+          }
+        })
+    },
+    {
+      argCount: '*',
+      completer: function(context, args) {
+        if (args.completeArg == 1) {
+          completion.command(context);
+        }
+      },
+    }, true);
+}
+EOM
+
 " extra {{{1
 " load styles {{{2
 javascript <<EOM
