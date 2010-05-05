@@ -75,10 +75,13 @@
       },
       append:function(arg){
         let val = this.expand(arg);
+        if(!val) return;
         let e = Editor.getEditor();
-        let [text,start,end] = [e.value, e.selectionStart,e.selectionEnd];
+        let [text,start,end, left, top] = [e.value, e.selectionStart,e.selectionEnd, e.scrollLeft, e.scrollTop];
         e.value = text.substr(0, start) + val + text.substr(end);
         e.selectionStart=e.selectionEnd= start+val.length;
+
+        scrollIntoView(e, left, top);
       }
     };
   }
@@ -107,6 +110,7 @@
 
   function dateFormat(fmt) new Date().toLocaleFormat(fmt)
   function getWord(win){
+    if(/(about|mailto):/.test(win.location)) return "";
     var sel = win.getSelection().toString();
     if(sel) return sel;
     for(let w in util.Array.itervalues(win.frames)){ 
@@ -122,14 +126,24 @@
       history.get(history.length-1).value : "";
   }
 
+  function scrollIntoView(e, left, top){
+    [e.scrollLeft ,e.scrollTop] = [left, top];
+    let(editor=e.editor||e.QueryInterface(Ci.nsIDOMNSEditableElement).editor){
+      let ctrl = editor.selectionController;
+      ctrl.getSelection(Ci.nsISelectionController.SELECTION_NORMAL)
+        .QueryInterface(Ci.nsISelection2)
+        .scrollIntoView(Ci.nsISelectionController.SELECTION_ANCHOR_REGION, true, -1, -1);
+    }
+  }
+
   function commandlineInput(extra){
     const modules = liberator.modules;
     if(modules.modes._modeStack.length > 0) return "";
 
     let isCommand = liberator.mode & liberator.modules.modes.COMMAND_LINE;
     let editor = Editor.getEditor();
-    let [start,end, text, prompt] = [editor.selectionStart, editor.selectionEnd, editor.value,
-      commandline._currentPrompt];
+    let [start,end, text, prompt, left, top] = [editor.selectionStart, editor.selectionEnd, editor.value,
+      commandline._currentPrompt, editor.scrollLeft, editor.scrollTop];
     commandline.input(extra.prompt || "",function(arg){
       try{
         commandline._completionList.hide();
@@ -141,6 +155,8 @@
           editor.value = text;
         }
         editor.selectionStart=editor.selectionEnd=start+val.length;
+
+        scrollIntoView(editor, left, top);
       }catch(ex){
         liberator.echoerr(ex);
       }
@@ -153,6 +169,7 @@
           editor.selectionStart = start;
           editor.selectionEnd   = end;
 
+          scrollIntoView(editor, left, top);
           throw new Error("stop escape event");
         }
       },
