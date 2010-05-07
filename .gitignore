@@ -6,4 +6,6 @@ dot.vim/.netrwhist
 .VimballRecord
 dot.vim/poj
 dot.emacs.d/image-dired
+dot.emacs.d/backup
+dot.emacs.d/elisp/*.elc
 dot.vim/bundles/vimproc/autoload/proc.so
