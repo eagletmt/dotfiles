@@ -52,10 +52,10 @@
           let sel;
           if(modes.extended & modes.TEXTAREA){
             let e=Editor.getEditor();
-            [s,e] = [e.selectionStart,e.selectionEnd];
-            sel = e.value.substring(s,e);
+            let [start,end] = [e.selectionStart,e.selectionEnd];
+            sel = e.value.substring(start,end);
           }else{
-            sel = window.content.document.getSelection();
+            sel = getWord(content.window);
           }
           liberator.assert(sel);
           if(isUpper)      map[noname] = map[arg] += sel;
