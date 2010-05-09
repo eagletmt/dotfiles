@@ -174,8 +174,8 @@ liberator.globalVariables.refcontrol = {
 EOM
 
 " tombloo.js {{{2
-nnoremap <silent> -urls='[-a-z0-9]+\.tumblr\.com/post/' i :<C-u>tombloo ReBlog\ -\ Tumblr<CR>
-nnoremap qr :<C-u>tombloo ReBlog\ -\ Tumblr<CR>
+nnoremap <silent> -urls='[-a-z0-9]+\.tumblr\.com/post/' i :<C-u>tombloo ReBlog - Tumblr<CR>
+nnoremap qr :<C-u>tombloo ReBlog - Tumblr<CR>
 
 " hint-tombloo.js {{{2
 let g:hint_tombloo_key = 'r'
