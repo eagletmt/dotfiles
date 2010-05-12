@@ -154,6 +154,23 @@ let g:mapleader = ' '
 
 let g:filetype_m = 'objc'
 
+" quickfix {{{1
+nnoremap q Q
+nnoremap q <Nop>
+nnoremap qj :cnext<CR>
+nnoremap qk :cprev<CR>
+nnoremap qq :cc<CR>
+nnoremap qo :copen<CR>
+nnoremap qc :cclose<CR>
+nnoremap qg :grep<Space>
+if executable('ack')
+  set grepprg=ack\ -a
+else
+  set grepprg=internal
+endif
+nnoremap qm :make<CR>
+nnoremap qM :make<Space>
+
 " :TOhtml {{{2
 let g:use_xhtml = 1
 let g:html_use_css = 1
@@ -200,7 +217,8 @@ call s:import_bundle('quickrun')
 let g:quickrun_config = {
       \ '*': {'split': '{"rightbelow"}'},
       \ 'lisp': {'command' : 'sbcl --script'},
-      \ 'lhaskell': {'tempfile': '{tempname()}.hs', 'eval_template': 'main = print $ %s', 'command': 'runghc'}}
+      \ 'lhaskell': {'tempfile': '{tempname()}.hs', 'eval_template': 'main = print $ %s', 'command': 'runghc'},
+      \ }
 
 " wwwsearch.vim {{{2
 call wwwsearch#add('hoogle', 'http://www.haskell.org/hoogle/?hoogle={keyword}')
