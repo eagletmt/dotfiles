@@ -211,8 +211,17 @@ nnoremap <Space>sg :<C-u>Wwwsearch -google<Space>
 call s:import_bundle('vimshell')
 let g:VimShell_Prompt = $USER . '% '
 let g:VimShell_UserPrompt = 'getcwd()'
-nmap <Space>v <Plug>(vimshell_create)
 let g:VimShell_EnableAutoLs = 1
+let g:VimShell_EnableInteractive = 1
+let g:VimShell_NoDefaultKeyMappings = 1
+nmap <Leader>sp <Plug>(vimshell_split_switch)
+nmap <Leader>sn <Plug>(vimshell_switch)
+augroup MyVimShell
+  autocmd!
+  autocmd FileType vimshell call vimshell#altercmd#define('ll', 'ls -l')
+  autocmd FileType vimshell nunmap <buffer> <C-n>
+  autocmd FileType vimshell nunmap <buffer> <C-p>
+augroup END
 
 " neocomplcache.vim {{{2
 call s:import_bundle('neocomplcache')
