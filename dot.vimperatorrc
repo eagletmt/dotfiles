@@ -196,7 +196,7 @@ liberator.globalVariables.refcontrol = {
 EOM
 
 " tombloo.js {{{2
-nnoremap <silent> -urls='[-a-z0-9]+\.tumblr\.com/post/' i :<C-u>tombloo ReBlog - Tumblr<CR>
+nnoremap <silent> -urls='[-a-z0-9]+\.tumblr\.com/post/' wi :<C-u>tombloo ReBlog - Tumblr<CR>
 nnoremap qr :<C-u>tombloo ReBlog - Tumblr<CR>
 
 " hint-tombloo.js {{{2
@@ -254,12 +254,12 @@ commands.addUserCommand(['inreplyto'], '',
       }
     }, null, true);
 EOM
-nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' i :<C-u>inreplyto<CR>
+nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' wi :<C-u>inreplyto<CR>
 
 " pixiv {{{2
-nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' b :<C-u>pixivBookmark<Space>
-nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' v :<C-u>pixivViewBookmark<CR>
-nnoremap <silent> -urls='www\.pixiv\.net/' B :<C-u>pixivUserBookmark<CR>
+nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' wb :<C-u>pixivBookmark<Space>
+nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' wv :<C-u>pixivViewBookmark<CR>
+nnoremap <silent> -urls='www\.pixiv\.net/' wB :<C-u>pixivUserBookmark<CR>
 
 " accsess pixiv constantly {{{3
 javascript <<EOM
@@ -278,7 +278,7 @@ EOM
 autocmd LocationChange www\.pixiv\.net/jump\.php :<C-u>js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
 
 " amazon {{{2
-nnoremap <silent> -urls='www\.amazon\.(com|co\.jp)' x :<C-u>js liberator.open(win.location.protocol+'//'+win.location.host+'/dp/'+$LX('//b[starts-with(text(), "ASIN") or starts-with(text(), "ISBN-10")]').nextSibling.nodeValue.trim())<CR>
+nnoremap <silent> -urls='www\.amazon\.(com|co\.jp)' wx :<C-u>js liberator.open(win.location.protocol+'//'+win.location.host+'/dp/'+$LX('//b[starts-with(text(), "ASIN") or starts-with(text(), "ISBN-10")]').nextSibling.nodeValue.trim())<CR>
 
 " youtube_download.js {{{2
 let g:yt_save_dir = '~/yt'
@@ -307,7 +307,7 @@ commands.addUserCommand(['mada[kana]'], 'madakana?',
 EOM
 
 " hatena {{{2
-nnoremap <silent> -urls='[dg]\.hatena\.ne\.jp|anond\.hatelabo\.jp' x :<C-u>js $LXs('//a[@class="keyword" or @class="okeyword"]').forEach(function(e) e.parentNode.replaceChild(e.firstChild, e))<CR>
+nnoremap <silent> -urls='[dg]\.hatena\.ne\.jp|anond\.hatelabo\.jp' wx :<C-u>js $LXs('//a[@class="keyword" or @class="okeyword"]').forEach(function(e) e.parentNode.replaceChild(e.firstChild, e))<CR>
 
 " tryhaskell {{{2
 javascript <<EOM
@@ -344,7 +344,7 @@ nnoremap <silent> ,q :<C-u>gcache<CR>
 command! -nargs=0 cal js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
 
 " pku {{{2
-nnoremap <silent> -urls='acm\.pku\.edu\.cn/JudgeOnline/problem\?id=' w :<C-u>js liberator.open(buffer.URI.replace(/problem\?id=(\d+)/, 'status?problem_id=$1'))<CR>
+nnoremap <silent> -urls='acm\.pku\.edu\.cn/JudgeOnline/problem\?id=' ws :<C-u>js liberator.open(buffer.URI.replace(/problem\?id=(\d+)/, 'status?problem_id=$1'))<CR>
 
 javascript <<EOM
 commands.addUserCommand(['bgimage'], 'view background image',
