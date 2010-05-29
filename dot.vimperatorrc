@@ -57,6 +57,14 @@ mappings.addUserMap(
     ['<C-c>'],
     'Copy current commandline',
     function() util.copyToClipboard(commandline.command));
+
+mappings.addUserMap(
+  [modes.COMMAND_LINE],
+  ['<C-x>'],
+  'toggle bang',
+  function()
+    let ([,cmd,bang,args] = commands.parseCommand(commandline.command))
+    commandline.command = cmd + (bang ? '' : '!') + ' ' + args);
 EOM
 
 " insert mode {{{2
