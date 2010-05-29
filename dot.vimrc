@@ -491,6 +491,49 @@ nmap <Space>wl <Plug>swap_window_l
 nmap <Space>wt <Plug>swap_window_t
 nmap <Space>wb <Plug>swap_window_b
 
+" select c-style if {{{2
+nnoremap <silent> <Plug>select_cstyle_if :<C-u>call <SID>select_cstyle_if()<CR>
+function! s:select_cstyle_if()  " {{{
+  let orig_view = winsaveview()
+  let if_start_pos = []
+  while searchpair('{', '', '}', 'bW', 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|character"') != 0
+    let brace_start_pos = getpos('.')
+    normal! ge
+    let save = @"
+    normal! yl
+    let t = @"
+    let @" = save
+    if t == ')'
+      call searchpair('(', '', ')', 'bW', 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|character"')
+      normal! b
+      let s = expand('<cword>')
+      if s == 'if' || s == 'elsif'
+        let if_start_pos = getpos('.')
+        break
+      endif
+    elseif expand('<cword>') == 'else'
+      normal! b
+      let if_start_pos = getpos('.')
+      break
+    endif
+  endwhile
+  if if_start_pos == []
+    echohl ErrorMsg
+    echo "'if' not found"
+    echohl None
+    call winrestview(orig_view)
+    return
+  endif
+
+  normal! m[
+  call setpos('.', brace_start_pos)
+  call searchpair('{', '', '}', 'W', 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string\\|character"')
+  normal! m]
+  normal! `[v`]
+endfunction " }}}
+" example
+nmap <Space>if <Plug>select_cstyle_if
+
 " private {{{1
 if filereadable(expand('~/vimrc.local'))
   source ~/vimrc.local
