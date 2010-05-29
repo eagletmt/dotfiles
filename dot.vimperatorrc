@@ -260,6 +260,7 @@ nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' wi :<C-u>inreplyto<C
 nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' wb :<C-u>pixivBookmark<Space>
 nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' wv :<C-u>pixivViewBookmark<CR>
 nnoremap <silent> -urls='www\.pixiv\.net/' wB :<C-u>pixivUserBookmark<CR>
+nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?' wt :<C-u>pixivTombloo<CR>
 
 " accsess pixiv constantly {{{3
 javascript <<EOM
