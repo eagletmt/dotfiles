@@ -164,6 +164,38 @@ liberator.plugins.pixiv = (function() {
       req.get();
     }, { argCount: '0' }, true);  // }}}
 
+  hints.addMode(  // hint mode for tombloo {{{
+    'share-by-tombloo-pixiv',
+    'Share by Tombloo (pixiv)',
+    function(elem) {
+        let tombloo = Cc['@brasil.to/tombloo-service;1'].getService().wrappedJSObject.Tombloo.Service;
+        if (!tombloo) {
+          liberator.echoerr('tombloo not found!');
+          return;
+        }
+
+        let doc = content.document;
+        let win = content.wrappedJSObject;
+        let context = {
+            document: doc,
+            window:   win,
+            title:    doc.title,
+            target:   elem,
+        };
+        for (let p in win.location) {
+            context[p] = win.location[p];
+        }
+        const name = 'Photo - Upload from Cache';
+        let extractor = tombloo.check(context).filter(function(e) e.name == name);
+        if (extractor.length == 0) {
+          liberator.echoerr(name + ' is not available!');
+          return;
+        }
+        extractor = extractor[0];
+        tombloo.share(context, extractor, false);
+    }, function() 'id("bigmode")/a/img | //table[starts-with(@id, "page")]/tbody/tr/td/a/img');  // }}}
+  commands.addUserCommand(['pixivTombloo'], 'Share by Tombloo (pixiv)', function() hints.show('share-by-tombloo-pixiv'), { argCount: 0 });
+
   return pixivManager;
 })();
 
