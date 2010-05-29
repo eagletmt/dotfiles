@@ -244,7 +244,7 @@ commands.addUserCommand(['matrixcode'], '',
 EOM
 nnoremap <silent> ,l :<C-u>matrixcode<CR>
 
-" inreplyto {{{2
+" twitter {{{2
 javascript <<EOM
 commands.addUserCommand(['inreplyto'], '',
     function() {
