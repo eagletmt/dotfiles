@@ -125,7 +125,18 @@ let g:ldrc_skip = "0.2"
 nnoremap <silent> e :<C-u>toggleldrizecooperation<CR>
 
 " hatena bookmark {{{2
-javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
+javascript <<EOM
+liberator.globalVariables.hBookmark_shortcuts = {
+  hintsAdd: 'h',
+  hintsComment: null,
+  add: ['c'],
+  comment: ['C'],
+};
+if (typeof hBookmark != 'undefined') {
+  liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
+  mappings.getCandidates(modes.NORMAL, 'c').forEach(function(m) mappings.remove(modes.NORMAL, m.names));
+}
+EOM
 
 " multi_requester.js {{{2
 nnoremap m <Nop>
