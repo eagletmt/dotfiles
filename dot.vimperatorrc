@@ -217,13 +217,13 @@ liberator.globalVariables.userLoginServices = {
 EOM
 
 " stella.js {{{2
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' x :<C-u>stseek! -5<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' X :<C-u>stseek! -10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' s :<C-u>stseek! +5<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' S :<C-u>stseek! +10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' v :<C-u>stvolume! -10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' V :<C-u>stvolume! +10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/watch' a :<C-u>stplay<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' x :<C-u>stseek! -5<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' X :<C-u>stseek! -10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' s :<C-u>stseek! +5<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' S :<C-u>stseek! +10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' v :<C-u>stvolume! -10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' V :<C-u>stvolume! +10<CR>
+nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' a :<C-u>stplay<CR>
 
 " no-reading.js {{{2
 let g:no_reading_do_echo = 1
