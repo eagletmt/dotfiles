@@ -253,6 +253,26 @@ commands.addUserCommand(['inreplyto'], '',
         liberator.open(a.href);
       }
     }, null, true);
+
+commands.addUserCommand(['status'], 'see status',
+  function(args) {
+    let id = (args.literalArg || content.document.getSelection() || util.readFromClipboard()).match(/\d+/)[0];
+    util.httpGet('http://mobile.twitter.com/statuses/' + id, function(xhr) {
+      let status = xhr.responseText.match(/class="status">(.+)<\/span>/)[1];
+      let screen_name = xhr.responseText.match(/href="\/([a-zA-Z0-9_]+)\/status\/\d+"/)[1];
+      liberator.echo(screen_name + ': ' + status);
+    });
+  }, { literal: 0 }, true);
+
+commands.addUserCommand(['screenname'], 'see screen_name',
+  function(args) {
+    let id = (args.literalArg || content.document.getSelection() || util.readFromClipboard()).match(/\d+/)[0];
+    util.httpGet('http://mobile.twitter.com/' + id, function(xhr) {
+      let screen_name = xhr.responseText.match(/<strong>([a-zA-Z0-9_]+)<\/strong>/)[1];
+      liberator.echo(id + ' = ' + screen_name);
+    });
+  }, { literal: 0 }, true);
+
 EOM
 nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' wi :<C-u>inreplyto<CR>
 
