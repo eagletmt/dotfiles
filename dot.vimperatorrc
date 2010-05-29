@@ -74,6 +74,9 @@ inoremap <C-n> <Down>
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 
+" visual mode {{{2
+vnoremap ; :
+
 " search commands {{{1
 "silent bmark -title='Google' -tags=vimp -keyword=gs http://www.google.com/search?q=%s
 "silent bmark -title='Google Images' -tags=vimp -keyword=gi http://images.google.com/images?q=%s
