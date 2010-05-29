@@ -448,7 +448,49 @@ function! s:cmd_capture(cmd)
   call setline(1, split(result))
 endfunction
 
-" {{{2
+" swap window {{{2
+nnoremap <silent> <Plug>swap_window_next :<C-u>call <SID>swap_window(v:count1)<CR>
+nnoremap <silent> <Plug>swap_window_prev :<C-u>call <SID>swap_window(-v:count1)<CR>
+nnoremap <silent> <Plug>swap_window_j :<C-u>call <SID>swap_window_dir(v:count1, 'j')<CR>
+nnoremap <silent> <Plug>swap_window_k :<C-u>call <SID>swap_window_dir(v:count1, 'k')<CR>
+nnoremap <silent> <Plug>swap_window_h :<C-u>call <SID>swap_window_dir(v:count1, 'h')<CR>
+nnoremap <silent> <Plug>swap_window_l :<C-u>call <SID>swap_window_dir(v:count1, 'l')<CR>
+nnoremap <silent> <Plug>swap_window_t :<C-u>call <SID>swap_window_dir(v:count1, 't')<CR>
+nnoremap <silent> <Plug>swap_window_b :<C-u>call <SID>swap_window_dir(v:count1, 'b')<CR>
+
+function! s:modulo(n, m)
+  let d = a:n * a:m < 0 ? 1 : 0
+  return a:n + (-(a:n + (0 < a:m ? d : -d)) / a:m + d) * a:m
+endfunction
+
+function! s:swap_window(n)
+  let curbuf = bufnr('%')
+  let target = s:modulo(winnr() + a:n - 1, winnr('$')) + 1
+  execute 'hide' winbufnr(target) 'buffer'
+  execute target 'wincmd w'
+  execute curbuf 'buffer'
+endfunction
+
+function! s:swap_window_dir(n, dir)
+  let curbuf = bufnr('%')
+  execute a:n 'wincmd' a:dir
+  let target = winnr()
+  let targetbuf = bufnr('%')
+  if curbuf != targetbuf
+    wincmd p
+    execute 'hide' targetbuf 'buffer'
+    execute target 'wincmd w'
+    execute curbuf 'buffer'
+  endif
+endfunction
+
+nmap <Space>wj <Plug>swap_window_j
+nmap <Space>wk <Plug>swap_window_k
+nmap <Space>wh <Plug>swap_window_h
+nmap <Space>wl <Plug>swap_window_l
+nmap <Space>wt <Plug>swap_window_t
+nmap <Space>wb <Plug>swap_window_b
+
 " private {{{1
 if filereadable(expand('~/vimrc.local'))
   source ~/vimrc.local
