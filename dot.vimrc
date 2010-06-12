@@ -461,7 +461,7 @@ vmap <Leader>dj <Plug>decodeJSString
 function! s:helptags_all()  " {{{2
   for path in split(&runtimepath, ',')
     if isdirectory(path . '/doc') && filewritable(path . '/doc/tags')
-      silent execute 'helptags ' . path . '/doc'
+      execute 'helptags ' . path . '/doc'
     endif
   endfor
 endfunction
