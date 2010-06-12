@@ -363,6 +363,13 @@ call s:import_bundle('ref')
 
 " vimfiler  {{{2
 call s:import_bundle('vimfiler')
+let g:vimfiler_as_default_explorer = 1
+augroup MyVimFiler
+  autocmd!
+  autocmd FileType vimfiler nunmap <buffer> j
+  autocmd FileType vimfiler nunmap <buffer> k
+  autocmd FileType vimfiler nunmap <buffer> q
+augroup END
 
 " git.vim {{{2
 call s:import_bundle('git')
