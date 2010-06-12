@@ -247,22 +247,46 @@ augroup END
 call s:import_bundle('neocomplcache')
 set complete& complete+=k
 set completeopt& completeopt+=menuone
-let g:NeoComplCache_EnableAtStartup = 1
-let g:NeoComplCache_SmartCase = 1
-imap <silent> <C-v> <Plug>(neocomplcache_snippets_expand)
-if has('win32')
-  let g:NeoComplCache_SnippetsDir = $HOME.'/vimfiles/snippets'
+if 0
+  " neocomplcache ver.4
+  let g:NeoComplCache_EnableAtStartup = 1
+  let g:NeoComplCache_SmartCase = 1
+  inoremap <expr> <C-g> neocomplcache#undo_completion()
+  imap <silent> <C-v> <Plug>(neocomplcache_snippets_expand)
+  if has('win32')
+    let g:NeoComplCache_SnippetsDir = $HOME.'/vimfiles/snippets'
+  else
+    let g:NeoComplCache_SnippetsDir = $HOME.'/.vim/snippets'
+  endif
+  if !exists('g:NeoComplCache_DictionaryFileTypeLists')
+    let g:NeoComplCache_DictionaryFileTypeLists = {}
+    let g:NeoComplCache_DictionaryFileTypeLists.haskell = $HOME.'/.vim/dict/haskell.dict'
+  endif
+  if !exists('g:NeoComplCache_OmniPatterns')
+    let g:NeoComplCache_OmniPatterns = {}
+    " disable omni complete
+    let g:NeoComplCache_OmniPatterns.ruby = ''
+  endif
 else
-  let g:NeoComplCache_SnippetsDir = $HOME.'/.vim/snippets'
-endif
-if !exists('g:NeoComplCache_DictionaryFileTypeLists')
-  let g:NeoComplCache_DictionaryFileTypeLists = {}
-  let g:NeoComplCache_DictionaryFileTypeLists.haskell = $HOME.'/.vim/dict/haskell.dict'
-endif
-if !exists('g:NeoComplCache_OmniPatterns')
-  let g:NeoComplCache_OmniPatterns = {}
-  " disable omni complete
-  let g:NeoComplCache_OmniPatterns.ruby = ''
+  " neocomplcache ver.5
+  let g:neocomplcache_enable_at_startup = 1
+  let g:neocomplcache_max_list = 50
+  let g:neocomplcache_auto_complete_start_length = 3
+  if has('win32')
+    let g:neocomplcache_snippets_dir = $HOME.'/vimfiles/snippets'
+  else
+    let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
+  endif
+  let g:neocomplcache_dictionary_filetype_lists = {
+        \ 'default': '',
+        \ 'haskell': $HOME.'/.vim/dict/haskell.dict',
+        \ }
+  let g:neocomplcache_omni_patterns = {
+        \ 'ruby': '',
+        \ }
+
+  imap <C-v> <Plug>(neocomplcache_snippets_expand)
+  inoremap <expr> <C-g> neocomplcache#undo_completion()
 endif
 
 " twitvim.vim {{{2
