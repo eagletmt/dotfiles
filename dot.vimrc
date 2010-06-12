@@ -140,6 +140,9 @@ inoremap <C-e> <C-o>$
 inoremap <C-a> <C-o>^
 inoremap <C-k> <C-o>C
 inoremap <C-w> <C-g>u<C-w>
+inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : ''
+inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : ''
+
 
 " visual mode {{{2
 vnoremap : ;
