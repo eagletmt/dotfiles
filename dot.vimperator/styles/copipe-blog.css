@@ -138,15 +138,17 @@
 } /* }}} */
 
 @-moz-document domain("majikichisokuhou.blog34.fc2.com") { /* {{{ */
-  div#header_outline, div.plugin1_outline, div.plugin2_outline,
-  div.plugin3_body, div.ently_navi, div#center-left, div.comment_outline,
-  div.trackback_outline, div#kanrendesu, hr { display: none !important; }
+  #header_outline, .plugin1_outline, .plugin2_outline,
+  .plugin3_outline, .ently_navi, .comment_outline,
+  .trackback_outline, #kanrendesu, hr, .amazlet-box
+  { display: none !important; }
 
-  div#center { width: auto !important; }
+  #center-left { width: 100% !important; }
+  #center { width: 100% !important; }
 
-  div.ently_body { background: lemonchiffon; font-size: small !important; }
+  .ently_body { background: lemonchiffon; font-size: small !important; }
 
-  h2.ently_title { background: sandybrown !important; background-image: none !important; }
+  .ently_title { background: sandybrown !important; background-image: none !important; }
 } /* }}} */
 
 @-moz-document domain("kanasoku.blog82.fc2.com") { /* {{{ */
