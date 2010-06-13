@@ -13,6 +13,7 @@ set title
 set number
 set laststatus=2
 set statusline=[%L]\ %t\ %y%{'['.(&fenc!=''?&fenc:&enc).':'.']'}%r%m%=%c:%l/%L
+set foldmethod=marker
 colorscheme xoria256
 
 " encoding {{{2
@@ -566,6 +567,25 @@ function! s:select_cstyle_if()  " {{{
 endfunction " }}}
 " example
 nmap <Space>if <Plug>select_cstyle_if
+
+" find next help tagjump {{{2
+" original: http://d.hatena.ne.jp/mFumi/20100612/1276355084
+autocmd MyAutoCmd FileType help nnoremap <buffer> <silent> <Tab> :<C-u>call <SID>find_next_help_tagjump('W')<CR>
+autocmd MyAutoCmd FileType help nnoremap <buffer> <silent> <S-Tab> :<C-u>call <SID>find_next_help_tagjump('bW')<CR>
+function! s:find_next_help_tagjump(flag)  " {{{
+  let orig_view = winsaveview()
+  let helpHyperTextJump	= '\\\@<!|[^"*|]\+|'
+  let helpOption1 = "'[a-z]\\{2,\\}'"
+  let helpOption2 = "'t_..'"
+  let regex = join([helpHyperTextJump, helpOption1, helpOption2], '\|')
+  echomsg regex
+  while search(regex, a:flag) > 0
+    if synIDattr(synID(line('.'), col('.'), 0), 'name') =~# '^\(helpBar\|helpOption\)$'
+      return
+    endif
+  endwhile
+  call winrestview(orig_view)
+endfunction " }}}
 
 " private {{{1
 if filereadable(expand('~/vimrc.local'))
