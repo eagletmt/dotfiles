@@ -578,7 +578,6 @@ function! s:find_next_help_tagjump(flag)  " {{{
   let helpOption1 = "'[a-z]\\{2,\\}'"
   let helpOption2 = "'t_..'"
   let regex = join([helpHyperTextJump, helpOption1, helpOption2], '\|')
-  echomsg regex
   while search(regex, a:flag) > 0
     if synIDattr(synID(line('.'), col('.'), 0), 'name') =~# '^\(helpBar\|helpOption\)$'
       return
