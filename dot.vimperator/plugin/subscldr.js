@@ -184,7 +184,8 @@ liberator.plugins.subscldr = (function() {
       "Register feed subscriptions to " + servicename + ".",
       function(args) {
         try {
-          handleFeedRequest({rate: args["-rate"], folder: args["-folder"]});
+          handleFeedRequest({rate: args["-rate"], folder: args["-folder"]},
+            args[0] ? endpoint + args[0] : undefined);
         } catch (e) {
           liberator.echoerr(e);
         }
@@ -193,7 +194,8 @@ liberator.plugins.subscldr = (function() {
         options: [
           [["-rate", "-r"], commands.OPTION_INT],
           [["-folder", "-f"], commands.OPTION_STRING],
-        ]
+        ],
+        argCount: '?',
       },
       true  // Use in DEVELOP
     );
