@@ -373,7 +373,7 @@ commands.addUserCommand(['gmset'],'change settings for Greasemonkey scripts', //
 commands.addUserCommand(['gmcommand','gmcmd'],'run Greasemonkey Command', //{{{
     function(args){
         var commander = GM_BrowserUI.getCommander(content);
-        var commandName = args[0];
+        var commandName = args.literalArg;
         for (let i=0,l=commander.menuItems.length; i<l; i++){
             let menuItem = commander.menuItems[i];
             if (menuItem.getAttribute('label') == commandName){
@@ -393,7 +393,7 @@ commands.addUserCommand(['gmcommand','gmcmd'],'run Greasemonkey Command', //{{{
                 return this.test(item[0]);
             },exp);
         },
-        argCount: "1"
+        literal: 0,
     }
 ); //}}}
 
