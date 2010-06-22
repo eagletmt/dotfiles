@@ -45,6 +45,23 @@ liberator.plugins.pixiv = (function() {
         req.post();
       });
     },  /// }}}
+    delete_bookmark_user: function(id, next) {  // {{{
+      util.httpGet('http://www.pixiv.net/bookmark.php?type=user&rest=show', function(res) {
+        let m = res.responseText.match(/name="tt" *value="([^"]+)"/);
+        let tt = m[1];
+        let params = {
+          type: 'user',
+          tt: tt,
+          rest: 'show',
+          'id%5B%5D': id,
+          del: '%E3%80%80%E5%A4%96%E3%80%80%E3%81%99%E3%80%80',
+        };
+        let q = [k + '=' + params[k] for (k in params)].join('&');
+        let req = new libly.Request('http://www.pixiv.net/bookmark_setting.php', null, {postBody: q});
+        req.addEventListener('onSuccess', next);
+        req.post();
+      });
+    },  // }}}
     get_entries: function(id, next) {  // {{{
       let url = 'http://www.pixiv.net/bookmark_illust_user.php?illust_id=' + id;
       let req = new libly.Request(url);
@@ -112,8 +129,8 @@ liberator.plugins.pixiv = (function() {
     },
     true);  // }}}
 
-  commands.addUserCommand('pixivUserBookmark', 'bookmark this user', // {{{
-    function() {
+  commands.addUserCommand('pixivUserBookmark', '[un]bookmark this user', // {{{
+    function(args) {
       let id = content.document.getElementById('rpc_u_id');
       if (id) {
         id = id.textContent;
@@ -125,11 +142,15 @@ liberator.plugins.pixiv = (function() {
           return;
         }
       }
-      pixivManager.bookmark_user(id, function(res) {
-        let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/);
-        liberator.echo(m[1] + m[2]);
-      });
-    }, { argCount: '0' }, true);  // }}}
+      if (args.bang) {
+        pixivManager.delete_bookmark_user(id, function() liberator.echo('successfully unbookmarked'));
+      } else {
+        pixivManager.bookmark_user(id, function(res) {
+          let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)/);
+          liberator.echo(m[1] + m[2]);
+        });
+      }
+    }, { bang: true, argCount: '0' }, true);  // }}}
 
   commands.addUserCommand('pixivViewBookmark', 'view pixiv bookmark', // {{{
     function() {
