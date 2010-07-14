@@ -16,7 +16,7 @@ hi CompItem[selected]                 background-color: #444444; opacity: 0.8;
 hi Keyword            color: #df8787;
 hi Tag                color: #00afff;
 
-hi Hint               color: #000000; background-color: #8f87df;
+hi Hint               color: #000000; background-color: #bfb7df; font-weight: bold;
 hi HintActive         color: #000000; background-color: #ffaf00;
 hi HintElem           color: #000000; background-color: #afdf5f;
 
