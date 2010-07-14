@@ -22,6 +22,7 @@ zmodload -i zsh/files
 
 # set special zsh option
 setopt auto_pushd	auto_cd no_hup extended_glob no_multios
+setopt print_exit_value
 
 # User specific aliases and functions
 alias du='du -h'
