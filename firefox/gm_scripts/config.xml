@@ -2,6 +2,9 @@
 	<Script filename="minibuffer.user.js" name="Minibuffer" namespace="http://white.s151.xrea.com/" description="Minibuffer" enabled="true" basedir="minibuffer">
 		<Include>*</Include>
 	</Script>
+	<Script filename="tumblr_dashboard_filter_.user.js" name="Tumblr Dashboard Filter by Post Type" namespace="http://cxx.tumblr.com/" description="" enabled="true" basedir="tumblr_dashboard_filter_">
+		<Include>http://www.tumblr.com/*</Include>
+	</Script>
 	<Script filename="autopagerize.user.js" name="AutoPagerize" namespace="http://swdyh.yu.to/" description="loading next page and inserting into current page." enabled="true" basedir="autopagerize">
 		<Include>http://*</Include>
 		<Include>https://*</Include>
