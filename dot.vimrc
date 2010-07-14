@@ -110,7 +110,7 @@ augroup END
 " general keymaps {{{1
 " normal mode {{{2
 nnoremap : ;
-nnoremap ; :
+"nnoremap ; :
 
 nnoremap ,s :<C-u>source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif<CR>
 nnoremap <silent> ,d :<C-u>call <SID>helptags_all()<CR>
@@ -125,6 +125,8 @@ nnoremap <silent> <C-k> :<C-u>tabclose<CR>
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
+nnoremap Q :<C-u>quit<CR>
+
 " commandline mode {{{2
 cnoremap <C-p> <Up>
 cnoremap <Up> <C-p>
@@ -133,6 +135,8 @@ cnoremap <Down> <C-n>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
 cnoremap <C-a> <Home>
+cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1)<CR>
+cnoremap <expr> / getcmdtype() ==# '/' ? '\/' : '/'
 
 " insert mode {{{2
 inoremap <C-f> <Right>
@@ -144,10 +148,9 @@ inoremap <C-w> <C-g>u<C-w>
 inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : ''
 inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : ''
 
-
 " visual mode {{{2
 vnoremap : ;
-vnoremap ; :
+"vnoremap ; :
 " * works well for Japanese
 vnoremap * "zy:let @/ = @z<CR>n"
 " http://vim-users.jp/2009/11/hack104/
@@ -159,8 +162,8 @@ let g:mapleader = ' '
 let g:filetype_m = 'objc'
 
 " quickfix {{{1
-nnoremap q Q
-nnoremap q <Nop>
+"nnoremap q Q
+"nnoremap q <Nop>
 nnoremap qj :cnext<CR>
 nnoremap qk :cprev<CR>
 nnoremap qq :cc<CR>
@@ -174,6 +177,15 @@ else
 endif
 nnoremap qm :make<CR>
 nnoremap qM :make<Space>
+
+" command-line window {{{1
+nnoremap ; q:
+xnoremap ; q:
+autocmd MyAutoCmd CmdwinEnter * call s:init_cmdwin()
+function! s:init_cmdwin()
+  nnoremap <buffer> <Esc> :<C-u>quit<CR>
+  startinsert!
+endfunction
 
 " :TOhtml {{{2
 let g:use_xhtml = 1
@@ -271,8 +283,8 @@ if 0
 else
   " neocomplcache ver.5
   let g:neocomplcache_enable_at_startup = 1
-  let g:neocomplcache_max_list = 50
-  let g:neocomplcache_auto_complete_start_length = 3
+  let g:neocomplcache_max_list = 30
+  let g:neocomplcache_auto_complete_start_length = 4
   if has('win32')
     let g:neocomplcache_snippets_dir = $HOME.'/vimfiles/snippets'
   else
@@ -285,6 +297,7 @@ else
   let g:neocomplcache_omni_patterns = {
         \ 'ruby': '',
         \ }
+  let g:neocomplcache_disable_caching_buffer_name_pattern = '^fuf$'
 
   imap <C-v> <Plug>(neocomplcache_snippets_expand)
   inoremap <expr> <C-g> neocomplcache#undo_completion()
@@ -388,6 +401,9 @@ let g:onlinejudge_account = {
 " altercmd {{{2
 call s:import_bundle('altercmd')
 call altercmd#define('ccd', 'cd %:h')
+
+" IndentAnything {{{2
+call s:import_bundle('IndentAnything')
 
 " misc {{{1
 " reverse lines {{{2
@@ -585,6 +601,19 @@ function! s:find_next_help_tagjump(flag)  " {{{
   endwhile
   call winrestview(orig_view)
 endfunction " }}}
+
+" sudo write {{{2
+command! -nargs=? -range=% SudoWrite call <SID>sudo_write(<q-args>, <line1>, <line2>)
+
+function! s:sudo_write(path, line1, line2)
+  if empty(a:path)
+    let path = expand('%')
+  else
+    let path = a:path
+  endif
+  silent execute 'write !sudo tee >/dev/null ' . path
+  setlocal nomodified
+endfunction
 
 " private {{{1
 if filereadable(expand('~/vimrc.local'))
