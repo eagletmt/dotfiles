@@ -411,6 +411,27 @@ if (typeof abbreviations != 'undefined') {
 }
 EOM
 
+" utilities {{{1
+javascript <<EOM
+var myutil = {};
+myutil.toDataURL = function(file) {
+  // assert(file instanceof Ci.nsIFile)
+  let type = 'plain/text';
+  try {
+    type = Cc['@mozilla.org/mime;1'].getService(Ci.nsIMIMEService).getTypeFromFile(file);
+  } catch(e) {}
+
+  let ifstream = Cc['@mozilla.org/network/file-input-stream;1'].createInstance(Ci.nsIFileInputStream);
+  ifstream.init(file, io.File.MODE_RDONLY, 0600, 0);
+  let stream = Cc['@mozilla.org/binaryinputstream;1'].createInstance(Ci.nsIBinaryInputStream);
+  stream.setInputStream(ifstream);
+  let b64 = btoa(stream.readBytes(stream.available()));
+  stream.close();
+  ifstream.close();
+  return 'data:' + type + ';base64,' + b64;
+}
+EOM
+
 " extra {{{1
 " load styles {{{2
 javascript <<EOM
