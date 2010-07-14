@@ -383,6 +383,9 @@ commands.addUserCommand(['bgimage'], 'view background image',
   }, { argCount: '0' }, true);
 EOM
 
+" nicovideo {{{2
+let g:nico_save_dir = '~/Movies/nico'
+
 " altercmd {{{2
 javascript << EOM
 if (typeof abbreviations != 'undefined') {
