@@ -1,69 +1,57 @@
 liberator.plugins.pixiv = (function() {
   let libly = liberator.plugins.libly;
   let $LXs = libly.$U.getNodesFromXPath;
+  let $LX = libly.$U.getFirstNodeFromXPath;
   let tags_cache = {};
 
   let pixivManager = {
     bookmark_illust: function(id, tags, comment, next) {  // {{{
-      util.httpGet('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id, function(res) {
-        let m = res.responseText.match(/name="tt" value="([^"]+)"/);
-        let params = {
-          mode: 'add',
-          tt: m[1],
-          id: id,
-          type: 'illust',
-          restrict: '0',
-          tag: tags.map(function(t) encodeURIComponent(t)).join('+'),
-          comment: comment,
-        };
-        let q = [k + '=' + params[k] for (k in params)].join('&');
+      let tt = $LX('//input[@name="tt"]').value;
+      let params = {
+        mode: 'add',
+        tt: tt,
+        id: id,
+        type: 'illust',
+        restrict: '0',
+        tag: tags.map(function(t) encodeURIComponent(t)).join('+'),
+        comment: comment,
+      };
+      let q = [k + '=' + params[k] for (k in params)].join('&');
 
-        let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
-        req.addEventListener('onSuccess', next);
-        req.post();
-      });
+      let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
+      req.addEventListener('onSuccess', next);
+      req.post();
     },  /// }}}
     bookmark_user: function(id, next) { // {{{
-      util.httpGet('http://www.pixiv.net/bookmark_add.php?type=user&id=' + id, function(res) {
-        let m = res.responseText.match(/name="tt" *value="([^"]+)"/);
-        if (m === null) {
-          let m = res.responseText.match(/<a href="member\.php\?id=\d+">([^<]+)<\/a>([^<]+)<\/div>/);
-          liberator.echo(m[1] + m[2]);
-          return;
-        }
-        let tt = m[1];
-        let params = {
-          mode: 'add',
-          tt: tt,
-          id: id,
-          type: 'user',
-          restrict: '0',
-        };
-        let q = [k + '=' + params[k] for (k in params)].join('&');
-        let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
-        req.addEventListener('onSuccess', next);
-        req.post();
-      });
+      let tt = $LX('//input[@name="tt"]').value;
+      let params = {
+        mode: 'add',
+        tt: tt,
+        user_id: id,
+        type: 'user',
+        restrict: '0',
+      };
+      let q = [k + '=' + params[k] for (k in params)].join('&');
+      let req = new libly.Request('http://www.pixiv.net/bookmark_add.php', null, {postBody: q});
+      req.addEventListener('onSuccess', next);
+      req.post();
     },  /// }}}
     delete_bookmark_user: function(id, next) {  // {{{
-      util.httpGet('http://www.pixiv.net/bookmark.php?type=user&rest=show', function(res) {
-        let m = res.responseText.match(/name="tt" *value="([^"]+)"/);
-        let tt = m[1];
-        let params = {
-          type: 'user',
-          tt: tt,
-          rest: 'show',
-          'id%5B%5D': id,
-          del: '%E3%80%80%E5%A4%96%E3%80%80%E3%81%99%E3%80%80',
-        };
-        let q = [k + '=' + params[k] for (k in params)].join('&');
-        let req = new libly.Request('http://www.pixiv.net/bookmark_setting.php', null, {postBody: q});
-        req.addEventListener('onSuccess', next);
-        req.post();
-      });
+      let tt = $LX('//input[@name="tt"]').value;
+      let params = {
+        type: 'user',
+        tt: tt,
+        rest: 'show',
+        'id%5B%5D': id,
+        del: '%E3%80%80%E5%A4%96%E3%80%80%E3%81%99%E3%80%80',
+      };
+      let q = [k + '=' + params[k] for (k in params)].join('&');
+      let req = new libly.Request('http://www.pixiv.net/bookmark_setting.php', null, {postBody: q});
+      req.addEventListener('onSuccess', next);
+      req.post();
     },  // }}}
     get_entries: function(id, next) {  // {{{
-      let url = 'http://www.pixiv.net/bookmark_illust_user.php?illust_id=' + id;
+      let url = 'http://www.pixiv.net/bookmark_detail.php?illust_id=' + id;
       let req = new libly.Request(url);
       req.addEventListener('onSuccess', function(res) {
         res.getHTMLDocument();
@@ -73,10 +61,10 @@ liberator.plugins.pixiv = (function() {
         let span = doc.querySelector('.bookmark_link');
         obj.count = span ? span.textContent.match(/^\d+/)[0] : '0';
 
-        obj.entries = $LXs('id("content2")/div[@class="link_visited"]/div', doc).map(function(b) {
-          let date = b.firstChild.nodeValue.trim();
-          let img = b.getElementsByTagName('img').item(0);
-          let tags = $LXs('a[contains(@href, "tag=")]', b).map(function(a)
+        obj.entries = $LXs('//div[@class="bookmark_detail_body"]/ul', doc).map(function(ul) {
+          let date = ul.querySelector('.days').textContent;
+          let img = ul.getElementsByTagName('img').item(0);
+          let tags = $LXs('descendant::a[contains(@href, "tag=")]', ul).map(function(a)
                         decodeURIComponent(a.href.match(/tag=([^&]+)/)[1]));
           return { date: date, imgsrc: img.src, user: img.alt, tags: tags };
         });
@@ -96,14 +84,7 @@ liberator.plugins.pixiv = (function() {
 
       tags_cache = {};
       let id = RegExp.$1;
-      pixivManager.bookmark_illust(id, args, '', function(res) {
-        let m = res.responseText.match(/<strong class="link_visited">\[ <a href="[^"]+">(.+?)<\/a> \]<\/strong>(.+?)<br \/>/);
-        if (m === null) {
-          liberator.echo('bookmark modified');
-        } else {
-          liberator.echo('[' + m[1] + '] ' + m[2]);
-        }
-      });
+      pixivManager.bookmark_illust(id, args, '', function() liberator.echo('bookmarked'));
     },
     {
       completer: function(context, args) {
@@ -115,7 +96,7 @@ liberator.plugins.pixiv = (function() {
         } else {
           let req = new libly.Request('http://www.pixiv.net/bookmark_add.php?type=illust&illust_id=' + id);
           req.addEventListener('onSuccess', function(res) {
-            let tags = res.getHTMLDocument('//div[@class="bookmark_add_area"]/ul/li/a')
+            let tags = res.getHTMLDocument('//div[@class="bookmark_recommend_tag"]/ul/li/a')
                         .map(function(a) a.firstChild.nodeValue);
 
             tags_cache[url] = tags;
