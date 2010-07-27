@@ -10,7 +10,7 @@ case $(uname) in
     manpath=(/opt/local/share/man(N) /usr/local/share/man(N) /usr/local/man(N) $manpath)
     PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig:/usr/lib/pkgconfig"
     EDITOR='/usr/local/bin/vim';
-    PAGER='/opt/local/bin/lv -c';;
+    PAGER='/usr/local/bin/lv -c';;
 
   Linux)
     manpath=(/usr/share/man(N) $manpath)
