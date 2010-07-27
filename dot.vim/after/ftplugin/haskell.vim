@@ -7,7 +7,7 @@ function! s:ShowType(word)
 endfunction
 
 " errormaker.vim
-autocmd BufWritePost <buffer> call <SID>errormaker_haskell()
+"autocmd BufWritePost <buffer> call <SID>errormaker_haskell()
 function! s:errormaker_haskell()
   let save_makeprg = &l:makeprg
   setlocal makeprg=ghc\ -Wall\ -n\ %
