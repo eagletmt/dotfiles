@@ -179,8 +179,8 @@ nnoremap qm :make<CR>
 nnoremap qM :make<Space>
 
 " command-line window {{{1
-nnoremap ; q:
-xnoremap ; q:
+nnoremap ; :
+xnoremap ; :
 autocmd MyAutoCmd CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
   nnoremap <buffer> <Esc> :<C-u>quit<CR>
@@ -290,18 +290,20 @@ else
   else
     let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
   endif
-  let g:neocomplcache_dictionary_filetype_lists = {
-        \ 'default': '',
-        \ 'haskell': $HOME.'/.vim/dict/haskell.dict',
-        \ }
+  "let g:neocomplcache_dictionary_filetype_lists = {
+  "      \ 'default': '',
+  "      \ 'haskell': $HOME.'/.vim/dict/haskell.dict',
+  "      \ }
   let g:neocomplcache_omni_patterns = {
         \ 'ruby': '',
         \ }
   let g:neocomplcache_disable_caching_buffer_name_pattern = '^fuf$'
 
   imap <C-v> <Plug>(neocomplcache_snippets_expand)
+  imap <expr> <C-h> neocomplcache#smart_close_popup() . "\<C-h>"
   inoremap <expr> <C-g> neocomplcache#undo_completion()
 endif
+
 
 " twitvim.vim {{{2
 let g:twitvim_buffer_form = 1
@@ -309,8 +311,8 @@ let g:twitvim_count = 200
 if has('mac')
   let g:twitvim_browser = 'open -a Firefox'
 endif
-nnoremap tt :<C-u>CPosttoTwitter
-nnoremap T :<C-u>call MyPosttoTwitter()<CR>
+"nnoremap tt :<C-u>CPosttoTwitter
+"nnoremap T :<C-u>call MyPosttoTwitter()<CR>
 function! MyPosttoTwitter()
   if g:twitvim_source ==# 'random'
     let g:twitvim_source = s:sources[Random(1, len(s:sources))]
