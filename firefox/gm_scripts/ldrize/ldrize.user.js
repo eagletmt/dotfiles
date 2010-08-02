@@ -46,7 +46,7 @@ const SITEINFO = [
   {
     name: 'pixiv (member_illust)',
     domain: '^http://www\.pixiv\.net/member_illust\.php\?',
-    paragraph: 'id("content2")/div[a[starts-with(@href, "member_illust.php?mode=big") or starts-with(@href, "member_illust.php?mode=manga")]] | //table[starts-with(@id, "page")]/tbody/tr/td[a[img]]',
+    paragraph: '//div[a[starts-with(@href, "member_illust.php?mode=big") or starts-with(@href, "member_illust.php?mode=manga")]] | //table[starts-with(@id, "page")]/tbody/tr/td[a[img]]',
     link: 'a',
   },
   {
