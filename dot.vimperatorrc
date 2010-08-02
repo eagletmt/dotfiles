@@ -301,6 +301,28 @@ var PIXIV_ACCESS_INTERVAL = setInterval(function() {
 },  10 * 60 * 1000);
 EOM
 
+" show full novel {{{3
+nnoremap <silent> -urls='www\.pixiv\.net/novel/show\.php\?id=' wf :<C-u>pixivFullNovel<CR>
+javascript <<EOM
+commands.addUserCommand(['pixivFullNovel'], 'show full novel',
+  function(args) {
+    let doc = content.document.wrappedJSObject;
+    let win = content.window.wrappedJSObject;
+
+    Array.forEach(doc.querySelectorAll('.novel_article'),
+      function(e) {
+        e.style.display = 'block';
+        e.innerHTML = win.parse_page(e.innerHTML);
+      }
+    );
+    Array.forEach(doc.querySelectorAll('.novelimage'),
+      function(e) {
+        e.innerHTML = win.illust_html_list[e.getAttribute('illust_id')];
+      }
+    );
+  }, null, true);
+EOM
+
 autocmd LocationChange www\.pixiv\.net/jump\.php :<C-u>js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
 
 " amazon {{{2
