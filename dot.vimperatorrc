@@ -438,6 +438,16 @@ if (typeof abbreviations != 'undefined') {
 }
 EOM
 
+" autopagerize {{{2
+" http://q.hatena.ne.jp/1260851083
+nnoremap a :<C-u>toggleautopagerize<CR>
+javascript <<EOM
+commands.addUserCommand(['toggleautopagerize'], 'Toggle Autopagerize',
+  function() {
+    buffer.followLink($LX('id("autopagerize_help")/div/a[@class="autopagerize_link"]'));
+  }, { argCount: 0 }, true);
+EOM
+
 " utilities {{{1
 javascript <<EOM
 var myutil = {};
