@@ -265,50 +265,22 @@ augroup END
 call s:import_bundle('neocomplcache')
 set complete& complete+=k
 set completeopt& completeopt+=menuone
-if 0
-  " neocomplcache ver.4
-  let g:NeoComplCache_EnableAtStartup = 1
-  let g:NeoComplCache_SmartCase = 1
-  inoremap <expr> <C-g> neocomplcache#undo_completion()
-  imap <silent> <C-v> <Plug>(neocomplcache_snippets_expand)
-  if has('win32')
-    let g:NeoComplCache_SnippetsDir = $HOME.'/vimfiles/snippets'
-  else
-    let g:NeoComplCache_SnippetsDir = $HOME.'/.vim/snippets'
-  endif
-  if !exists('g:NeoComplCache_DictionaryFileTypeLists')
-    let g:NeoComplCache_DictionaryFileTypeLists = {}
-    let g:NeoComplCache_DictionaryFileTypeLists.haskell = $HOME.'/.vim/dict/haskell.dict'
-  endif
-  if !exists('g:NeoComplCache_OmniPatterns')
-    let g:NeoComplCache_OmniPatterns = {}
-    " disable omni complete
-    let g:NeoComplCache_OmniPatterns.ruby = ''
-  endif
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_max_list = 30
+let g:neocomplcache_auto_complete_start_length = 4
+let g:neocomplcache_enable_smart_case = 1
+if has('win32')
+  let g:neocomplcache_snippets_dir = $HOME.'/vimfiles/snippets'
 else
-  " neocomplcache ver.5
-  let g:neocomplcache_enable_at_startup = 1
-  let g:neocomplcache_max_list = 30
-  let g:neocomplcache_auto_complete_start_length = 4
-  if has('win32')
-    let g:neocomplcache_snippets_dir = $HOME.'/vimfiles/snippets'
-  else
-    let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
-  endif
-  "let g:neocomplcache_dictionary_filetype_lists = {
-  "      \ 'default': '',
-  "      \ 'haskell': $HOME.'/.vim/dict/haskell.dict',
-  "      \ }
-  let g:neocomplcache_omni_patterns = {
-        \ 'ruby': '',
-        \ }
-  let g:neocomplcache_disable_caching_buffer_name_pattern = '^fuf$'
-
-  imap <C-v> <Plug>(neocomplcache_snippets_expand)
-  imap <expr> <C-h> neocomplcache#smart_close_popup() . "\<C-h>"
-  inoremap <expr> <C-g> neocomplcache#undo_completion()
+  let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
 endif
+let g:neocomplcache_omni_patterns = {
+      \ 'ruby': '',
+      \ }
+let g:neocomplcache_disable_caching_buffer_name_pattern = '^fuf$'
 
+imap <expr> <C-v> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-v>"
+inoremap <expr> <C-h> neocomplcache#smart_close_popup() . "\<C-h>"
 
 " twitvim.vim {{{2
 let g:twitvim_buffer_form = 1
