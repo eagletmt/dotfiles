@@ -195,6 +195,9 @@ let g:html_no_pre = 1
 " changelog {{{2
 let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 
+" matchit {{{2
+runtime macros/matchit.vim
+
 " plugins {{{1
 function! s:import_bundle(name)
   execute 'set runtimepath+=~/' . (has('win32') ? 'vimfiles' : '.vim') . '/bundles/' . a:name
