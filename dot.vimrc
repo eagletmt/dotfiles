@@ -383,6 +383,11 @@ let g:onlinejudge_account = {
 " altercmd {{{2
 call s:import_bundle('altercmd')
 call altercmd#define('ccd', 'cd %:h')
+call altercmd#define('vsend', 'VimShellSendString')
+call altercmd#define('ghci', 'VimShellInteractive ghci')
+call altercmd#define('irb', 'VimShellInteractive irb')
+call altercmd#define('irb19', 'VimShellInteractive irb1.9')
+
 
 " IndentAnything {{{2
 call s:import_bundle('IndentAnything')
