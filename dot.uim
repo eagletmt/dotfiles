@@ -1,0 +1,19 @@
+;; vim:ft=scheme fenc=euc-jp
+(define default-im-name 'skk)
+
+(require "japanese.scm")
+(define ja-rk-rule-basic
+  (append '((((",") . ()) ("，" "，" "，"))
+            (((".") . ()) ("．" "．" "．")))
+          (map (lambda (c)
+                 (let ((s (string c)))
+                   `(((,s) . ()) (,s ,s ,s))))
+               (string->list "!@$#%^&*()_=+{};:'\"\\|<>?"))
+          ja-rk-rule-basic))
+(ja-rk-rule-update)
+(define skk-ja-rk-rule (append ja-rk-rule-basic ja-rk-rule-additional))
+
+(require-module "skk")
+(define skk-egg-like-newline? #t)
+(define skk-use-with-vi? #t)
+
