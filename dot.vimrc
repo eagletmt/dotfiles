@@ -62,6 +62,10 @@ if !isdirectory(&backupdir)
   call mkdir(&backupdir, 'p')
 endif
 
+" undo {{{2
+set undodir=~/.vim/undo
+set undofile
+
 " formatting {{{2
 " m = Also break at a multi-byte character above 255
 " M = When joining lines, don't insert a space before or after a multi-byte character

@@ -1,5 +1,6 @@
 dot.vim/backup/*
 dot.vim/swap/*
+dot.vim/undo/*
 dot.vim/doc/tags*
 dot.vim/bundles/*/doc/tags*
 dot.vim/.netrwhist
