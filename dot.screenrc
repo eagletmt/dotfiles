@@ -33,4 +33,5 @@ defscrollback 1000
 
 term screen-256color
 defbce on
+shell zsh
 
