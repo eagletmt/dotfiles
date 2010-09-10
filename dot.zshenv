@@ -14,8 +14,9 @@ case $(uname) in
 
   Linux)
     manpath=(/usr/share/man(N) $manpath)
-    EDITOR='/usr/bin/vim';
-    PAGER='/usr/bin/less';;
+    path=($HOME/bin(N) $HOME/.cabal/bin(N) /usr/local/bin(N) /usr/lib/perl5/site_perl/bin(N) $path)
+    EDITOR='vim';
+    PAGER='less';;
 esac
 fpath=($HOME/.zsh/functions $fpath)
 

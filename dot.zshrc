@@ -27,8 +27,8 @@ setopt print_exit_value
 # User specific aliases and functions
 alias du='du -h'
 alias df='df -h'
-alias tree='/usr/local/bin/tree'
 alias vi=vim
+alias view='vim -R'
 alias cgrep='grep --color=always -H -n'
 alias vless='/usr/local/share/vim/vim72/macros/less.sh'
 alias utf8='nkf --in-place -dw'
@@ -36,6 +36,7 @@ alias :q='exit'
 # see if configure option has changed
 alias helpdiff='diff -u <(gunzip -c help.txt.gz) <(./configure --help)'
 alias g='git'
+alias wmv='noglob zmv -W'
 
 GCC_COMMON_OPTIONS='-Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align \
 -Wwrite-strings -Wfloat-equal -Wpointer-arith -Wredundant-decls \
@@ -62,6 +63,8 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 bindkey "^W" vi-backward-kill-word
+zle -N predict-on
+bindkey "^X" predict-on
 
 # stty
 stty sane

@@ -213,6 +213,8 @@ if has('mac')
   let skk_large_jisyo = '~/Library/Application Support/AquaSKK/SKK-JISYO.L'
 elseif has('win32')
   let skk_large_jisyo = '~/My Documents/skkdic/SKK-JISYO.L'
+elseif has('unix')
+  let skk_large_jisyo = '/usr/share/skk/SKK-JISYO.L'
 endif
 
 let skk_auto_save_jisyo = 1 " don't ask if save
@@ -343,8 +345,17 @@ endif
 " gist.vim {{{2
 let g:github_user = 'eagletmt'
 " let g:github_token = <private>
+if executable('pbcopy')
+  let g:gist_clip_command = 'pbcopy'
+elseif executable('xclip')
+  let g:gist_clip_command = 'xclip -i'
+endif
 let g:gist_open_browser_after_post = 1
-let g:gist_browser_command = 'open'
+if executable('xdg-open')
+  let g:gist_browser_command = 'xdg-open %URL%'
+elseif executable('open')
+  let g:gist_browser_command = 'open %URL%'
+endif
 
 " poj.vim {{{2
 call s:import_bundle('poj')

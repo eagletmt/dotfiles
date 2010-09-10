@@ -1,4 +1,4 @@
-set columns=160 lines=40
+"set columns=160 lines=40
 set imdisable
 set guioptions=erL
 
@@ -7,7 +7,8 @@ if has('gui_macvim')
   set transparency=7
   nnoremap ,f :<C-u>set invfullscreen<CR>
 else
-  set guifont=VL\ Gothic:h11
+  set guifont=Inconsolata
+  set guifontwide=Ume\ Gothic
 endif
 
 colorscheme xoria256
