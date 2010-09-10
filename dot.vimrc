@@ -414,6 +414,26 @@ call s:import_bundle('unite')
 "nnoremap <C-q>i :<C-u>Unite buffer<CR>
 "nnoremap <C-q>h :<C-u>call unite#start(['file'], expand('~/'))<CR>
 
+" eskk {{{2
+call s:import_bundle('eskk')
+let g:eskk_large_dictionary = {
+      \	'path': "/usr/share/skk/SKK-JISYO.L",
+      \	'sorted': 1,
+      \	'encoding': 'euc-jp',
+      \ }
+call eskk#load()
+let g:eskk_egg_like_newline = 0
+let s:t = eskk#table#create('my_rom_to_hira', 'rom_to_hira')
+call s:t.add('.', '．')
+call s:t.add(',', '，')
+call s:t.add('!', '!')
+call s:t.add(':', ':')
+call s:t.add(';', ';')
+call s:t.add('?', '?')
+call s:t.register()
+unlet s:t
+let g:eskk_mode_use_tables.hira = 'my_rom_to_hira'
+
 " misc {{{1
 " reverse lines {{{2
 function! s:reverseLines(line1, line2)
