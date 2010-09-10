@@ -84,7 +84,8 @@ if [ "$WINDOW" != '' ]; then
   }
 fi
 
-if perl -Mversion -e "exit(not(qv($ZSH_VERSION) ge qv(4.3.10)))"; then
+autoload -Uz is-at-least
+if is-at-least 4.3.10; then
   function precmd() {
     psvar=()
     vcs_info
