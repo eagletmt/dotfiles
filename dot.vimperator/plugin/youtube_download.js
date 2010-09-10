@@ -35,7 +35,7 @@
       title = title.replace(/[\/\\]/, '_');
       let fmt = args['-fmt'] || available_formats()[0];
 
-      let uri = makeURI('http://www.youtube.com/get_video?fmt=' + fmt + '&video_id=' + video_id + '&t=' + t);
+      let uri = makeURI('http://www.youtube.com/get_video?asv=3&fmt=' + fmt + '&video_id=' + video_id + '&t=' + t);
       let dm = services.get('downloadManager');
       let file =
         liberator.globalVariables.yt_save_dir
