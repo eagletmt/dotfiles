@@ -407,6 +407,13 @@ call altercmd#define('irb19', 'VimShellInteractive irb1.9')
 " IndentAnything {{{2
 call s:import_bundle('IndentAnything')
 
+" unite {{{2
+call s:import_bundle('unite')
+"nnoremap <C-q>j :<C-u>UniteWithBufferDir file<CR>
+"nnoremap <C-q>m :<C-u>Unite file_mru<CR>
+"nnoremap <C-q>i :<C-u>Unite buffer<CR>
+"nnoremap <C-q>h :<C-u>call unite#start(['file'], expand('~/'))<CR>
+
 " misc {{{1
 " reverse lines {{{2
 function! s:reverseLines(line1, line2)
