@@ -39,11 +39,11 @@ let colors_name = "xoria256"
 " The real part ----------------------------------------------------------------
 
 "" General colors
-hi Normal       ctermfg=252 guifg=#d0d0d0 ctermbg=234 guibg=#1c1c1c cterm=none gui=none
+hi Normal       ctermfg=252 guifg=#d0d0d0 ctermbg=none guibg=#1c1c1c cterm=none gui=none
 hi CursorColumn                           ctermbg=238 guibg=#444444
 hi Cursor                                 ctermbg=214 guibg=#ffaf00
 hi CursorLine                             ctermbg=238 guibg=#444444
-hi FoldColumn   ctermfg=248 guifg=#a8a8a8 ctermbg=bg  guibg=bg
+hi FoldColumn   ctermfg=248 guifg=#a8a8a8 ctermbg=none  guibg=bg
 hi Folded       ctermfg=255 guifg=#eeeeee ctermbg=60  guibg=#5f5f87
 hi IncSearch    ctermfg=0   guifg=#000000 ctermbg=223 guibg=#ffdfaf cterm=none gui=none
 hi NonText      ctermfg=248 guifg=#a8a8a8                           cterm=bold gui=bold
@@ -85,10 +85,10 @@ hi Underlined   ctermfg=39  guifg=#00afff                           cterm=underl
 hi diffAdded    ctermfg=150 guifg=#afdf87
 hi diffRemoved  ctermfg=174 guifg=#df8787
 """ vimdiff
-hi diffAdd      ctermfg=bg  guifg=bg      ctermbg=151 guibg=#afdfaf
+hi diffAdd      ctermfg=none  guifg=bg      ctermbg=151 guibg=#afdfaf
 "hi diffDelete   ctermfg=bg  guifg=bg      ctermbg=186 guibg=#dfdf87 cterm=none gui=none
-hi diffDelete   ctermfg=bg  guifg=bg      ctermbg=246 guibg=#949494 cterm=none gui=none
-hi diffChange   ctermfg=bg  guifg=bg      ctermbg=181 guibg=#dfafaf
-hi diffText     ctermfg=bg  guifg=bg      ctermbg=174 guibg=#df8787 cterm=none gui=none
+hi diffDelete   ctermfg=none  guifg=bg      ctermbg=246 guibg=#949494 cterm=none gui=none
+hi diffChange   ctermfg=none  guifg=bg      ctermbg=181 guibg=#dfafaf
+hi diffText     ctermfg=none  guifg=bg      ctermbg=174 guibg=#df8787 cterm=none gui=none
 
 " vim: set expandtab tabstop=2 shiftwidth=2 smarttab softtabstop=2:
