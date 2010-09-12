@@ -96,7 +96,7 @@ javascript <<EOM
  ['Google Code Search', 'http://www.google.com/codesearch?q=%s', 'gc'],
  ['Twitter', 'https://twitter.com/%s', 'tw'],
  ['POJ', 'http://acm.pku.edu.cn/JudgeOnline/problem?id=%s', 'poj'],
- ['pixiv member_illust', 'http://www.pixiv.net/member_illust.php?mode=medium&illust_id=%s', 'pm']
+ ['Sauce nao', 'http://saucenao.com/search.php?db=999&url=%s', 'nao'],
 ].forEach(function (b) {
   if (!bookmarks.isBookmarked(b[1])) {
     bookmarks.add(false, b[0], b[1], b[2], ['vimp'], false);
@@ -110,7 +110,7 @@ nnoremap sh :<C-u>tabopen hs<Space>
 nnoremap sc :<C-u>tabopen gc<Space>
 nnoremap sk :<C-u>tabopen tw<Space>
 nnoremap sp :<C-u>tabopen poj<Space>
-nnoremap sm :<C-u>tabopen pm<Space>
+nnoremap sn :<C-u>tabopen nao<Space>
 
 " abbrev {{{1
 iabbrev ID http://www.google.com/accounts/o8/id
