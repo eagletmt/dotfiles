@@ -13,6 +13,9 @@
 (ja-rk-rule-update)
 (define skk-ja-rk-rule (append ja-rk-rule-basic ja-rk-rule-additional))
 
+(define-key generic-on-key? '())
+(define-key generic-off-key? '())
+
 (require-module "skk")
 (define skk-egg-like-newline? #t)
 (define skk-use-with-vi? #t)
