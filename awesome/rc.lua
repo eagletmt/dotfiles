@@ -184,8 +184,6 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "j",
@@ -253,7 +251,17 @@ clientkeys = awful.util.table.join(
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end)
+        end),
+    -- Move floating window
+    awful.key({ modkey }, "Left", function() awful.client.moveresize(-20, 0, 0, 0) end),
+    awful.key({ modkey }, "Right", function() awful.client.moveresize(20, 0, 0, 0) end),
+    awful.key({ modkey }, "Up", function() awful.client.moveresize(0, -20, 0, 0) end),
+    awful.key({ modkey }, "Down", function() awful.client.moveresize(0, 20, 0, 0) end),
+    -- Resize floating window
+    awful.key({ modkey, "Shift" }, "Left", function() awful.client.moveresize(0, 0, -20, 0) end),
+    awful.key({ modkey, "Shift" }, "Right", function() awful.client.moveresize(0, 0, 20, 0) end),
+    awful.key({ modkey, "Shift" }, "Up", function() awful.client.moveresize(0, 0, 0, -20) end),
+    awful.key({ modkey, "Shift" }, "Down", function() awful.client.moveresize(0, 0, 0, 20) end)
 )
 
 -- Compute the maximum number of digit we need, limited to 9
