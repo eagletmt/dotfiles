@@ -71,10 +71,12 @@ bindkey "^X" predict-on
 stty sane
 stty -ixon -ixoff # disable C-q, C-s
 
-function psgrep()
-{
-  ps aux | cgrep $(echo $1 | sed 's/^\(.\)/[\1]/')
-}
+if [ ! -x /usr/bin/psgrep ]; then
+  function psgrep()
+  {
+    ps aux | cgrep $(echo $1 | sed 's/^\(.\)/[\1]/')
+  }
+fi
 
 if [ "$WINDOW" != '' ]; then
   preexec() {
