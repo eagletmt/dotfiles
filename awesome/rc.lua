@@ -6,6 +6,7 @@ require("awful.rules")
 require("beautiful")
 -- Notification library
 require("naughty")
+require('wicked')
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
@@ -66,6 +67,25 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
+-- }}}
+
+-- {{{ Wicked
+memwidget = widget({
+  type = 'textbox',
+  name = 'memwidget'
+})
+wicked.register(memwidget, wicked.widgets.mem,
+  ' <span color="white">MEM:</span> $1% ($2Mb/$3Mb)',
+  nil, nil, { 2, 4, 4 })
+
+cpuwidget = widget({
+  type = 'textbox',
+  name = 'cpuwidget'
+})
+wicked.register(cpuwidget, wicked.widgets.cpu,
+  ' <span color="white">CPU:</span> $1%',
+  nil, nil, {3})
+
 -- }}}
 
 -- {{{ Wibox
@@ -146,6 +166,8 @@ for s = 1, screen.count() do
         mylayoutbox[s],
         mytextclock,
         s == 1 and mysystray or nil,
+        memwidget,
+        cpuwidget,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
