@@ -16,4 +16,5 @@
 (require-module "skk")
 (define skk-egg-like-newline? #t)
 (define skk-use-with-vi? #t)
+(define skk-auto-start-henkan-keyword-list '())
 
