@@ -36,6 +36,7 @@ alias :q='exit'
 # see if configure option has changed
 alias helpdiff='diff -u <(gunzip -c help.txt.gz) <(./configure --help)'
 alias g='git'
+alias c='cabal'
 alias wmv='noglob zmv -W'
 
 GCC_COMMON_OPTIONS='-Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align \
