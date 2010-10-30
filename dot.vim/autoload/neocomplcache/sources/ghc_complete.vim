@@ -8,6 +8,12 @@ let s:source = {
       \ 'filetypes': { 'haskell': 1 },
       \ }
 
+" http://www.haskell.org/ghc/docs/latest/html/users_guide/pragmas.html
+let s:pragmas = [
+      \ 'LANGUAGE', 'OPTIONS_GHC', 'INCLUDE', 'WARNING', 'DEPRECATED', 'INLINE',
+      \ 'NOINLINE', 'ANN', 'LINE', 'RULES', 'SPECIALIZE', 'UNPACK', 'SOURCE',
+      \ ]
+
 function! s:source.initialize() "{{{
   let s:browse_cache = {}
   let s:modules_cache = {}
@@ -17,7 +23,7 @@ function! s:source.initialize() "{{{
 
   augroup neocomplcache
     autocmd FileType haskell call s:caching_modules()
-    autocmd CursorHold * if has_key(s:modules_cache, bufnr('%')) | call s:caching_modules() | endif
+    autocmd InsertLeave * if has_key(s:modules_cache, bufnr('%')) | call s:caching_modules() | endif
   augroup END
 
   command! -nargs=0 NeoComplCacheCachingGhcImports call s:caching_modules()
@@ -35,8 +41,7 @@ function! s:source.get_keyword_pos(cur_text)  "{{{
   if a:cur_text =~# '^import\s'
     return matchend(a:cur_text, '^import\s\+\(qualified\s\+\)\?')
   else
-    " let l:pattern = neocomplcache#get_keyword_pattern_end('haskell')
-    let l:pattern = "\\%([[:alpha:]_'][[:alnum:]_'.]*\\m\\)$"
+    let l:pattern = neocomplcache#get_keyword_pattern_end('haskell')
     let [l:cur_keyword_pos, l:cur_keyword_str] = neocomplcache#match_word(a:cur_text, l:pattern)
     return l:cur_keyword_pos
   endif
@@ -51,10 +56,17 @@ function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str) "{{{
     for l:mod in s:list_cache
       call add(l:list, { 'word': l:mod, 'menu': '[ghc] ' . l:mod })
     endfor
-  elseif l:syn =~# 'Pragma' && l:line =~# 'LANGUAGE'
-    for l:lang in s:lang_cache
-      call add(l:list, { 'word': l:lang, 'menu': '[ghc] ' . l:lang })
-    endfor
+  elseif l:syn =~# 'Pragma'
+    if match(l:line, '{-#\s\+\zs\w*') == a:cur_keyword_pos
+      for l:p in s:pragmas
+        call add(l:list, { 'word': l:p, 'menu': '[ghc] ' . l:p })
+      endfor
+    elseif l:line =~# 'LANGUAGE'
+      for l:lang in s:lang_cache
+        call add(l:list, { 'word': l:lang, 'menu': '[ghc] ' . l:lang })
+        call add(l:list, { 'word': 'No' . l:lang, 'menu': '[ghc] No' . l:lang })
+      endfor
+    endif
   elseif a:cur_keyword_str =~# '\.'
     " qualified
     let l:idx = s:last_matchend(a:cur_keyword_str, '\.')
@@ -151,8 +163,7 @@ function! s:extract_modules() "{{{
       " as
       let l:end = matchend(l:str, '^as\s\+', l:idx)
       if l:end != -1
-        " let l:pattern = neocomplcache#get_keyword_pattern_end('haskell')
-        let l:pattern = "\\%([[:alpha:]_'][[:alnum:]_'.]*\\m\\)"
+        let l:pattern = neocomplcache#get_keyword_pattern_end('haskell')
         let l:as = matchstr(l:str, l:pattern, l:end)
         let l:modules[l:name].as = l:as
       elseif match(l:str, '^(', l:idx) != -1
