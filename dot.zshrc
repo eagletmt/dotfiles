@@ -38,6 +38,8 @@ alias helpdiff='diff -u <(gunzip -c help.txt.gz) <(./configure --help)'
 alias g='git'
 alias c='cabal'
 alias wmv='noglob zmv -W'
+alias pbcopy='xclip -selection clipboard -i'
+alias pbpaste='xclip -selection clipboard -o'
 
 GCC_COMMON_OPTIONS='-Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align \
 -Wwrite-strings -Wfloat-equal -Wpointer-arith -Wredundant-decls \
@@ -64,8 +66,9 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 bindkey "^W" vi-backward-kill-word
+bindkey "^[w" forward-word
 zle -N predict-on
-bindkey "^X" predict-on
+bindkey "^X^X" predict-on
 
 # stty
 stty sane
