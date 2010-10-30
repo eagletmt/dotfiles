@@ -14,7 +14,7 @@ case $(uname) in
 
   Linux)
     manpath=(/usr/share/man(N) $manpath)
-    path=($HOME/bin(N) $HOME/.cabal/bin(N) /usr/local/bin(N) /usr/lib/perl5/site_perl/bin(N) $path)
+    path=($HOME/bin(N) $HOME/.cabal/bin(N) /usr/local/bin(N) /usr/lib/perl5/vendor_perl/bin(N) /usr/lib/perl5/site_perl/bin(N) $path)
     EDITOR='vim';
     PAGER='less';;
 esac
