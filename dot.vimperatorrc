@@ -139,13 +139,14 @@ liberator.globalVariables.hBookmark_shortcuts = {
   hintsAdd: 'h',
   hintsComment: null,
   add: ['c'],
-  comment: ['C'],
+  comment: [],
 };
 if (typeof hBookmark != 'undefined') {
   liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
   mappings.getCandidates(modes.NORMAL, 'c').forEach(function(m) mappings.remove(modes.NORMAL, m.names));
 }
 EOM
+nnoremap <silent> C :<C-u>viewSBMComments<CR>
 
 " multi_requester.js {{{2
 nnoremap m <Nop>
