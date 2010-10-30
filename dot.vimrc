@@ -269,10 +269,11 @@ augroup MyVimShell
   autocmd FileType vimshell nunmap <buffer> <C-n>
   autocmd FileType vimshell nunmap <buffer> <C-p>
 
+  autocmd FileType int-* nunmap <buffer> q
   autocmd FileType int-* nunmap <buffer> <C-n>
+  autocmd FileType int-* nmap <buffer> K <Plug>(vimshell_int_previous_prompt)
   autocmd FileType int-* nunmap <buffer> <C-p>
-
-  autocmd FileType int-ghci runtime syntax/haskell.vim
+  autocmd FileType int-* nmap <buffer> J <Plug>(vimshell_int_next_prompt)
 augroup END
 
 " neocomplcache.vim {{{2
