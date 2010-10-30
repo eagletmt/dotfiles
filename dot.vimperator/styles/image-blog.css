@@ -86,9 +86,10 @@
   }
 
   div.column-inner { margin: 0 !important; }
+  #container, #content { width: auto !important; }
 
   div.article-body-more {
-    -moz-column-count: 2;
+    -moz-column-count: 3;
     -moz-column-gap: 2em;
   }
 } /* }}} */
