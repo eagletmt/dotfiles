@@ -29,7 +29,7 @@ hardstatus on
 ## g: green
 hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
 
-defscrollback 1000
+defscrollback 3000
 
 term screen-256color
 defbce on
