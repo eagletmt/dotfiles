@@ -409,30 +409,38 @@ call s:import_bundle('IndentAnything')
 
 " unite {{{2
 call s:import_bundle('unite')
-"nnoremap <C-q>j :<C-u>UniteWithBufferDir file<CR>
-"nnoremap <C-q>m :<C-u>Unite file_mru<CR>
-"nnoremap <C-q>i :<C-u>Unite buffer<CR>
-"nnoremap <C-q>h :<C-u>call unite#start(['file'], expand('~/'))<CR>
+let g:unite_update_time = 200
+let g:unite_source_file_mru_time_format = ''
+nnoremap <Space>fj :<C-u>UniteWithBufferDir buffer file<CR>
+nnoremap <Space>fm :<C-u>Unite file_mru buffer file<CR>
+nnoremap <Space>fh :<C-u>Unite bookmark file<CR>
+autocmd MyAutoCmd FileType unite nunmap <buffer> q
+autocmd MyAutoCmd FileType unite nunmap <buffer> l
+autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> t :<C-u>call unite#mappings#do_action('tabopen')<CR>
+autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> <C-h> :<C-u>call unite#mappings#do_action('left')<CR>
+autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> <C-l> :<C-u>call unite#mappings#do_action('right')<CR>
+autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> <C-j> :<C-u>call unite#mappings#do_action('below')<CR>
+autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> <C-k> :<C-u>call unite#mappings#do_action('above')<CR>
 
 " eskk {{{2
-call s:import_bundle('eskk')
-let g:eskk_large_dictionary = {
-      \	'path': "/usr/share/skk/SKK-JISYO.L",
-      \	'sorted': 1,
-      \	'encoding': 'euc-jp',
-      \ }
-call eskk#load()
-let g:eskk_egg_like_newline = 0
-let s:t = eskk#table#create('my_rom_to_hira', 'rom_to_hira')
-call s:t.add('.', '．')
-call s:t.add(',', '，')
-call s:t.add('!', '!')
-call s:t.add(':', ':')
-call s:t.add(';', ';')
-call s:t.add('?', '?')
-call s:t.register()
-unlet s:t
-let g:eskk_mode_use_tables.hira = 'my_rom_to_hira'
+"call s:import_bundle('eskk')
+"let g:eskk_large_dictionary = {
+"      \	'path': "/usr/share/skk/SKK-JISYO.L",
+"      \	'sorted': 1,
+"      \	'encoding': 'euc-jp',
+"      \ }
+"call eskk#load()
+"let g:eskk_egg_like_newline = 0
+"let s:t = eskk#table#create('my_rom_to_hira', 'rom_to_hira')
+"call s:t.add('.', '．')
+"call s:t.add(',', '，')
+"call s:t.add('!', '!')
+"call s:t.add(':', ':')
+"call s:t.add(';', ';')
+"call s:t.add('?', '?')
+"call s:t.register()
+"unlet s:t
+"let g:eskk_mode_use_tables.hira = 'my_rom_to_hira'
 
 " misc {{{1
 " reverse lines {{{2
