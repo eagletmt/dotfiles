@@ -37,6 +37,9 @@ set backspace=indent,eol,start
 set modeline
 set modelines=5
 
+" search {{{2
+set ignorecase smartcase
+
 " swap {{{2
 set swapfile
 if has('win32')
@@ -161,7 +164,7 @@ vnoremap * "zy:let @/ = @z<CR>n"
 vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><CR>
 
 " settings {{{1
-let g:mapleader = ' '
+let g:mapleader = '\'
 
 let g:filetype_m = 'objc'
 
@@ -239,6 +242,8 @@ nnoremap <silent> ,q :<C-u>FufRenewCache<CR>
 
 " quickrun.vim {{{2
 call s:import_bundle('quickrun')
+nnoremap <silent> <Space>r :QuickRun -mode n<CR>
+vnoremap <silent> <Space>r :QuickRun -mode v<CR>
 let g:quickrun_config = {
       \ '*': {'split': '{"rightbelow"}'},
       \ 'lisp': {'command' : 'sbcl --script'},
