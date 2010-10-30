@@ -5,12 +5,6 @@
 	<Script filename="tumblr_dashboard_filter_.user.js" name="Tumblr Dashboard Filter by Post Type" namespace="http://cxx.tumblr.com/" description="" enabled="true" basedir="tumblr_dashboard_filter_">
 		<Include>http://www.tumblr.com/*</Include>
 	</Script>
-	<Script filename="autopagerize.user.js" name="AutoPagerize" namespace="http://swdyh.yu.to/" description="loading next page and inserting into current page." enabled="true" basedir="autopagerize">
-		<Include>http://*</Include>
-		<Include>https://*</Include>
-		<Exclude>https://mail.google.com/*</Exclude>
-		<Exclude>http://b.hatena.ne.jp/*</Exclude>
-	</Script>
 	<Script filename="diff_for_gistgithub.user.js" name="Diff for gist.github" namespace="http://userscripts.org/users/40991" description="adds a diff function to http://gist.github.com/" enabled="true" basedir="diff_for_gistgithub">
 		<Include>http://gist.github.com/*</Include>
 		<Include>https://gist.github.com/*</Include>
@@ -20,13 +14,39 @@
 	<Script filename="pixiv_big_image.user.js" name="pixiv big image" namespace="http://d.hatena.ne.jp/eagletmt/" description="hoge" enabled="true" basedir="pixiv_big_image">
 		<Include>http://www.pixiv.net/member_illust.php?mode=medium*</Include>
 	</Script>
+	<Script filename="ldr_-_fifo_pin.user.js" name="LDR - FIFO Pin" namespace="http://iwamot.com/" description="" enabled="true" basedir="ldr_-_fifo_pin">
+		<Include>http://reader.livedoor.com/reader/*</Include>
+		<Include>http://fastladder.com/reader/*</Include>
+	</Script>
+	<Script filename="ldr_ad-entry_blocker.user.js" name="LDR Ad-Entry Blocker" namespace="http://endflow.net/" description="Block advertisement entries such as &quot;AD: ...&quot;, &quot;PR: ...&quot; on LDR and fLDR." enabled="true" basedir="ldr_ad-entry_blocker">
+		<Include>http://reader.livedoor.com/reader/*</Include>
+		<Include>http://fastladder.com/reader/*</Include>
+	</Script>
+	<Script filename="ldr_full_feed.user.js" name="LDR Full Feed" namespace="http://d.hatena.ne.jp/Constellation/" description="loading full entry on LDR and Fastladder" enabled="true" basedir="ldr_full_feed">
+		<Include>http://reader.livedoor.com/reader/*</Include>
+		<Include>http://fastladder.com/reader/*</Include>
+		<Require filename="184276.txt"/>
+		<Resource name="orange" filename="orange.gif" mimetype="image/gif"/>
+		<Resource name="blue" filename="blue.gif" mimetype="image/gif"/>
+		<Resource name="css" filename="ldrfullfeed.css" mimetype="text/css" charset="utf-8"/>
+	</Script>
+	<Script filename="autopagerize.user.js" name="AutoPagerize" namespace="http://swdyh.yu.to/" description="loading next page and inserting into current page." enabled="true" basedir="autopagerize">
+		<Include>http://*</Include>
+		<Include>https://*</Include>
+		<Exclude>https://mail.google.com/*</Exclude>
+		<Exclude>http://b.hatena.ne.jp/*</Exclude>
+		<Exclude>http://www.facebook.com/plugins/like.php*</Exclude>
+		<Exclude>http://api.tweetmeme.com/button.js*</Exclude>
+	</Script>
+	<Script filename="tumblr_dashboard_jk_disa.user.js" name="tumblr Dashboard jk disable" namespace="http://dara-j.tumblr.com/" description="kill tumblr Dashboard Key Commands" enabled="true" basedir="tumblr_dashboard_jk_disa">
+		<Include>http://www.tumblr.com/*</Include>
+	</Script>
+	<Script filename="shane_comeback.user.js" name="shane comeback" namespace="http://taizooo.tumblr.com/" description="Show avatars and Recover images" enabled="true" basedir="shane_comeback">
+		<Include>http://www.tumblr.com/*</Include>
+	</Script>
 	<Script filename="ldrize.user.js" name="LDRize" namespace="http://white.s151.xrea.com/" description="j,k,v,p,o,:,f,? + l,s,i" enabled="true" basedir="ldrize">
 		<Include>http://*</Include>
 		<Include>https://*</Include>
 		<Include>file:///*</Include>
-	</Script>
-	<Script filename="ldr_-_fifo_pin.user.js" name="LDR - FIFO Pin" namespace="http://iwamot.com/" description="" enabled="true" basedir="ldr_-_fifo_pin">
-		<Include>http://reader.livedoor.com/reader/*</Include>
-		<Include>http://fastladder.com/reader/*</Include>
 	</Script>
 </UserScriptConfig>

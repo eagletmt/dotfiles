@@ -9,11 +9,13 @@
     return;
   }
   var a = document.evaluate('//a[contains(@href, "mode=big")]', document, null, 7, null).snapshotItem(0).cloneNode(true);
-  a.firstChild.src = a.firstChild.src.replace(/_m(\.\w+)$/, '$1');
+  var img = a.firstChild;
+  img.src = img.src.replace(/_m(\.\w+)$/, '$1');
+  img.style.width = '100%';
 
   var div = content.document.createElement('div');
   div.id = 'bigmode';
   div.appendChild(a);
-  document.getElementById('illust_contents').appendChild(div);
+  document.getElementById('contents').appendChild(div);
 })();
 
