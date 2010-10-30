@@ -456,6 +456,9 @@ commands.addUserCommand(['toggleautopagerize'], 'Toggle Autopagerize',
   }, { argCount: 0 }, true);
 EOM
 
+" slideshare {{{2
+nnoremap <silent> -urls='www\.slideshare\.net/' w :<C-u>js myutil.click($LX('//*[contains(concat(" ", normalize-space(@class), " "), "playerAd")]/a'))<CR>
+
 " utilities {{{1
 javascript <<EOM
 var myutil = {};
@@ -474,6 +477,12 @@ myutil.toDataURL = function(file) {
   stream.close();
   ifstream.close();
   return 'data:' + type + ';base64,' + b64;
+}
+myutil.click = function(elem) {
+  let ev = content.document.createEvent('MouseEvent');
+  ev.initMouseEvent('click', true, true, content.window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+  elem.dispatchEvent(ev);
+  return ev;
 }
 EOM
 
