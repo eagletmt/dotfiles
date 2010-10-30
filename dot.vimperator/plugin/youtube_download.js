@@ -24,6 +24,10 @@
       desc: 'h264+aac 1080p',
       ext: 'mp4',
     },
+    38: {
+      desc: 'Original',
+      ext: 'mp4',
+    },
   };
 
   commands.addUserCommand(['ytd[ownload]'], 'download this video',
