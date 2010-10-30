@@ -281,8 +281,8 @@ call s:import_bundle('neocomplcache')
 set complete& complete+=k
 set completeopt& completeopt+=menuone
 let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_max_list = 30
-let g:neocomplcache_auto_complete_start_length = 4
+"let g:neocomplcache_max_list = 30
+let g:neocomplcache_auto_complete_start_length = 2
 let g:neocomplcache_enable_smart_case = 1
 if has('win32')
   let g:neocomplcache_snippets_dir = $HOME.'/vimfiles/snippets'
@@ -293,9 +293,15 @@ let g:neocomplcache_omni_patterns = {
       \ 'ruby': '',
       \ }
 let g:neocomplcache_disable_caching_buffer_name_pattern = '^fuf$'
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns.default = '\h\w*'
 
-imap <expr> <C-v> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-v>"
+imap <expr> <C-v> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : neocomplcache#complete_common_string()
 inoremap <expr> <C-h> neocomplcache#smart_close_popup() . "\<C-h>"
+inoremap <expr> <C-x><C-f> neocomplcache#manual_filename_complete()
+inoremap <expr> <C-x><C-o> neocomplcache#manual_omni_complete()
 
 " twitvim.vim {{{2
 let g:twitvim_buffer_form = 1
