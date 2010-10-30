@@ -250,7 +250,7 @@ commands.addUserCommand(['matrixcode'], '',
   function() {
     for (let e in util.evaluateXPath('//input[@type="password"]')) {
       let x = e.parentNode.parentNode.textContent.trim();
-      e.value = liberator.globalVariables.matrix_code[x.charCodeAt(1)-65][x[3]-1];
+      e.value = liberator.globalVariables.matrix_code[x[3]-1][x.charCodeAt(1)-65];
     };
     util.evaluateXPath('//input[@type="submit"]').snapshotItem(0).click();
   }, null, true);
