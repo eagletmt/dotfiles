@@ -288,6 +288,7 @@ commands.addUserCommand(['screenname'], 'see screen_name',
 
 EOM
 nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' wi :<C-u>inreplyto<CR>
+lazy fmaps -u='https?://twitter\.com/#!/' j k <Space> i,<CR> . S,/ ?
 
 " pixiv {{{2
 nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' wb :<C-u>pixivBookmark<Space>

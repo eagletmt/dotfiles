@@ -2,6 +2,21 @@
 
 @-moz-document domain("twitter.com") {
   #container { opacity: 0.90 !important; }
-  .hovercard { display: none !important; }
+  .hovercard, .fixed-banners { display: none !important; }
+
+  #content, #update_notifications,
+  .status-body, .user .user-body,
+  .twitter-suggests ul.sources li, .source-content {
+    width: auto !important;
+  }
+  #container { width: 80% !important; }
+  ol.statuses .thumb { height: 36px !important }
+  ol .status .thumb img { height: 36px !important; width: 36px !important; }
+  ol .status { padding-bottom: 0 !important }
+  ol.statuses span.status-body { min-height: 38px !important; }
+
+  /* new twitter */
+  .stream-item .more { display: block !important; }
+  .stream-tweet .tweet-actions, .actions-hover, .fav-action { visibility: visible !important }
 }
 
