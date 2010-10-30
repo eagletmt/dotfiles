@@ -89,13 +89,15 @@ vnoremap ; :
 "silent bmark -title='POJ' -tags=vimp -keyword=poj http://acm.pku.edu.cn/JudgeOnline/problem?id=%s
 javascript <<EOM
 [['Google', 'http://www.google.com/search?q=%s', 'gs'],
+ ['SSL Google', 'https://encrypted.google.com/q=%s', 'gss'],
  ['Google Images', 'http://images.google.com/images?q=%s', 'gi'],
  ['Twitter検索', 'http://pcod.no-ip.org/yats/search?query=%s', 'ts'],
  ['Hoogle', 'http://www.haskell.org/hoogle/?hoogle=%s', 'hs'],
  ['Google Code Search', 'http://www.google.com/codesearch?q=%s', 'gc'],
- ['Twitter', 'https://twitter.com/%s', 'tw'],
+ ['Twitter', 'http://twitter.com/%s', 'tw'],
  ['POJ', 'http://acm.pku.edu.cn/JudgeOnline/problem?id=%s', 'poj'],
  ['Sauce nao', 'http://saucenao.com/search.php?db=999&url=%s', 'nao'],
+ ['rurema', 'http://doc.okkez.net/search/query:%s/', 'rurema'],
 ].forEach(function (b) {
   if (!bookmarks.isBookmarked(b[1])) {
     bookmarks.add(false, b[0], b[1], b[2], ['vimp'], false);
@@ -103,6 +105,7 @@ javascript <<EOM
 });
 EOM
 nnoremap sg :<C-u>tabopen gs<Space>
+nnoremap sG :<C-u>tabopen gss<Space>
 nnoremap si :<C-u>tabopen gi<Space>
 nnoremap st :<C-u>tabopen ts<Space>
 nnoremap sh :<C-u>tabopen hs<Space>
@@ -110,6 +113,7 @@ nnoremap sc :<C-u>tabopen gc<Space>
 nnoremap sk :<C-u>tabopen tw<Space>
 nnoremap sp :<C-u>tabopen poj<Space>
 nnoremap sn :<C-u>tabopen nao<Space>
+nnoremap sr :<C-u>tabopen rurema<Space>
 
 " abbrev {{{1
 iabbrev ID http://www.google.com/accounts/o8/id
