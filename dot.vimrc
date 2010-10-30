@@ -255,6 +255,10 @@ call wwwsearch#add('hoogle', 'http://www.haskell.org/hoogle/?hoogle={keyword}')
 nnoremap <Space>sh :<C-u>Wwwsearch -hoogle<Space>
 nnoremap <Space>sg :<C-u>Wwwsearch -google<Space>
 
+" openbrowser.vim {{{2
+nmap <Space>so <Plug>(openbrowser-open)
+vmap <Space>so <Plug>(openbrowser-open)
+
 " vimshell {{{2
 call s:import_bundle('vimshell')
 let g:vimshell_prompt = $USER . '% '
