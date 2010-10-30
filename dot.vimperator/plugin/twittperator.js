@@ -28,7 +28,7 @@ let PLUGIN_INFO =
   <name>Twittperator</name>
   <description>Twitter Client using ChirpStream</description>
   <description lang="ja">OAuth対応Twitterクライアント</description>
-  <version>1.4.3.8.0.3.8.0</version>
+  <version>1.9.1</version>
   <minVersion>2.3</minVersion>
   <maxVersion>2.4</maxVersion>
   <author mail="teramako@gmail.com" homepage="http://d.hatena.ne.jp/teramako/">teramako</author>
@@ -1110,7 +1110,7 @@ let PLUGIN_INFO =
         };
         Utils.xmlhttpRequest(options); // 送信
       },
-      delete: function(api, content, callback) {
+      delete: function(api, query, callback) {
         var btquery =  query ? "?" + this.buildQuery(query) : "";
         var message = {
           method: "DELETE",
@@ -1208,12 +1208,10 @@ let PLUGIN_INFO =
         if (typeof str == "undefined") return {};
         var itm;
         if (str.indexOf("?", 0) > -1) str = str.split("?", 2)[1];
-        var regex = str.indexOf("&") > str.indexOf(";") ? /;+/ : /&+/;
-        return str.split(regex).reduce(function(r, v) {
-          var kv = v.split("=", 2);
-          if (kv[0] != "") {
-            r[kv[0]] = typeof kv[1] == "undefined" ? true : decodeURIComponent(kv[1]);
-          }
+        return str.split("&").reduce(function(r, it) {
+          var [key, value] = it.split("=", 2);
+          if (key)
+            r[key] = typeof value == "undefined" || decodeURIComponent(value);
           return r;
         }, {});
       }
@@ -1223,105 +1221,146 @@ let PLUGIN_INFO =
   // }}}
 
   // Twittperator
-  function Stream({ host, path }) { // {{{
-    function extractURL(s)
-      let (m = s.match(/https?:\/\/\S+/))
-        (m && m[0]);
+  function HTTPConnection(url, options) { // {{{
+    const ioService = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
 
-    let connectionInfo;
+    this.canceled = false;
+    this.events = {};
+
+    this.channel =
+      ioService.newChannelFromURI(ioService.newURI(url, null, null)).QueryInterface(Ci.nsIHttpChannel);
+    this.channel.notificationCallbacks = this;
+
+    if (options) {
+      if ("headers" in options) {
+        for (let [n, v] in Iterator(options.headers))
+          this.channel.setRequestHeader(n, v, true);
+      }
+
+      for (let [n, v] in Iterator(options)) {
+        if (/^on[A-Z]/(n) && (v instanceof Function))
+          this.events[n.toLowerCase()] = v;
+      }
+
+      this.onRecv = options.onReceive;
+    }
+
+    this.channel.asyncOpen(this, null);
+  }
+  HTTPConnection.prototype = {
+    callEvent: function(name) {
+      name = name.toLowerCase();
+      if (name in this.events)
+        return this.events[name].apply(this, Array.slice(arguments, 1));
+    },
+
+    cancel: function() {
+      if (this.channel){
+        this.canceled = true;
+        return this.channel.cancel(Cr.NS_ERROR_NOT_AVAILABLE);
+      }
+    },
+
+    // 実装しないと例外になるメソッドとか
+    onStartRequest: function(request, context) {},
+    onProgress : function(request, context, progress, progressMax) {},
+    onStatus : function(request, context, status, statusArg) {},
+    onRedirect : function(oldChannel, newChannel) {},
+
+    onDataAvailable: function(request, context, stream, sourceOffset, length) {
+      let inputStream =
+        Cc["@mozilla.org/scriptableinputstream;1"].createInstance(Ci.nsIScriptableInputStream);
+      inputStream.init(stream);
+      let data = inputStream.read(length);
+      this.callEvent("onReceive", data);
+    },
+
+    onStopRequest: function(request, context, status) {
+      if (Components.isSuccessCode(status)) {
+        this.callEvent("onComplete");
+      } else {
+        if (!this.canceled)
+          this.callEvent("onError");
+      }
+      delete this.channel;
+    },
+
+    onChannelRedirect: function(oldChannel, newChannel, flags) {
+      this.channel = newChannel;
+    },
+
+    // nsIInterfaceRequestor
+    getInterface: function(IID) {
+      try {
+        return this.QueryInterface(IID);
+      } catch (e) {
+        throw Components.results.NS_NOINTERFACE;
+      }
+    },
+
+    // XPCOM インターフェイスに見せかけているので、QI を実装する必要がある
+    QueryInterface : function(IID) {
+      if (IID.equals(Ci.nsISupports) ||
+          IID.equals(Ci.nsIInterfaceRequestor) ||
+          IID.equals(Ci.nsIChannelEventSink) ||
+          IID.equals(Ci.nsIProgressEventSink) ||
+          IID.equals(Ci.nsIHttpEventSink) ||
+          IID.equals(Ci.nsIStreamListener))
+        return this;
+
+      throw Components.results.NS_NOINTERFACE;
+    }
+  }; // }}}
+  function Stream({ name, url }) { // {{{
+    let connection;
     let restartCount = 0;
-    let startTime;
+    let lastParams;
+    let listeners = [];
 
     function restart() {
       stop();
-
       if (restartCount > 13)
-        return liberator.echoerr("Twittperator: Gave up to connect to ChirpUserStream...");
-
-      liberator.echoerr("Twittperator: ChirpUserStream will be restared...");
-
+        return liberator.echoerr("Twittperator: Gave up to connect to " + name + "...");
+      liberator.echoerr("Twittperator: " + name + " will be restared...");
       // 試行済み回数^2 秒後にリトライ
-      setTimeout(start, Math.pow(2, restartCount) * 1000);
-
+      setTimeout(function() start(lastParams), Math.pow(2, restartCount) * 1000);
       restartCount++;
     }
 
     function stop() {
-      if (!connectionInfo)
+      if (!connection)
         return;
-
-      liberator.log("Twittperator: stop chirp user stream");
-
-      clearInterval(connectionInfo.interval);
-      connectionInfo.sos.close();
-      connectionInfo.sis.close();
-
-      connectionInfo = void 0;
+      connection.cancel();
+      liberator.log("Twittperator: stop " + name);
     }
 
-    function start() {
-      liberator.log("Twittperator: start chirp user stream");
-
+    function start(params) {
       stop();
 
-      startTime = new Date();
+      liberator.log("Twittperator: start " + name);
+
+      lastParams = params;
 
       let useProxy = !!setting.proxyHost;
-      let host = "chirpstream.twitter.com";
-      let path = "/2b/user.json";
-      let authHeader = tw.getAuthorizationHeader("http://" + host + path);
+      let requestUrl = url;
 
-      if (useProxy)
-        path = "http://" + host + path;
+      if (params) {
+        // XXX Twitter がなぜか + を許容しない気がする(401 を返す)ので、再変換する
+        let query = tw.buildQuery(params).replace(/\+/g, "%20");
+        requestUrl += '?' + query;
+      }
 
-      let get = [
-        "GET " + path + " HTTP/1.0",
-        "Host: " + host,
-        "Authorization: " + authHeader,
-        "",
-        ""
-      ].join("\n");
-
-      let socketService =
-        let (stsvc = Cc["@mozilla.org/network/socket-transport-service;1"])
-          let (svc = stsvc.getService())
-            svc.QueryInterface(Ci["nsISocketTransportService"]);
-
-      let transport =
-        socketService.createTransport(
-          null, 0,
-          useProxy ? setting.proxyHost : host,
-          useProxy ? parseInt(setting.proxyPort || "3128", 10) : 80,
-          null);
-      let os = transport.openOutputStream(0, 0, 0);
-      let is = transport.openInputStream(0, 0, 0);
-      let sis = Cc["@mozilla.org/scriptableinputstream;1"].createInstance(Ci.nsIScriptableInputStream);
-      let sos = Cc["@mozilla.org/binaryoutputstream;1"].createInstance(Ci.nsIBinaryOutputStream);
-
-      sis.init(is);
-      sos.setOutputStream(os);
-
-      sos.write(get, get.length);
-
+      let authHeader = tw.getAuthorizationHeader(requestUrl);
       let buf = "";
-      let interval = setInterval(function() {
+
+      let onReceive = function(data) {
         try {
-          let len = sis.available();
-          if (len <= 0)
-            return;
-
-          // 5分間接続されていたら、カウントをクリア
-          // 何かの事情で即切断されてしまうときに、高頻度でアクセスしないための処置です。
-          if (restartCount && (new Date().getTime() - startTime.getTime()) > (5 * 60 * 1000))
-            restartCount = 0;
-
-          let data = sis.read(len);
           let lines = data.split(/\r\n|[\r\n]/);
           if (lines.length >= 2) {
             lines[0] = buf + lines[0];
             for (let [, line] in Iterator(lines.slice(0, -1))) {
               try {
-                if (/^[ \n\r\t]*\{/(line))
+                if (/^\s*\{/(line))
                   onMsg(Utils.fixStatusObject(JSON.parse(line)), line);
               } catch (e) { liberator.log(e); }
             }
@@ -1329,37 +1368,33 @@ let PLUGIN_INFO =
           } else {
             buf += data;
           }
-        } catch (e if /^NS_(?:ERROR_NET_RESET|BASE_STREAM_CLOSED)$/(e)) {
-          liberator.echoerr("Twittperator: ChirpStream was stopped by " + e.name + ".");
-          restart();
         } catch (e) {
-          liberator.echoerr("Twittperator: Unknown error on ChirpStream connection: " + e.name);
-          restart();
+          liberator.echoerr("Twittperator: Unknown error on " + name + " connection: " + e.name);
         }
-      }, 500);
-
-      connectionInfo = {
-        sos: sos,
-        sis: sis,
-        interval: interval,
       };
+
+      connection = new HTTPConnection(
+        requestUrl,
+        {
+          headers: {
+            Authorization: authHeader,
+          },
+          onReceive: onReceive,
+          onError: restart
+        }
+      );
     }
 
     function onMsg(msg, raw) {
       listeners.forEach(function(listener) liberator.trapErrors(function() listener(msg, raw)));
 
-      if (msg.text) {
-        history.unshift(msg);
-        if (history.length > setting.historyLimit)
-          history.splice(setting.historyLimit);
-      }
+      if (msg.text)
+        Twittperator.onMessage(msg);
     }
 
     function clearPluginData() {
       listeners = [];
     }
-
-    let listeners = [];
 
     return {
       start: start,
@@ -1369,7 +1404,6 @@ let PLUGIN_INFO =
       clearPluginData: clearPluginData
     };
   }; // }}}
-  let ChirpUserStream = Stream({ host: "chirpstream.twitter.com", path: "/2b/user.json" });
   let Twitter = { // {{{
     destroy: function(id) { // {{{
       tw.delete("statuses/destroy/" + id + ".json", null, function(text) {
@@ -1428,35 +1462,14 @@ let PLUGIN_INFO =
         });
       }
     }, // }}}
-    say: function(stat) { // {{{
-      let sendData = {};
-      let prefix, replyUser, replyID, postfix;
-      if (stat.match(/^(.*)@(\w{1,15})#(\d+)(.*)$/)) {
-        [prefix, replyUser, replyID, postfix] = [RegExp.$1, RegExp.$2, RegExp.$3, RegExp.$4];
-        if (stat.indexOf("RT @" + replyUser + "#" + replyID) == 0) {
-          Twittperator.withProtectedUserConfirmation(
-            { screenName: replyUser, statusId: replyID },
-            "retweet",
-            function() Twitter.retweet(replyID)
-          );
-          return;
-        }
-        stat = prefix + "@" + replyUser + postfix;
-        if (replyID && !prefix)
-          sendData.in_reply_to_status_id = replyID;
-      }
-      Twittperator.withProtectedUserConfirmation(
-        { screenName: replyUser, statusId: replyID },
-        "reply",
-        function() {
-          sendData.status = stat;
-          sendData.source = "Twittperator";
-          tw.post("statuses/update.json", sendData, function(text) {
-            let t = Utils.fixStatusObject(JSON.parse(text || "{}")).text;
-            Twittperator.echo("Your post " + '"' + t + '" (' + t.length + " characters) was sent.");
-          });
-        }
-      );
+    say: function(status, inReplyToStatusId) { // {{{
+      let sendData = {status: status, source: "Twittperator"};
+      if (inReplyToStatusId)
+        sendData.in_reply_to_status_id = inReplyToStatusId;
+      tw.post("statuses/update.json", sendData, function(text) {
+        let t = Utils.fixStatusObject(JSON.parse(text || "{}")).text;
+        Twittperator.echo("Your post " + '"' + t + '" (' + t.length + " characters) was sent.");
+      });
     }, // }}}
     retweet: function(id) { // {{{
       let url = "statuses/retweet/" + id + ".json";
@@ -1557,9 +1570,15 @@ let PLUGIN_INFO =
       }
 
       ChirpUserStream.clearPluginData();
+      TrackingStream.clearPluginData();
 
       io.getRuntimeDirectories("plugin/twittperator").forEach(loadPluginFromDir(true));
       io.getRuntimeDirectories("twittperator").forEach(loadPluginFromDir(false));
+    }, // }}}
+    onMessage: function(msg) { // {{{
+      history.unshift(msg);
+      if (history.length > setting.historyLimit)
+        history.splice(setting.historyLimit);
     }, // }}}
     openLink: function(text) { // {{{
       let m = text.match(/.*?(https?:\/\/\S+)/g);
@@ -1570,6 +1589,29 @@ let PLUGIN_INFO =
         m.map(function(s) s.match(/^(.*?)(https?:\/\/\S+)/).slice(1)) .
           map(function(ss) (ss.reverse(), ss.map(String.trim)))
       Twittperator.selectAndOpenLink(links);
+    }, // }}}
+    say: function(stat) { // {{{
+      let sendData = {};
+      let prefix, replyUser, replyID, postfix;
+      if (stat.match(/^(.*)@(\w{1,15})#(\d+)(.*)$/)) {
+        [prefix, replyUser, replyID, postfix] = [RegExp.$1, RegExp.$2, RegExp.$3, RegExp.$4];
+        if (stat.indexOf("RT @" + replyUser + "#" + replyID) == 0) {
+          Twittperator.withProtectedUserConfirmation(
+            { screenName: replyUser, statusId: replyID },
+            "retweet",
+            function() Twitter.retweet(replyID)
+          );
+          return;
+        }
+        stat = prefix + "@" + replyUser + postfix;
+        if (replyID && !prefix)
+          sendData.in_reply_to_status_id = replyID;
+      }
+      Twittperator.withProtectedUserConfirmation(
+        { screenName: replyUser, statusId: replyID },
+        "reply",
+        function() Twitter.say(stat, replyID)
+      );
     }, // }}}
     selectAndOpenLink: function(links) { // {{{
       if (!links || !links.length)
@@ -1593,9 +1635,14 @@ let PLUGIN_INFO =
         Twittperator.showTL(statuses);
       });
     }, // }}}
+    showStatusMenu: function(status) { // {{{
+    }, // }}}
     showTL: function(s) { // {{{
       function userURL(screen_name)
         (setting.showTLURLScheme + "://twitter.com/" + screen_name);
+
+      function menuEvent(st)
+        ("window.parent.liberator.modules.plugins.twittperator.Twittperator.showStatusMenu(" + parseInt(st.id) + ")");
 
       let html = <style type="text/css"><![CDATA[
           .twitter.user { vertical-align: top; }
@@ -1618,8 +1665,14 @@ let PLUGIN_INFO =
                   <a href={userURL(status.user.screen_name)}>
                     <img src={status.user.profile_image_url} alt={status.user.screen_name} class="twitter photo"/>
                   </a>
-                </td><td class="twitter entry-content rt">
+                </td>
+                <td class="twitter entry-content rt">
                   {Utils.anchorLink(rt.text)}
+                </td>
+                <td class="twitter menu">
+                  <a href="javascript: void 0" onclick={menuEvent(status)}>
+                   &#1758;
+                  </a>
                 </td>
               </tr> :
               <tr>
@@ -1628,8 +1681,14 @@ let PLUGIN_INFO =
                     <img src={status.user.profile_image_url} alt={status.user.screen_name} class="twitter photo"/>
                     <strong title={status.user.name}>{status.user.screen_name}&#x202C;</strong>
                   </a>
-                </td><td class="twitter entry-content">
+                </td>
+                <td class="twitter entry-content">
                   {Utils.anchorLink(status.text)}
+                </td>
+                <td class="twitter menu">
+                  <a href="javascript: void 0" onclick={menuEvent(status)}>
+                   &#1758;
+                  </a>
                 </td>
               </tr>
               );
@@ -1712,6 +1771,9 @@ let PLUGIN_INFO =
       function rt(st)
         ("retweeted_status" in st ? st.retweeted_status : st);
 
+      function removeNewLine (text)
+        text.replace(/\r\n|[\r\n]/g, ' ');
+
       function completer(generator)
         function(filter)
           (filter ? function(context, args)
@@ -1723,13 +1785,15 @@ let PLUGIN_INFO =
         name:
           completer(function(s) ["@" + s.user.screen_name, s]),
         text:
-          completer(function(s) [s.text, s]),
+          completer(function(s) [removeNewLine(s.text), s]),
         id:
           completer(function(s) [s.id, s]),
         name_id:
           completer(function(s) ["@" + s.user.screen_name + "#" + s.id, s]),
         name_id_text:
-          completer(function(s) ["@" + s.user.screen_name + "#" + s.id + ": " + s.text, s]),
+          completer(function(s) ["@" + s.user.screen_name + "#" + s.id + ": " + removeNewLine(s.text), s]),
+        screenName:
+          completer(function(s) [s.user.screen_name, s]),
       };
     })(); // }}}
 
@@ -1755,11 +1819,12 @@ let PLUGIN_INFO =
         command: ["+"],
         description: "Fav a tweet",
         action: function(arg) {
-          let m = arg.match(/^.*#(\d+)/);
+          let m = arg.match(/^\d+/);
           if (m)
-            Twitter.favorite(m[1]);
+            Twitter.favorite(m[0]);
         },
-        completer: Completers.name_id_text(rejectMine)
+        timelineCompleter: true,
+        completer: Completers.id(rejectMine)
       }),
       SubCommand({
         command: ["-"],
@@ -1769,6 +1834,7 @@ let PLUGIN_INFO =
           if (m)
             Twitter.unfavorite(m[1]);
         },
+        timelineCompleter: true,
         completer: Completers.name_id_text(rejectMine)
       }),
       SubCommand({
@@ -1781,18 +1847,21 @@ let PLUGIN_INFO =
             Twittperator.showTwitterMentions();
           }
         },
+        timelineCompleter: true,
         completer: Completers.name()
       }),
       SubCommand({
         command: ["?"],
         description: "Twitter search",
         action: function(arg) Twittperator.showTwitterSearchResult(arg),
+        timelineCompleter: true,
         completer: Completers.text()
       }),
       SubCommand({
         command: ["/"],
         description: "Open link",
         action: function(arg) Twittperator.openLink(arg),
+        timelineCompleter: true,
         completer: Completers.text(function(s) /https?:\/\//(s.text))
       }),
       SubCommand({
@@ -1803,6 +1872,7 @@ let PLUGIN_INFO =
           if (m)
             Twitter.destroy(m[0]);
         },
+        timelineCompleter: true,
         completer: Completers.id(seleceMine)
       }),
       SubCommand({
@@ -1825,8 +1895,63 @@ let PLUGIN_INFO =
           let id = parseInt(m[0], 10);
           history.filter(function(st) st.id === id).map(dtdd).forEach(liberator.echo);
         },
+        timelineCompleter: true,
         completer: Completers.id()
-      })
+      }),
+      let (lastTrackedWords)
+        (SubCommand({
+          command: ["track"],
+          description: "Track the specified words.",
+          action: function(arg) {
+            if (arg.trim().length > 0) {
+              lastTrackedWords = arg;
+              TrackingStream.start({track: arg});
+            } else {
+              TrackingStream.stop();
+            }
+          },
+          completer: function(context, args) {
+            let cs = [];
+            if (setting.trackWords)
+              cs.push([setting.trackWords, "Global variable"]);
+            if (lastTrackedWords)
+              cs.push([lastTrackedWords, "Last tracked"]);
+            context.completions = cs;
+          }
+        })),
+      SubCommand({
+        command: ["home"],
+        description: "Open user home.",
+        action: function(arg) liberator.open("http://twitter.com/" + arg, liberator.NEW_TAB),
+        timelineCompleter: true,
+        completer: Completers.screenName(rejectMine)
+      }),
+      SubCommand({
+        command: ["thread"],
+        description: "Show tweets thread.",
+        action: function(arg) {
+          function getStatus(id, next) {
+            let result;
+            if (history.some(function (it) (it.id == id && (result = it))))
+              return next(result);
+            tw.get("statuses/show/" + id + ".json", null, function(text) next(JSON.parse(text)))
+          }
+          function trace(st) {
+            thread.push(st);
+            if (st.in_reply_to_status_id) {
+              getStatus(st.in_reply_to_status_id, trace);
+            } else {
+              Twittperator.showTL(thread);
+            }
+          }
+
+          Twittperator.echo("Start thread tracing..");
+          let thread = [];
+          getStatus(parseInt(arg), trace);
+        },
+        timelineCompleter: true,
+        completer: Completers.id(function (it) it.in_reply_to_status_id)
+      }),
     ]; // }}}
 
     function findSubCommand(s) { // {{{
@@ -1857,37 +1982,46 @@ let PLUGIN_INFO =
         let (desc = item.description)
           (this.match(desc.user.screen_name) || this.match(desc.text));
 
-      context.createRow = function(item, highlightGroup) {
-        let desc = item[1] || this.process[1].call(this, item, item.description);
+      function setTimelineCompleter() {
+        context.createRow = function(item, highlightGroup) {
+          let desc = item[1] || this.process[1].call(this, item, item.description);
 
-        if (desc && desc.user) {
+          if (desc && desc.user) {
+            return <div highlight={highlightGroup || "CompItem"} style="white-space: nowrap">
+                <li highlight="CompDesc">
+                  <img src={desc.user.profile_image_url} style="max-width: 24px; max-height: 24px"/>
+                  &#160;{desc.user.screen_name}: {desc.text}
+                </li>
+            </div>;
+          }
+
           return <div highlight={highlightGroup || "CompItem"} style="white-space: nowrap">
-              <li highlight="CompDesc">
-                <img src={desc.user.profile_image_url} style="max-width: 24px; max-height: 24px"/>
-                &#160;{desc.user.screen_name}: {desc.text}
-              </li>
+              <li highlight="CompDesc">{desc}&#160;</li>
           </div>;
-        }
+        };
 
-        return <div highlight={highlightGroup || "CompItem"} style="white-space: nowrap">
-            <li highlight="CompDesc">{desc}&#160;</li>
-        </div>;
-      };
+        context.filters = [statusObjectFilter];
+      }
 
       let len = 0;
 
       if (args.bang) {
         let [subCmd, m] = findSubCommand(args.literalArg) || [];
         if (subCmd) {
+          if (subCmd.timelineCompleter)
+            setTimelineCompleter();
           context.title = ["Hidden", "Entry"];
           subCmd.completer(context, args);
           len = m[0] === "@" ? 0 : m[0].length;
         }
       } else {
+        setTimelineCompleter();
+        let arg = args.literalArg.slice(0, context.caret);
         let m;
-        if (m = args.literalArg.match(/(RT\s+)@.*$/)) {
-          Completers.name_id_text(m.index === 0 && rejectMine)(context, args);
-        } else if (m = tailMatch(/(^|\b|\s)@[^@]*/, args.literalArg)) {
+        if (m = arg.match(/(RT\s+)@.*$/)) {
+          (m.index === 0 ? Completers.name_id
+                         : Completers.name_id_text)(m.index === 0 && rejectMine)(context, args);
+        } else if (m = tailMatch(/(^|\b|\s)@[^@]*/, arg)) {
           (m.index === 0 ? Completers.name_id(rejectMine) : Completers.name(rejectMine))(context, args);
         }
 
@@ -1897,7 +2031,6 @@ let PLUGIN_INFO =
 
       context.title = ["Name#ID", "Entry"];
       context.offset += len;
-      context.filters = [statusObjectFilter];
       // XXX 本文でも検索できるように、@ はなかったことにする
       context.filter = context.filter.replace(/^@/, "");
 
@@ -1927,7 +2060,7 @@ let PLUGIN_INFO =
           if (arg.length === 0)
             Twittperator.showFollowersStatus();
           else
-            Twitter.say(arg);
+            Twittperator.say(arg);
         }
       }, {
         bang: true,
@@ -1994,6 +2127,7 @@ let PLUGIN_INFO =
       screenName: gv.twittperator_screen_name,
       apiURLBase: "http" + (!!gv.twittperator_use_ssl_connection_for_api_ep ? "s" : "") +
                   "://api.twitter.com/" + (gv.twittperator_twitter_api_version || 1)  + "/",
+      trackWords: gv.twittperator_track_words,
     });
 
   let statusRefreshTimer;
@@ -2010,9 +2144,14 @@ let PLUGIN_INFO =
 
   let tw = new TwitterOauth(accessor);
 
+  // ストリーム
+  let ChirpUserStream = Stream({ name: 'chirp stream', url: "https://userstream.twitter.com/2/user.json" });
+  let TrackingStream = Stream({ name: 'tracking stream', url: "http://stream.twitter.com/1/statuses/filter.json" });
+
   // 公開オブジェクト
   __context__.OAuth = tw;
   __context__.ChirpUserStream = ChirpUserStream;
+  __context__.TrackingStream = TrackingStream;
   __context__.Twittperator = Twittperator;
   __context__.Twitter = Twitter;
   __context__.Utils = Utils;
@@ -2022,9 +2161,13 @@ let PLUGIN_INFO =
   if (setting.useChirp)
     ChirpUserStream.start();
 
+  if (setting.trackWords)
+    TrackingStream.start({track: setting.trackWords});
+
   __context__.onUnload = function() {
     accessor.set("history", history);
     ChirpUserStream.stop();
+    TrackingStream.stop();
   };
   // }}}
 
