@@ -9,9 +9,8 @@ set focuscontent
 set complete=tsl
 set showtabline=0
 " migemo_hint.js
-set hintmatching=custom 
-
-set! network.dns.disableIPv6=true
+set hintmatching=custom
+set hintchars=HJKLASDFG
 
 command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 
