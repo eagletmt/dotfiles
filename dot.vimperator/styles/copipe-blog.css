@@ -242,5 +242,23 @@
 
   .comment_navi { margin-bottom: 5px !important; }
 } /* }}} */
+
+@-moz-document domain("hamusoku.com") { /*{{{*/
+  #sub, #extra, .topbox, .blog-title-outer, .wareclass_frame, .google-user-ad,
+  .article-body > strong, .article-body > hr, .amazlet-box
+  { display: none !important; }
+
+  .column-inner { margin: 0 !important; }
+
+  br + br + br { display: none; }
+  .article-body-inner > span > span, .article-body-inner > span,
+  .article-body-more > span > span, .article-body-more > span {
+    font-size: medium !important;
+  }
+
+  span {
+    font-size: medium !important;
+  }
+} /*}}}*/
 /* vim: set et ts=2 sw=2 fdm=marker: */
 
