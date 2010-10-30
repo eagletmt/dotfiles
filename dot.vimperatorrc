@@ -517,6 +517,21 @@ let (c = modules.userContext) {
 }
 EOM
 
+" show feed button at statusbar
+javascript <<EOM
+let (btn = document.getElementById('feed-button')) {
+  let panel = document.getElementById('feed-panel');
+  if (panel) {
+    panel.parentNode.removeChild(panel);
+  }
+  panel = document.createElement('statusbarpanel');
+  panel.setAttribute('id', 'feed-panel');
+  panel.appendChild(btn.cloneNode(true));
+  btn.parentNode.removeChild(btn);
+  document.getElementById('status-bar').insertBefore(panel, document.getElementById('security-button'));
+}
+EOM
+
 " load private settings {{{2
 source! ~/vimperatorrc.local
 
