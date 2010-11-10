@@ -425,13 +425,15 @@ call s:import_bundle('IndentAnything')
 
 " unite {{{2
 call s:import_bundle('unite')
-let g:unite_update_time = 200
+let g:unite_update_time = 100
 let g:unite_source_file_mru_time_format = ''
-nnoremap <Space>fj :<C-u>UniteWithBufferDir buffer file<CR>
-nnoremap <Space>fm :<C-u>Unite file_mru buffer file<CR>
-nnoremap <Space>fh :<C-u>Unite bookmark file<CR>
+nnoremap <silent> <Space>fj :<C-u>UniteWithBufferDir buffer file<CR>
+nnoremap <silent> <Space>fm :<C-u>Unite -buffer-name=files file_mru buffer file<CR>
+nnoremap <silent> <Space>fh :<C-u>Unite -buffer-name=files bookmark file<CR>
+nnoremap <silent> <Space>fb :<C-u>Unite buffer<CR>
 autocmd MyAutoCmd FileType unite nunmap <buffer> q
 autocmd MyAutoCmd FileType unite nunmap <buffer> l
+autocmd MyAutoCmd FileType unite nmap <buffer> <Esc> <Plug>(unite_exit)
 autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> t :<C-u>call unite#mappings#do_action('tabopen')<CR>
 autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> <C-h> :<C-u>call unite#mappings#do_action('left')<CR>
 autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> <C-l> :<C-u>call unite#mappings#do_action('right')<CR>
