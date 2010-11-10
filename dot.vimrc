@@ -14,7 +14,11 @@ set number
 set laststatus=2
 set statusline=[%L]\ %t\ %y%{'['.(&fenc!=''?&fenc:&enc).':'.']'}%r%m%=%c:%l/%L
 set foldmethod=marker
-colorscheme xoria256
+if &t_Co == 256
+  colorscheme xoria256
+else
+  colorscheme ron
+endif
 
 " encoding {{{2
 set encoding=utf-8
@@ -66,8 +70,10 @@ if !isdirectory(&backupdir)
 endif
 
 " undo {{{2
-set undodir=~/.vim/undo
-set undofile
+if has('persistent_undo')
+  set undodir=~/.vim/undo
+  set undofile
+endif
 
 " formatting {{{2
 " m = Also break at a multi-byte character above 255
