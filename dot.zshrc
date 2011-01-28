@@ -16,6 +16,9 @@ compctl -g '*.lzma' unlzma
 compctl -d make
 compctl -d locate
 
+# http://memo.officebrook.net/20101117.html#p01
+zstyle ':completion:*' accept-exact '*(N)'
+
 # zsh modules
 autoload -U zmv
 zmodload -i zsh/files
@@ -38,8 +41,8 @@ alias helpdiff='diff -u <(gunzip -c help.txt.gz) <(./configure --help)'
 alias g='git'
 alias c='cabal'
 alias wmv='noglob zmv -W'
-alias pbcopy='xclip -selection clipboard -i'
-alias pbpaste='xclip -selection clipboard -o'
+[ -x /usr/bin/xclip ] && function pbcopy() { xclip -selection clipboard -i $* }
+[ -x /usr/bin/xclip ] && function pbpaste() { xclip -selection clipboard -o $* }
 
 GCC_COMMON_OPTIONS='-Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align \
 -Wwrite-strings -Wfloat-equal -Wpointer-arith -Wredundant-decls \

@@ -14,7 +14,8 @@ require('wicked')
 beautiful.init(awful.util.getdir('config') .. "/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "mlclient"
+terminal = "urxvt"
+-- terminal = "mlterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -366,6 +367,6 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 -- }}}
 
 -- {{{ Initial process
-os.execute('mlterm -j blend')
+-- os.execute('mlterm -j blend')
 -- }}}
 
