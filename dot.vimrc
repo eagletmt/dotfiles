@@ -304,19 +304,30 @@ if has('win32')
 else
   let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
 endif
-let g:neocomplcache_omni_patterns = {
-      \ 'ruby': '',
-      \ }
 let g:neocomplcache_disable_caching_buffer_name_pattern = '^fuf$'
 if !exists('g:neocomplcache_keyword_patterns')
   let g:neocomplcache_keyword_patterns = {}
 endif
 let g:neocomplcache_keyword_patterns.default = '\h\w*'
+if !exists('g:neocomplcache_omni_patterns')
+let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+if !exists('g:neocomplcache_omni_functions')
+  let g:neocomplcache_omni_functions = {}
+endif
+"let g:neocomplcache_omni_functions.ruby = 'rubycomplete#Complete'
+let g:neocomplcache_enable_auto_delimiter = 1
+if !exists('g:neocomplcache_dictionary_filetype_lists')
+  let g:neocomplcache_dictionary_filetype_lists = {}
+endif
+let g:neocomplcache_dictionary_filetype_lists.java = expand('~/.vim/dict/java.dict')
 
 imap <expr> <C-v> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : neocomplcache#complete_common_string()
 inoremap <expr> <C-h> neocomplcache#smart_close_popup() . "\<C-h>"
 inoremap <expr> <C-x><C-f> neocomplcache#manual_filename_complete()
 inoremap <expr> <C-x><C-o> neocomplcache#manual_omni_complete()
+call s:import_bundle('neco-ghc')
 
 " twitvim.vim {{{2
 let g:twitvim_buffer_form = 1

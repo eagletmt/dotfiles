@@ -40,3 +40,6 @@
 [submodule "dot.vim/bundles/unite-outline"]
 	path = dot.vim/bundles/unite-outline
 	url = git://github.com/h1mesuke/unite-outline.git
+[submodule "dot.vim/bundles/neco-ghc"]
+	path = dot.vim/bundles/neco-ghc
+	url = git://github.com/ujihisa/neco-ghc.git
