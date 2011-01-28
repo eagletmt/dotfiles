@@ -33,13 +33,13 @@
   commands.addUserCommand(['ytd[ownload]'], 'download this video',
     function(args) {
       let flashvars = get_flashvars();
-      let video_id = flashvars.video_id;
-      let t = flashvars.t;
       let title = args.literalArg || get_title();
       title = title.replace(/[\/\\]/, '_');
       let fmt = args['-fmt'] || available_formats()[0];
 
-      let uri = makeURI('http://www.youtube.com/get_video?asv=3&fmt=' + fmt + '&video_id=' + video_id + '&t=' + t);
+      let urls = {};
+      flashvars.fmt_url_map.split(',').forEach(function(u) let (m = u.match(/^(\d+)\|(.+)$/)) urls[m[1]] = decodeURIComponent(m[2]));
+      let uri = makeURI(urls[fmt]);
       let dm = services.get('downloadManager');
       let file =
         liberator.globalVariables.yt_save_dir
@@ -83,9 +83,11 @@
   function available_formats()
     get_flashvars().fmt_list.split(',').map(function(u) u.split('/')[0]);
 
-  function fmt_completer(context, args)
-    [[f, FORMAT_INFO[f].desc + ' (' + FORMAT_INFO[f].ext + ')']
-        for each(f in available_formats())];
+  function fmt_completer(context, args) {
+    context.compare = void 0;
+    return [[f, FORMAT_INFO[f].desc + ' (' + FORMAT_INFO[f].ext + ')']
+      for each(f in available_formats())];
+  }
 })();
 
 // vim: et sw=2 ts=2 sts=2:

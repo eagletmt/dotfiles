@@ -39,11 +39,11 @@ let PLUGIN_INFO =
   <name lang="ja">feedSomeKeys 3</name>
   <description>feed some defined key events into the Web content</description>
   <description lang="ja">キーイベントをWebコンテンツ側に送る</description>
-  <version>1.8.1</version>
+  <version>1.8.3</version>
   <author mail="anekos@snca.net" homepage="http://d.hatena.ne.jp/nokturnalmortum/">anekos</author>
   <license>new BSD License (Please read the source code comments of this plugin)</license>
   <license lang="ja">修正BSDライセンス (ソースコードのコメントを参照してください)</license>
-  <updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/feedSomeKeys_3.js</updateURL>
+  <updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/feedSomeKeys_3.js</updateURL>
   <minVersion>2.3</minVersion>
   <maxVersion>2.3</maxVersion>
   <require type="plugin">_libly.js</require>
@@ -79,7 +79,7 @@ lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
 // }}}
 // INFO {{{
 let INFO = <>
-  <plugin name="feedSomeKeys" version="1.8.1"
+  <plugin name="feedSomeKeys" version="1.8.3"
           href="http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/feedSomeKeys_3.js"
           summary="Feed some defined key events into the Web content"
           lang="en-US"
@@ -181,9 +181,9 @@ let INFO = <>
 :lazy fmaps -u='http://code.google.com/p/vimperator-labs/issues/detail' u
     </ex></code>
   </plugin>
-  <plugin name="feedSomeKeys" version="1.8.1"
+  <plugin name="feedSomeKeys" version="1.8.3"
           href="http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/feedSomeKeys_3.js"
-          summary="Feed some defined key events into the Web content"
+          summary="Web コンテンツに直接キーイベントを送ります。"
           lang="ja"
           xmlns="http://vimperator.org/namespaces/liberator">
     <author email="anekos@snca.net">anekos</author>
@@ -354,7 +354,7 @@ let INFO = <>
 
   function getFrames () {
     function bodyCheck (content)
-      (content.document.body.localName.toLowerCase() === 'body');
+      (content.document && content.document.body && content.document.body.localName.toLowerCase() === 'body');
 
     function get (content)
       (bodyCheck(content) && result.push(content), Array.slice(content.frames).forEach(get));
@@ -514,7 +514,7 @@ let INFO = <>
         if (map.matchingUrls && !uniq[map.matchingUrls])
       ];
       if (currentURL) {
-        result.unshift([util.escapeRegex(buffer.URL), 'Current URL']);
+        result.unshift(['^' + util.escapeRegex(buffer.URL), 'Current URL']);
         result.unshift([util.escapeRegex(content.document.domain), 'Current domain']);
       }
       return result;

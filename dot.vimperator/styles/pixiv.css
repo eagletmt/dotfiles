@@ -14,5 +14,7 @@
   .my_info{line-height:1.1em !important;}
   .works_display{margin:5px 0 !important;}
   .top_display_works li,.search_a2_result li{margin:0 0 15px !important;}
+
+  #logoRightAdver { display: none }
 }
 

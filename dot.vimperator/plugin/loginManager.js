@@ -7,7 +7,7 @@ var PLUGIN_INFO =
     <version>0.0.4</version>
     <minVersion>2.0pre</minVersion>
     <maxVersion>2.2pre</maxVersion>
-    <updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/loginManger.js</updateURL>
+    <updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/loginManger.js</updateURL>
     <license>public domain</license>
     <detail><![CDATA[
 
@@ -80,7 +80,7 @@ var services = {
         passwordField: "password",
     },
     twitter: {
-        HOST: ["http://twitter.com", "https://twitter.com"],
+        HOST: ["https://twitter.com", "http://twitter.com"],
         LOGIN: "/sessions",
         LOGOUT: "/sessions/destroy",
         usernameField: "session[username_or_email]",

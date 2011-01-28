@@ -1,11 +1,16 @@
 @namespace url(http://www.w3.org/1999/xhtml);
 
-@-moz-document domain(acm.pku.edu.cn) {
+@-moz-document domain(poj.org) {
   table {
     background-image: none !important;
     background-color: #eaeffd;
   }
 
   marquee { -moz-binding: none; }
+
+  div.ptx {
+    font-family: inherit !important;
+    font-weight: lighter;
+  }
 }
 

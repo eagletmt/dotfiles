@@ -3,6 +3,8 @@
 autocmd!
 
 " config {{{1
+set guioptions=rbT
+set status=location,tabcount,position,input
 set nextpattern=次[のへ],\bnext\b,\bmore\b,^next.*,^>$,^>>$
 set previouspattern=前[のへ],\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
 set focuscontent
@@ -11,10 +13,11 @@ set showtabline=0
 " migemo_hint.js
 set hintmatching=custom
 set hintchars=HJKLASDFG
+set hlsearch
 
 command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 
-lazy colorscheme xoria256
+" lazy colorscheme xoria256
 
 " keymaps {{{1
 " normal mode {{{2
@@ -43,6 +46,8 @@ nnoremap w <Nop>
 javascript <<EOM
 mappings.addUserMap([modes.NORMAL], [',s'], 'reload rc file', function() io.source(io.getRCFile().path));
 EOM
+nnoremap <C-k> <Nop>
+nnoremap <C-j> <Nop>
 
 " commandline mode {{{2
 cnoremap <C-j> <Nop>
@@ -75,6 +80,7 @@ inoremap <C-p> <Up>
 inoremap <C-n> <Down>
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
+inoremap <C-j> <Nop>
 
 " visual mode {{{2
 vnoremap ; :
@@ -91,11 +97,11 @@ javascript <<EOM
 [['Google', 'http://www.google.com/search?q=%s', 'gs'],
  ['SSL Google', 'https://encrypted.google.com/q=%s', 'gss'],
  ['Google Images', 'http://images.google.com/images?q=%s', 'gi'],
- ['Twitter検索', 'http://pcod.no-ip.org/yats/search?query=%s', 'ts'],
+ ['Twitter検索', 'http://yats-data.com/yats/search?query=%s', 'ts'],
  ['Hoogle', 'http://www.haskell.org/hoogle/?hoogle=%s', 'hs'],
  ['Google Code Search', 'http://www.google.com/codesearch?q=%s', 'gc'],
  ['Twitter', 'http://twitter.com/%s', 'tw'],
- ['POJ', 'http://acm.pku.edu.cn/JudgeOnline/problem?id=%s', 'poj'],
+ ['POJ', 'http://poj.org/problem?id=%s', 'poj'],
  ['Sauce nao', 'http://saucenao.com/search.php?db=999&url=%s', 'nao'],
  ['rurema', 'http://doc.okkez.net/search/query:%s/', 'rurema'],
 ].forEach(function (b) {
@@ -241,7 +247,7 @@ let g:no_reading_on_statusline = 1
 let g:no_reading_statusline_limit = 2000
 
 " twittperator.js {{{2
-cabbrev -j .re let (e=doc.querySelector('.hentry.status')) ('@' + e.getAttribute('class').match(/u-(\S+)/)[1] + '#' + e.getAttribute('id').match(/\d+/))
+cabbrev -j .re let (e = doc.querySelector('.permalink-tweet')) ('@' + e.getAttribute('data-screen-name') + '#' + e.getAttribute('data-tweet-id'))
 
 " my small commands {{{1
 " matrixcode {{{2
@@ -288,7 +294,6 @@ commands.addUserCommand(['screenname'], 'see screen_name',
 
 EOM
 nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' wi :<C-u>inreplyto<CR>
-lazy fmaps -u='https?://twitter\.com/#!/' j k <Space> i,<CR> . S,/ ?
 
 " pixiv {{{2
 nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' wb :<C-u>pixivBookmark<Space>
@@ -365,6 +370,7 @@ EOM
 
 " hatena {{{2
 nnoremap <silent> -urls='[dg]\.hatena\.ne\.jp|anond\.hatelabo\.jp' wx :<C-u>js $LXs('//a[@class="keyword" or @class="okeyword"]').forEach(function(e) e.parentNode.replaceChild(e.firstChild, e))<CR>
+command! -nargs=0 hatebu js liberator.open('http://b.hatena.ne.jp/entry/' + win.location.href)
 
 " tryhaskell {{{2
 javascript <<EOM
@@ -401,7 +407,7 @@ nnoremap <silent> ,q :<C-u>gcache<CR>
 command! -nargs=0 cal js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
 
 " pku {{{2
-nnoremap <silent> -urls='acm\.pku\.edu\.cn/JudgeOnline/problem\?id=' ws :<C-u>js liberator.open(buffer.URI.replace(/problem\?id=(\d+)/, 'status?problem_id=$1'))<CR>
+nnoremap <silent> -urls='poj.org/problem\?id=' ws :<C-u>js liberator.open(buffer.URI.replace(/problem\?id=(\d+)/, 'status?problem_id=$1'))<CR>
 
 javascript <<EOM
 commands.addUserCommand(['bgimage'], 'view background image',
@@ -458,7 +464,33 @@ commands.addUserCommand(['toggleautopagerize'], 'Toggle Autopagerize',
 EOM
 
 " slideshare {{{2
-nnoremap <silent> -urls='www\.slideshare\.net/' w :<C-u>js myutil.click($LX('//*[contains(concat(" ", normalize-space(@class), " "), "playerAd")]/a'))<CR>
+nnoremap <silent> -urls='www\.slideshare\.net/' w :<C-u>js myutil.click(doc.querySelector('.playerAd>.closeThis'))<CR>
+
+" ascii2d {{{2
+javascript <<EOM
+commands.addUserCommand(['ascii'], 'ascii2d image search', function(args) {
+  let loc = 'http://www.ascii2d.net/imagesearch/search/';
+  let content = encodeURIComponent('uri=' + (args[0] || buffer.URI));
+  content =
+    'Content-Type: application/x-www-form-urlencoded\n'
+    + 'Content-Length: ' + content.length + '\n\n' + content;
+  let postdata = Cc['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
+  postdata.setData(content, content.length);
+  if (args.bang) {
+    gBrowser.selectedTab = gBrowser.addTab(loc, null, null, postdata)
+  } else {
+    gBrowser.loadURIWithFlags(loc, Ci.nsIWebNavigation.LOAD_FLAGS_NONE, null, null, postdata);
+  }
+}, { argCount: '?', bang: true }, true);
+EOM
+nnoremap ,a :<C-u>ascii<CR>
+
+" reloadPAC {{{2
+javascript <<EOM
+commands.addUserCommand(['pacr[eload]'], 'reload PAC',
+  function() Cc['@mozilla.org/network/protocol-proxy-service;1'].getService().reloadPAC(),
+  { argCount: '0' }, true);
+EOM
 
 " utilities {{{1
 javascript <<EOM
@@ -517,20 +549,20 @@ let (c = modules.userContext) {
 }
 EOM
 
-" show feed button at statusbar
+" misc {{{2
 javascript <<EOM
-let (btn = document.getElementById('feed-button')) {
-  let panel = document.getElementById('feed-panel');
-  if (panel) {
-    panel.parentNode.removeChild(panel);
-  }
-  panel = document.createElement('statusbarpanel');
-  panel.setAttribute('id', 'feed-panel');
-  panel.appendChild(btn.cloneNode(true));
-  btn.parentNode.removeChild(btn);
-  document.getElementById('status-bar').insertBefore(panel, document.getElementById('security-button'));
+// http://vimperator.g.hatena.ne.jp/nokturnalmortum/20101216/1292511107
+CommandLine.Completions.prototype.__defineGetter__('caret', function() commandline._commandWidget.selectionEnd);
+
+document.getElementById('addon-bar').collapsed = false;
+document.getElementById('addon-bar').height = 24;
+let (stl = document.getElementById('liberator-status')
+   , ab = document.getElementById('addon-bar')) {
+   ab.insertBefore(stl, ab.firstChild);
+   stl.style.textAlign = 'start';
 }
 EOM
+highlight StatusLine color: black;
 
 " load private settings {{{2
 source! ~/vimperatorrc.local

@@ -7,7 +7,7 @@ var PLUGIN_INFO =
   <author homepage="http://d.hatena.ne.jp/pekepekesamurai/">pekepeke</author>
   <minVersion>2.0pre</minVersion>
   <maxVersion>2.0pre</maxVersion>
-  <updateURL>http://svn.coderepos.org/share/lang/javascript/vimperator-plugins/trunk/refcontrol.js</updateURL>
+  <updateURL>https://github.com/vimpr/vimperator-plugins/raw/master/refcontrol.js</updateURL>
   <detail><![CDATA[
 == コマンド ==
 :togglerefcontrol:
@@ -98,8 +98,9 @@ RefControl.prototype = {
     panel.setAttribute('class', 'statusbarpanel-iconic');
     panel.setAttribute('src', self.isEnable ? ENABLE_ICON : DISABLE_ICON);
     panel.addEventListener('click', function(e) { self.isEnable = !self.isEnable; }, false);
-    document.getElementById('status-bar').insertBefore(
-      panel, document.getElementById('security-button').nextSibling);
+    document.getElementById('status-bar').appendChild(panel);
+    //document.getElementById('status-bar').insertBefore(
+    //  panel, document.getElementById('security-button').nextSibling);
     return panel;
   },
   get isEnable() _isEnable,
@@ -159,6 +160,11 @@ commands.addUserCommand(['addref'], 'add referrer control setting', function(arg
 commands.addUserCommand(['togglerefcontrol'], 'toggle referrer control on/off',
   function() {
     manager.isEnable = !manager.isEnable;
+    if (manager.isEnable) {
+      liberator.echo('refcontrol enabled');
+    } else {
+      liberator.echo('refcontrol disabled');
+    }
   }, {}
 );
 

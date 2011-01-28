@@ -222,7 +222,7 @@
 
   .article-title { font-size: large !important; }
   .article-body { line-height: 1 !important; }
-  .resdeka, .resdeka2 { font-size: large !important; font-weight: medium !important; }
+  .resdeka, .resdeka2 { font-size: large !important; font-weight: normal !important; }
 
 } /* }}} */
 
@@ -237,7 +237,7 @@
 
   .left_outline + td > br { display: none; }
 
-  .article > br { line-height: 2px; } */
+  .article > br { line-height: 2px; }
   .article > ol > br + br { display: none; }
 
   .comment_navi { margin-bottom: 5px !important; }
@@ -260,5 +260,12 @@
     font-size: medium !important;
   }
 } /*}}}*/
+
+@-moz-document url-prefix("http://blog.livedoor.jp/dqnplus/") {
+  #left, #right, .google-user-ad, .mainmore > table, #poweredAdsBy, .related-articles, #trackback { display: none !important; }
+
+  #container, #blogcontainer, #wrapper, #content { width: auto !important; }
+  #wrapper, #content { float: none !important; }
+}
 /* vim: set et ts=2 sw=2 fdm=marker: */
 
