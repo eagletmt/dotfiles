@@ -251,10 +251,15 @@ call s:import_bundle('quickrun')
 nnoremap <silent> <Space>r :QuickRun -mode n<CR>
 vnoremap <silent> <Space>r :QuickRun -mode v<CR>
 let g:quickrun_config = {
-      \ '*': {'split': '{"rightbelow"}'},
+      \ '_': {'split': '{"rightbelow"}', 'exec': '%C %o %s %a'},
       \ 'lisp': {'command' : 'sbcl --script'},
-      \ 'lhaskell': {'tempfile': '{tempname()}.hs', 'eval_template': 'main = print $ %s', 'command': 'runghc'},
+      \ 'haskell': {'cmdopt': '-Wall -W -fno-warn-unused-do-bind'},
+      \ 'c': {'cmdopt': '-Wall -W'},
+      \ 'cpp': {'cmdopt': '{getline(1)=~?"c++0x"?"-std=c++0x ":""}-Wall -W'},
+      \ 'matlab': {'command': 'octave -q'},
+      \ 'd': {'command': 'dmd -run'},
       \ }
+let g:quickrun_config.lhaskell = g:quickrun#default_config.haskell
 
 " wwwsearch.vim {{{2
 call wwwsearch#add('hoogle', 'http://www.haskell.org/hoogle/?hoogle={keyword}')

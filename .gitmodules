@@ -34,3 +34,9 @@
 [submodule "dot.vim/bundles/eskk"]
 	path = dot.vim/bundles/eskk
 	url = git://github.com/tyru/eskk.vim.git
+[submodule "dot.vim/bundles/ghci"]
+	path = dot.vim/bundles/ghci
+	url = git://github.com/eagletmt/ghci-vim.git
+[submodule "dot.vim/bundles/unite-outline"]
+	path = dot.vim/bundles/unite-outline
+	url = git://github.com/h1mesuke/unite-outline.git
