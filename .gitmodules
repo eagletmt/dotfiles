@@ -1,45 +1,48 @@
-[submodule "dot.vim/bundles/git"]
-	path = dot.vim/bundles/git
+[submodule "dot.vim/bundle/git"]
+	path = dot.vim/bundle/git
 	url = git://github.com/motemen/git-vim.git
-[submodule "dot.vim/bundles/hatena"]
-	path = dot.vim/bundles/hatena
+[submodule "dot.vim/bundle/hatena"]
+	path = dot.vim/bundle/hatena
 	url = git://github.com/motemen/hatena-vim.git
-[submodule "dot.vim/bundles/neocomplcache"]
-	path = dot.vim/bundles/neocomplcache
+[submodule "dot.vim/bundle/neocomplcache"]
+	path = dot.vim/bundle/neocomplcache
 	url = git://github.com/Shougo/neocomplcache.git
-[submodule "dot.vim/bundles/quickrun"]
-	path = dot.vim/bundles/quickrun
+[submodule "dot.vim/bundle/quickrun"]
+	path = dot.vim/bundle/quickrun
 	url = git://github.com/thinca/vim-quickrun.git
-[submodule "dot.vim/bundles/ref"]
-	path = dot.vim/bundles/ref
+[submodule "dot.vim/bundle/ref"]
+	path = dot.vim/bundle/ref
 	url = git://github.com/thinca/vim-ref.git
-[submodule "dot.vim/bundles/vimfiler"]
-	path = dot.vim/bundles/vimfiler
+[submodule "dot.vim/bundle/vimfiler"]
+	path = dot.vim/bundle/vimfiler
 	url = git://github.com/Shougo/vimfiler.git
-[submodule "dot.vim/bundles/vimproc"]
-	path = dot.vim/bundles/vimproc
+[submodule "dot.vim/bundle/vimproc"]
+	path = dot.vim/bundle/vimproc
 	url = git://github.com/Shougo/vimproc.git
-[submodule "dot.vim/bundles/vimshell"]
-	path = dot.vim/bundles/vimshell
-	url = git://github.com/Shougo/vimshell.git
-[submodule "dot.vim/bundles/onlinejudge"]
-	path = dot.vim/bundles/onlinejudge
-	url = git://github.com/eagletmt/onlinejudge-vim.git
-[submodule "dot.vim/bundles/altercmd"]
-	path = dot.vim/bundles/altercmd
-	url = git://github.com/kana/vim-altercmd.git
-[submodule "dot.vim/bundles/unite"]
-	path = dot.vim/bundles/unite
+[submodule "dot.vim/bundle/unite"]
+	path = dot.vim/bundle/unite
 	url = git://github.com/Shougo/unite.vim.git
-[submodule "dot.vim/bundles/eskk"]
-	path = dot.vim/bundles/eskk
-	url = git://github.com/tyru/eskk.vim.git
-[submodule "dot.vim/bundles/ghci"]
-	path = dot.vim/bundles/ghci
-	url = git://github.com/eagletmt/ghci-vim.git
-[submodule "dot.vim/bundles/unite-outline"]
-	path = dot.vim/bundles/unite-outline
+[submodule "dot.vim/bundle/unite-outline"]
+	path = dot.vim/bundle/unite-outline
 	url = git://github.com/h1mesuke/unite-outline.git
-[submodule "dot.vim/bundles/neco-ghc"]
-	path = dot.vim/bundles/neco-ghc
+[submodule "dot.vim/bundle/neco-ghc"]
+	path = dot.vim/bundle/neco-ghc
 	url = git://github.com/ujihisa/neco-ghc.git
+[submodule "dot.vim/bundle/altercmd"]
+	path = dot.vim/bundle/altercmd
+	url = git://github.com/kana/vim-altercmd.git
+[submodule "dot.vim/bundle/onlinejudge"]
+	path = dot.vim/bundle/onlinejudge
+	url = git://github.com/eagletmt/onlinejudge-vim.git
+[submodule "dot.vim/bundle/ghci"]
+	path = dot.vim/bundle/ghci
+	url = git://github.com/eagletmt/ghci-vim.git
+[submodule "dot.vim/bundle/vimshell"]
+	path = dot.vim/bundle/vimshell
+	url = git://github.com/Shougo/vimshell.git
+[submodule "dot.vim/bundle/gist"]
+	path = dot.vim/bundle/gist
+	url = git://github.com/mattn/gist-vim.git
+[submodule "dot.vim/bundle/pathogen"]
+	path = dot.vim/bundle/pathogen
+	url = git://github.com/tpope/vim-pathogen.git
