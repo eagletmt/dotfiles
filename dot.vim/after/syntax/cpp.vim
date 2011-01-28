@@ -1,0 +1,1 @@
+syntax keyword cppOperator static_assert decltype

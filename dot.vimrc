@@ -172,7 +172,7 @@ vnoremap <silent> * "vy/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR><C
 " settings {{{1
 let g:mapleader = '\'
 
-let g:filetype_m = 'objc'
+" let g:filetype_m = 'objc'
 
 " quickfix {{{1
 "nnoremap q Q
@@ -381,6 +381,7 @@ else
 endif
 
 " gist.vim {{{2
+call s:import_bundle('gist')
 let g:github_user = 'eagletmt'
 " let g:github_token = <private>
 if executable('pbcopy')
@@ -488,6 +489,9 @@ call s:import_bundle('unite-outline')
 "call s:t.register()
 "unlet s:t
 "let g:eskk_mode_use_tables.hira = 'my_rom_to_hira'
+
+" ghci {{{2
+call s:import_bundle('ghci')
 
 " misc {{{1
 " reverse lines {{{2
@@ -698,6 +702,9 @@ function! s:sudo_write(path, line1, line2)
   silent execute 'write !sudo tee >/dev/null ' . path
   setlocal nomodified
 endfunction
+
+" C++ system headers {{{2
+autocmd MyAutoCmd BufRead /usr/include/c++/* setfiletype cpp | setlocal tabstop=8
 
 " private {{{1
 if filereadable(expand('~/vimrc.local'))

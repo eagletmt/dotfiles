@@ -16,5 +16,7 @@ CompilerSet errorformat=
       \%-GBuilding\ %s,
       \%-G[%*\\d\ of\ %*\\d]\ Compiling\ %s,
       \%-G,
-      \%f:%l:%c:
+      \%f:%l:%c:,
+      \%f:%l:%c:%m,
+      \%+G\ \ %m
 
