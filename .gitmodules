@@ -46,3 +46,9 @@
 [submodule "dot.vim/bundle/pathogen"]
 	path = dot.vim/bundle/pathogen
 	url = git://github.com/tpope/vim-pathogen.git
+[submodule "dot.vimperator/repo/vimpr/vimperator-plugins"]
+	path = dot.vimperator/repo/vimpr/vimperator-plugins
+	url = git://github.com/vimpr/vimperator-plugins.git
+[submodule "dot.vimperator/repo/caisui/vimperator"]
+	path = dot.vimperator/repo/caisui/vimperator
+	url = git://github.com/caisui/vimperator.git

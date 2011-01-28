@@ -125,7 +125,40 @@ nnoremap sr :<C-u>tabopen rurema<Space>
 iabbrev ID http://www.google.com/accounts/o8/id
 
 " plugins {{{1
-" feedSomeKey_3.js {{{2
+" plugin_loader.js {{{2
+javascript <<EOM
+liberator.globalVariables.plugin_loader_roots = [
+  '~/.vimperator/repo/vimpr/vimperator-plugins',
+  '~/.vimperator/repo/caisui/vimperator/plugin',
+  '~/git/misc/vimperator',
+];
+liberator.globalVariables.plugin_loader_plugins = [
+  // vimpr/vimperator-plugins
+  'caret-hint',
+  'copy',
+  'feedSomeKeys_3',
+  'gmperator',
+  'hint-tombloo',
+  'ime_controller',
+  'ldrize_cooperation',
+  'migemo_hint',
+  'open-frame',
+  'opener',
+  'stella',
+  'tombloo',
+  'twittperator',
+  'walk-input',
+  'x-hint',
+  // caisui/vimperator
+  'bracket-pair',
+  'c_CTRL-R',
+  // eagletmt/misc
+  'pixiv_bookmark',
+  'youtube_download',
+];
+EOM
+
+" feedSomeKeys_3.js {{{2
 lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc -
 lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g n,w
