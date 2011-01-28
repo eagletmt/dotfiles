@@ -431,6 +431,8 @@ call s:import_bundle('onlinejudge')
 let g:onlinejudge_account = {
       \ 'poj': {'user': 'eagletmt_'},
       \ 'spoj': {'user': 'eagletmt'},
+      \ 'aoj': {'user': 'eagletmt'},
+      \ 'mjudge': {'user': 'eagletmt'},
       \ }
 
 " altercmd {{{2
@@ -440,7 +442,8 @@ call altercmd#define('vsend', 'VimShellSendString')
 call altercmd#define('ghci', 'VimShellInteractive ghci')
 call altercmd#define('irb', 'VimShellInteractive irb')
 call altercmd#define('irb19', 'VimShellInteractive irb1.9')
-
+call altercmd#define('submit', 'OnlineJudgeSubmit')
+call altercmd#define('test', 'OnlineJudgeTest')
 
 " IndentAnything {{{2
 call s:import_bundle('IndentAnything')
