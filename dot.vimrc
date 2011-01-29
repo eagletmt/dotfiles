@@ -212,9 +212,8 @@ let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 runtime macros/matchit.vim
 
 " plugins {{{1
-function! s:import_bundle(name)
-  execute 'set runtimepath+=~/' . (has('win32') ? 'vimfiles' : '.vim') . '/bundles/' . a:name
-endfunction
+set runtimepath+=~/.vim/bundle/pathogen
+call pathogen#runtime_append_all_bundles()
 
 " skk.vim {{{2
 let skk_jisyo = '~/vim-skk-jisyo.utf8'
@@ -236,18 +235,7 @@ let skk_use_face = 1
 " scheme.vim {{{2
 let g:is_gauche = 1
 
-" fuf.vim {{{2
-call s:import_bundle('fuf')
-let g:fuf_modesDisable = ['mrucmd']
-let g:fuf_mrufile_exclude = '\vCOMMIT_EDITMSG$'
-nnoremap <C-q>j :<C-u>FufFileWithCurrentBufferDir!<CR>
-nnoremap <C-q>h :<C-u>FufFile! ~/<CR>
-nnoremap <C-q>i :<C-u>FufBuffer!<CR>
-nnoremap <C-q>m :<C-u>FufMruFile!<CR>
-nnoremap <silent> ,q :<C-u>FufRenewCache<CR>
-
 " quickrun.vim {{{2
-call s:import_bundle('quickrun')
 nnoremap <silent> <Space>r :QuickRun -mode n<CR>
 vnoremap <silent> <Space>r :QuickRun -mode v<CR>
 let g:quickrun_config = {
@@ -271,7 +259,6 @@ nmap <Space>so <Plug>(openbrowser-open)
 vmap <Space>so <Plug>(openbrowser-open)
 
 " vimshell {{{2
-call s:import_bundle('vimshell')
 let g:vimshell_prompt = $USER . '% '
 let g:vimshell_user_prompt = 'getcwd()'
 nmap <Leader>sp <Plug>(vimshell_split_switch)
@@ -292,7 +279,6 @@ augroup MyVimShell
 augroup END
 
 " neocomplcache.vim {{{2
-call s:import_bundle('neocomplcache')
 set complete& complete+=k
 set completeopt& completeopt+=menuone
 let g:neocomplcache_enable_at_startup = 1
@@ -304,7 +290,6 @@ if has('win32')
 else
   let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
 endif
-let g:neocomplcache_disable_caching_buffer_name_pattern = '^fuf$'
 if !exists('g:neocomplcache_keyword_patterns')
   let g:neocomplcache_keyword_patterns = {}
 endif
@@ -327,7 +312,6 @@ imap <expr> <C-v> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug
 inoremap <expr> <C-h> neocomplcache#smart_close_popup() . "\<C-h>"
 inoremap <expr> <C-x><C-f> neocomplcache#manual_filename_complete()
 inoremap <expr> <C-x><C-o> neocomplcache#manual_omni_complete()
-call s:import_bundle('neco-ghc')
 
 " twitvim.vim {{{2
 let g:twitvim_buffer_form = 1
@@ -381,7 +365,6 @@ else
 endif
 
 " gist.vim {{{2
-call s:import_bundle('gist')
 let g:github_user = 'eagletmt'
 " let g:github_token = <private>
 if executable('pbcopy')
@@ -396,23 +379,10 @@ elseif executable('open')
   let g:gist_browser_command = 'open %URL%'
 endif
 
-" poj.vim {{{2
-call s:import_bundle('poj')
-let g:poj_user = 'eagletmt_'
-let g:poj_prefer_c = 0
-let g:poj_prefer_cpp = 0
-let g:poj_default_lang_ext = 'cc'
-let g:poj_work_dir = '~/work/poj'
-
 " hatena.vim {{{2
-call s:import_bundle('hatena')
 let g:hatena_user = 'eagletmt'
 
-" ref.vim {{{2
-call s:import_bundle('ref')
-
 " vimfiler  {{{2
-call s:import_bundle('vimfiler')
 let g:vimfiler_as_default_explorer = 1
 augroup MyVimFiler
   autocmd!
@@ -421,14 +391,9 @@ augroup MyVimFiler
   autocmd FileType vimfiler nunmap <buffer> q
 augroup END
 
-" git.vim {{{2
-call s:import_bundle('git')
-
-" vimproc {{{2
-call s:import_bundle('vimproc')
-
 " onlinejdge.vim {{{2
-call s:import_bundle('onlinejudge')
+let g:poj_prefer_c = 0
+let g:poj_prefer_cpp = 0
 let g:onlinejudge_account = {
       \ 'poj': {'user': 'eagletmt_'},
       \ 'spoj': {'user': 'eagletmt'},
@@ -437,7 +402,6 @@ let g:onlinejudge_account = {
       \ }
 
 " altercmd {{{2
-call s:import_bundle('altercmd')
 call altercmd#define('ccd', 'cd %:h')
 call altercmd#define('vsend', 'VimShellSendString')
 call altercmd#define('ghci', 'VimShellInteractive ghci')
@@ -446,11 +410,7 @@ call altercmd#define('irb19', 'VimShellInteractive irb1.9')
 call altercmd#define('submit', 'OnlineJudgeSubmit')
 call altercmd#define('test', 'OnlineJudgeTest')
 
-" IndentAnything {{{2
-call s:import_bundle('IndentAnything')
-
 " unite {{{2
-call s:import_bundle('unite')
 let g:unite_update_time = 100
 let g:unite_source_file_mru_time_format = ''
 nnoremap <silent> mm :<C-u>Unite -buffer-name=files file_mru buffer file<CR>
@@ -468,30 +428,6 @@ autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> <C-l> :<C-u>call uni
 autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> <C-j> :<C-u>call unite#mappings#do_action('below')<CR>
 autocmd MyAutoCmd FileType unite nnoremap <buffer> <silent> <C-k> :<C-u>call unite#mappings#do_action('above')<CR>
 
-call s:import_bundle('unite-outline')
-
-" eskk {{{2
-"call s:import_bundle('eskk')
-"let g:eskk_large_dictionary = {
-"      \	'path': "/usr/share/skk/SKK-JISYO.L",
-"      \	'sorted': 1,
-"      \	'encoding': 'euc-jp',
-"      \ }
-"call eskk#load()
-"let g:eskk_egg_like_newline = 0
-"let s:t = eskk#table#create('my_rom_to_hira', 'rom_to_hira')
-"call s:t.add('.', '．')
-"call s:t.add(',', '，')
-"call s:t.add('!', '!')
-"call s:t.add(':', ':')
-"call s:t.add(';', ';')
-"call s:t.add('?', '?')
-"call s:t.register()
-"unlet s:t
-"let g:eskk_mode_use_tables.hira = 'my_rom_to_hira'
-
-" ghci {{{2
-call s:import_bundle('ghci')
 
 " misc {{{1
 " reverse lines {{{2
