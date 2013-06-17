@@ -2,46 +2,23 @@
 
 autocmd!
 
-" config {{{1
-set guioptions=rbT
-set status=location,tabcount,position,input
-set nextpattern=次[のへ],\bnext\b,\bmore\b,^next.*,^>$,^>>$
-set previouspattern=前[のへ],\bprev\b,\bprevious\b,^prev.*,^<$,^<<$
+set toolbars=none,navigation
 set focuscontent
-set complete=tsl
-set showtabline=0
-" migemo_hint.js
+set complete=tl
 set hintmatching=custom
 set hintchars=HJKLASDFG
 set hlsearch
 
-command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
-
-" lazy colorscheme xoria256
-
-" keymaps {{{1
-" normal mode {{{2
 nnoremap J 5<C-e>
 nnoremap K 5<C-y>
 nnoremap h gT
-nnoremap <C-p> gT
 nnoremap l gt
-nnoremap <C-n> gt
-nnoremap D :<C-u>tabattach<Space>
-nnoremap <C-q> <C-z>
 nnoremap <C-r> :<C-u>restart<CR>
-nnoremap <M-c> Y
-nnoremap <M-q> <Nop>
 nnoremap ,f :<C-u>set fullscreen!<CR>
 nnoremap ,c :<C-u>copy anchor<CR>
 nnoremap ,t :<C-u>copy %TITLE% %URL%<CR>
-nnoremap <silent> ,h :<C-u>emenu Tools.Live HTTP headers<CR>
-nnoremap <silent> ,b :<C-u>emenu Tools.Firebug.Open Firebug<CR>
 nnoremap ; :
 nnoremap \' ;
-nnoremap <A-h> h
-nnoremap <A-l> l
-nnoremap \\ <Nop>
 nnoremap w <Nop>
 javascript <<EOM
 mappings.addUserMap([modes.NORMAL], [',s'], 'reload rc file', function() io.source(io.getRCFile().path));
@@ -49,61 +26,26 @@ EOM
 nnoremap <C-k> <Nop>
 nnoremap <C-j> <Nop>
 
-" commandline mode {{{2
-cnoremap <C-j> <Nop>
-cnoremap <C-h> <BS>
 cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <C-i> <Tab>
-cnoremap <C-S-i> <S-Tab>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
-javascript <<EOM
-mappings.addUserMap(
-    [modes.COMMAND_LINE],
-    ['<C-c>'],
-    'Copy current commandline',
-    function() util.copyToClipboard(commandline.command));
+cnoremap <C-n> <Down>
+cnoremap <C-e> <End>
+cnoremap <C-a> <Home>
+cnoremap <C-i> <Tab>
 
-mappings.addUserMap(
-  [modes.COMMAND_LINE],
-  ['<C-x>'],
-  'toggle bang',
-  function()
-    let ([,cmd,bang,args] = commands.parseCommand(commandline.command))
-    commandline.command = cmd + (bang ? '' : '!') + ' ' + args);
-EOM
-
-" insert mode {{{2
-inoremap <C-m> <CR>
 inoremap <C-p> <Up>
-inoremap <C-n> <Down>
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
-inoremap <C-j> <Nop>
+inoremap <C-n> <Down>
+inoremap <C-e> <End>
+inoremap <C-a> <Home>
 
-" visual mode {{{2
-vnoremap ; :
-
-" search commands {{{1
-"silent bmark -title='Google' -tags=vimp -keyword=gs http://www.google.com/search?q=%s
-"silent bmark -title='Google Images' -tags=vimp -keyword=gi http://images.google.com/images?q=%s
-"silent bmark -title='Twitter検索' -tags=vimp -keyword=ts http://pcod.no-ip.org/yats/search?query=%s
-"silent bmark -title='Hoogle' -tags=vimp -keyword=hs http://www.haskell.org/hoogle/?hoogle=%s
-"silent bmark -title='Google Code Search' -tags=vimp -keyword=gc http://www.google.com/codesearch?q=%s
-"silent bmark -title='Twitter' -tags=vimp -keyword=tw https://twitter.com/%s
-"silent bmark -title='POJ' -tags=vimp -keyword=poj http://acm.pku.edu.cn/JudgeOnline/problem?id=%s
 javascript <<EOM
-[['Google', 'http://www.google.com/search?q=%s', 'gs'],
- ['SSL Google', 'https://encrypted.google.com/q=%s', 'gss'],
- ['Google Images', 'http://images.google.com/images?q=%s', 'gi'],
- ['Twitter検索', 'http://yats-data.com/yats/search?query=%s', 'ts'],
- ['Hoogle', 'http://www.haskell.org/hoogle/?hoogle=%s', 'hs'],
- ['Google Code Search', 'http://www.google.com/codesearch?q=%s', 'gc'],
- ['Twitter', 'http://twitter.com/%s', 'tw'],
+[['Google', 'https://www.google.com/search?q=%s', 'gs'],
+ ['Google Images', 'https://www.google.com/search?q=%s&tbm=isch', 'gi'],
+ ['Twitter', 'https://twitter.com/%s', 'tw'],
  ['POJ', 'http://poj.org/problem?id=%s', 'poj'],
- ['Sauce nao', 'http://saucenao.com/search.php?db=999&url=%s', 'nao'],
- ['rurema', 'http://doc.okkez.net/search/query:%s/', 'rurema'],
 ].forEach(function (b) {
   if (!bookmarks.isBookmarked(b[1])) {
     bookmarks.add(false, b[0], b[1], b[2], ['vimp'], false);
@@ -111,492 +53,66 @@ javascript <<EOM
 });
 EOM
 nnoremap sg :<C-u>tabopen gs<Space>
-nnoremap sG :<C-u>tabopen gss<Space>
 nnoremap si :<C-u>tabopen gi<Space>
-nnoremap st :<C-u>tabopen ts<Space>
-nnoremap sh :<C-u>tabopen hs<Space>
-nnoremap sc :<C-u>tabopen gc<Space>
 nnoremap sk :<C-u>tabopen tw<Space>
 nnoremap sp :<C-u>tabopen poj<Space>
-nnoremap sn :<C-u>tabopen nao<Space>
-nnoremap sr :<C-u>tabopen rurema<Space>
 
-" abbrev {{{1
-iabbrev ID http://www.google.com/accounts/o8/id
-
-" plugins {{{1
-" plugin_loader.js {{{2
 javascript <<EOM
 liberator.globalVariables.plugin_loader_roots = [
-  '~/.vimperator/repo/vimpr/vimperator-plugins',
-  '~/.vimperator/repo/caisui/vimperator/plugin',
+  '~/git/vimperator-plugins',
   '~/git/misc/vimperator',
 ];
 liberator.globalVariables.plugin_loader_plugins = [
   // vimpr/vimperator-plugins
-  'caret-hint',
-  'copy',
+  '_libly',
   'feedSomeKeys_3',
-  'gmperator',
-  'hint-tombloo',
-  'ime_controller',
-  'ldrize_cooperation',
   'migemo_hint',
-  'open-frame',
-  'opener',
-  'stella',
   'tombloo',
-  'twittperator',
+  'hint-tombloo',
   'walk-input',
-  'x-hint',
-  // caisui/vimperator
-  'bracket-pair',
-  'c_CTRL-R',
-  // eagletmt/misc
+  'refcontrol',
+
+  // eagletmt/misc/vimperator
   'pixiv_bookmark',
-  'youtube_download',
+  'proxy_command',
+  'speakerdeck',
 ];
 EOM
 
-" feedSomeKeys_3.js {{{2
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+
 lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc -
-lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> z b < > q w e,g n,w
-lazy fmaps -u='www\.google\.(com|co\.jp)/reader' -events=vkeypress j k n p m s v A r S N P X O gh ga gs gt gu u / ? J K
+lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k s a p o v c i,p <Space> <S-Space> w e,g n,w
+lazy fmaps -u='192.168.0.5:3010/reader' j k s a p o v c i,p <Space> <S-Space> w e,g n,w
+lazy fmaps -u='www\.pixiv\.net/member_illust\.php\?.*mode=manga' -events=vkeydown j k o z
 
-" ldrize_cooperation.js {{{2
-let g:ldrc_enable = "true"
-let g:ldrc_captureMappings = "['j','k','p','o']"
-let g:ldrc_intelligence_bind = "true"
-let g:ldrc_hints = "true"
-let g:ldrc_skip = "0.2"
-nnoremap <silent> e :<C-u>toggleldrizecooperation<CR>
+let g:refcontrol_enabled = "true"
+javascript <<EOM
+liberator.globalVariables.refcontrol = {
+  '@DEFAULT': '@NORMAL',
+  'i1.pixiv.net': '@FORGE',
+  'i2.pixiv.net': '@FORGE',
+  'i3.pixiv.net': '@FORGE',
+  'i4.pixiv.net': '@FORGE',
+  'i5.pixiv.net': '@FORGE',
+  'i6.pixiv.net': '@FORGE',
+  'i7.pixiv.net': '@FORGE',
+  'i8.pixiv.net': '@FORGE',
+  'i9.pixiv.net': '@FORGE',
+};
+EOM
 
-" hatena bookmark {{{2
 javascript <<EOM
 liberator.globalVariables.hBookmark_shortcuts = {
   hintsAdd: 'h',
   hintsComment: null,
   add: ['c'],
-  comment: [],
+  comment: ['C'],
 };
 if (typeof hBookmark != 'undefined') {
   liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
-  mappings.getCandidates(modes.NORMAL, 'c').forEach(function(m) mappings.remove(modes.NORMAL, m.names));
-}
-EOM
-nnoremap <silent> C :<C-u>viewSBMComments<CR>
-
-" multi_requester.js {{{2
-nnoremap m <Nop>
-nnoremap mm :<C-u>mr<Space>
-nnoremap ma :<C-u>mr alc<Space>
-nnoremap mt :<C-u>mr twitter-search-pcod-no-jp<Space>
-javascript <<EOM
-liberator.globalVariables.multi_requester_siteinfo = [
-  { // {{{3 twitter-fav
-    name: 'twitter-fav',
-    description: 'fav',
-    url: 'http://twitter.com/%s/favorites',
-    xpath: 'id("timeline")',
-  },
-  { // {{{3 twitter-search
-    name: 'twitter-search',
-    description: 'search twitter',
-    url: 'http://search.twitter.com/search?q=%s',
-    xpath: '//li[contains(@class, "result")]',
-  },
-  { // {{{3 twitter-replies
-    name: 'twitter-replies',
-    description: 'twitter replies',
-    url: 'http://twitter.com/replies',
-    xpath: '//li[contains(@class, "hentry")]',
-  },
-  { // {{{3 retweeted_of_mine
-    name: 'retweeted-of-mine',
-    description: 'retweeted of mine',
-    url: 'http://twitter.com/retweeted_of_mine',
-    xpath: '//li[contains(@class, "hentry")]',
-  },
-  { // {{{3 twitter-followers
-    name: 'twitter-followers',
-    description: 'twitter followers',
-    url: 'http://twitter.com/%s/followers',
-    xpath: '//tr[contains(@class, "user")]',
-  },
-  { // {{{3 twitter-user
-    name: 'twitter-user',
-    description: 'twitter user',
-    url: 'http://twitter.com/%s',
-    xpath: 'id("timeline")',
-  },
-];
-EOM
-
-" refcontrol.js {{{2
-let g:refcontrol_enabled = "true"
-javascript <<EOM
-liberator.globalVariables.refcontrol = {
-  '@DEFAULT': '@NORMAL',
-  'fc2.com': '@FORGE',
-  'nagamochi.info': '@FORGE',
-  'image.itmedia.co.jp': '@FORGE',
-};
-EOM
-
-" tombloo.js {{{2
-nnoremap <silent> -urls='[-a-z0-9]+\.tumblr\.com/post/' wi :<C-u>tombloo ReBlog - Tumblr<CR>
-nnoremap qr :<C-u>tombloo ReBlog - Tumblr<CR>
-
-" hint-tombloo.js {{{2
-let g:hint_tombloo_key = 'r'
-let g:hint_tombloo_xpath = '//img[not(starts-with(@id,"gm_ldrize_"))]'
-
-" loginManager.js {{{2
-javascript <<EOM
-liberator.globalVariables.userLoginServices = {
-  livedoor: { // {{{3
-    HOST: ["https://member.livedoor.com", "http://member.livedoor.com"],
-    LOGIN: "/login/index",
-    LOGOUT: "/login/logout",
-    usernameField: "livedoor_id",
-    passwordField: "password",
-  },
-};
-EOM
-
-" stella.js {{{2
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' x :<C-u>stseek! -5<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' X :<C-u>stseek! -10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' s :<C-u>stseek! +5<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' S :<C-u>stseek! +10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' v :<C-u>stvolume! -10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' V :<C-u>stvolume! +10<CR>
-nnoremap <silent> -urls='www\.(youtube\.com|nicovideo\.jp)/' a :<C-u>stplay<CR>
-
-" no-reading.js {{{2
-let g:no_reading_do_echo = 1
-let g:no_reading_on_statusline = 1
-let g:no_reading_statusline_limit = 2000
-
-" twittperator.js {{{2
-cabbrev -j .re let (e = doc.querySelector('.permalink-tweet')) ('@' + e.getAttribute('data-screen-name') + '#' + e.getAttribute('data-tweet-id'))
-
-" my small commands {{{1
-" matrixcode {{{2
-javascript <<EOM
-commands.addUserCommand(['matrixcode'], '',
-  function() {
-    for (let e in util.evaluateXPath('//input[@type="password"]')) {
-      let x = e.parentNode.parentNode.textContent.trim();
-      e.value = liberator.globalVariables.matrix_code[x[3]-1][x.charCodeAt(1)-65];
-    };
-    util.evaluateXPath('//input[@type="submit"]').snapshotItem(0).click();
-  }, null, true);
-EOM
-nnoremap <silent> ,l :<C-u>matrixcode<CR>
-
-" twitter {{{2
-javascript <<EOM
-commands.addUserCommand(['inreplyto'], '',
-    function() {
-      let a = util.evaluateXPath('//span[contains(@class,"entry-meta")]/a[2]').snapshotItem(0);
-      if (a) {
-        liberator.open(a.href);
-      }
-    }, null, true);
-
-commands.addUserCommand(['status'], 'see status',
-  function(args) {
-    let id = (args.literalArg || content.document.getSelection() || util.readFromClipboard()).match(/\d+/)[0];
-    util.httpGet('http://mobile.twitter.com/statuses/' + id, function(xhr) {
-      let status = xhr.responseText.match(/class="status">(.+)<\/span>/)[1];
-      let screen_name = xhr.responseText.match(/href="\/([a-zA-Z0-9_]+)\/status\/\d+"/)[1];
-      liberator.echo(screen_name + ': ' + status);
-    });
-  }, { literal: 0 }, true);
-
-commands.addUserCommand(['screenname'], 'see screen_name',
-  function(args) {
-    let id = (args.literalArg || content.document.getSelection() || util.readFromClipboard()).match(/\d+/)[0];
-    util.httpGet('http://mobile.twitter.com/' + id, function(xhr) {
-      let screen_name = xhr.responseText.match(/<strong>([a-zA-Z0-9_]+)<\/strong>/)[1];
-      liberator.echo(id + ' = ' + screen_name);
-    });
-  }, { literal: 0 }, true);
-
-EOM
-nnoremap <silent> -urls='twitter\.com/[A-Za-z0-9_]+/status' wi :<C-u>inreplyto<CR>
-
-" pixiv {{{2
-nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' wb :<C-u>pixivBookmark<Space>
-nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?.*illust_id=\d+' wv :<C-u>pixivViewBookmark<CR>
-nnoremap <silent> -urls='www\.pixiv\.net/' wB :<C-u>pixivUserBookmark<CR>
-nnoremap <silent> -urls='www\.pixiv\.net/member_illust\.php\?' wt :<C-u>pixivTombloo<CR>
-
-" accsess pixiv constantly {{{3
-javascript <<EOM
-if (PIXIV_ACCESS_INTERVAL) {
-  clearInterval(PIXIV_ACCESS_INTERVAL);
-  liberator.echo('clear interval');
-}
-var PIXIV_ACCESS_INTERVAL = setInterval(function() {
-  let r = util.httpGet('http://www.pixiv.net/mypage.php');
-  if (r.status != 200) {
-    liberator.echoerr('pixiv: ' + r.statusText);
-  }
-},  10 * 60 * 1000);
-EOM
-
-" show full novel {{{3
-nnoremap <silent> -urls='www\.pixiv\.net/novel/show\.php\?id=' wf :<C-u>pixivFullNovel<CR>
-javascript <<EOM
-commands.addUserCommand(['pixivFullNovel'], 'show full novel',
-  function(args) {
-    let doc = content.document.wrappedJSObject;
-    let win = content.window.wrappedJSObject;
-
-    Array.forEach(doc.querySelectorAll('.novel_article'),
-      function(e) {
-        e.style.display = 'block';
-        e.innerHTML = win.parse_page(e.innerHTML);
-      }
-    );
-    Array.forEach(doc.querySelectorAll('.novelimage'),
-      function(e) {
-        e.innerHTML = win.illust_html_list[e.getAttribute('illust_id')];
-      }
-    );
-  }, null, true);
-EOM
-
-autocmd LocationChange www\.pixiv\.net/jump\.php :<C-u>js liberator.open(buffer.URI.replace(/.*jump\.php\?(.+)$/, '$1'))
-
-" amazon {{{2
-nnoremap <silent> -urls='www\.amazon\.(com|co\.jp)' wx :<C-u>js liberator.open(win.location.protocol+'//'+win.location.host+'/dp/'+$LX('//b[starts-with(text(), "ASIN") or starts-with(text(), "ISBN-10")]').nextSibling.nodeValue.trim())<CR>
-
-" youtube_download.js {{{2
-let g:yt_save_dir = '~/yt'
-
-" 2ch {{{2
-javascript <<EOM
-commands.addUserCommand(['mada[kana]'], 'madakana?',
-  function(args) {
-    const MADAKANA = 'http://qb6.2ch.net/_403/madakana.cgi';
-    if (args.bang) {
-      liberator.open(MADAKANA, liberator.NEW_TAB);
-    } else {
-      let req = new plugins.libly.Request(MADAKANA);
-      req.addEventListener('onSuccess', function(res) {
-        let fonts = res.getHTMLDocument('//*[@color="red"]');
-        if (fonts.length > 0) {
-          fonts.slice(1).forEach(function(f) liberator.echo(f.textContent));
-        } else {
-          liberator.echo('madakana: free!');
-        }
-      });
-      req.get();
-    }
-  },
-  { argCount: '0', bang: true }, true);
-EOM
-
-" hatena {{{2
-nnoremap <silent> -urls='[dg]\.hatena\.ne\.jp|anond\.hatelabo\.jp' wx :<C-u>js $LXs('//a[@class="keyword" or @class="okeyword"]').forEach(function(e) e.parentNode.replaceChild(e.firstChild, e))<CR>
-command! -nargs=0 hatebu js liberator.open('http://b.hatena.ne.jp/entry/' + win.location.href)
-
-" tryhaskell {{{2
-javascript <<EOM
-commands.addUserCommand(['hseval'], 'evaluate haskell expression',
-  function(args) {
-    util.httpGet('http://tryhaskell.org/haskell.json?method=eval&expr=' + encodeURIComponent(args.literalArg), function(res) {
-      let json = JSON.parse(res.responseText);
-      if (json.error) {
-        liberator.echoerr('error: ' + json.error);
-      } else if (json.exception) {
-        liberator.echoerr('exception: ' + json.exception);
-      } else {
-        liberator.echo(json.result + ' :: ' + json.type);
-      }
-    });
-  }, { literal: 0 }, true);
-EOM
-
-" google cache {{{2
-javascript <<EOM
-commands.addUserCommand(['gcache'], 'view google cache',
-  function() {
-    const HOST = 'webcache.googleusercontent.com';
-    let l = content.window.location;
-    if (l.host != HOST) {
-      liberator.open(HOST + '/search?q=cache:' + l.host + l.pathname + l.search);
-    }
-  }, { argCount: '0' }, true);
-EOM
-nnoremap <silent> ,q :<C-u>gcache<CR>
-
-" cal {{{2
-" https://developer.mozilla.org/ja/XUL/datepicker
-command! -nargs=0 cal js liberator.echo(<datepicker type="grid" xmlns={XUL}/>)
-
-" pku {{{2
-nnoremap <silent> -urls='poj.org/problem\?id=' ws :<C-u>js liberator.open(buffer.URI.replace(/problem\?id=(\d+)/, 'status?problem_id=$1'))<CR>
-
-javascript <<EOM
-commands.addUserCommand(['bgimage'], 'view background image',
-  function() {
-    let doc = content.document;
-    let m = doc.defaultView.getComputedStyle(doc.body, null).backgroundImage.match(/url\s*\(\s*(['"])(.+)\1\s*\)/);
-    if (m) {
-      liberator.open(m[2], liberator.NEW_TAB);
-    } else {
-      liberator.echoerr('background image not found')
-    }
-  }, { argCount: '0' }, true);
-EOM
-
-" nicovideo {{{2
-let g:nico_save_dir = '~/Movies/nico'
-
-" altercmd {{{2
-javascript << EOM
-if (typeof abbreviations != 'undefined') {
-  commands.addUserCommand(['altercmd'], 'alter command',
-    function(args) {
-      let abbr = args.shift();
-      abbreviations.add([modes.COMMAND_LINE], abbr,
-        function() {
-          let l = commandline.command;
-          let [,c,,a] = commands.parseCommand(l);
-          if (!/^\s/.test(l) && c == abbr && !a) {
-            return args.join(' ');
-          } else {
-            return abbr;
-          }
-        })
-    },
-    {
-      argCount: '*',
-      completer: function(context, args) {
-        if (args.completeArg == 1) {
-          completion.command(context);
-        }
-      },
-    }, true);
 }
 EOM
 
-" autopagerize {{{2
-" http://q.hatena.ne.jp/1260851083
-nnoremap a :<C-u>toggleautopagerize<CR>
-javascript <<EOM
-commands.addUserCommand(['toggleautopagerize'], 'Toggle Autopagerize',
-  function() {
-    buffer.followLink($LX('id("autopagerize_help")/div/a[@class="autopagerize_link"]'));
-  }, { argCount: 0 }, true);
-EOM
-
-" slideshare {{{2
-nnoremap <silent> -urls='www\.slideshare\.net/' w :<C-u>js myutil.click(doc.querySelector('.playerAd>.closeThis'))<CR>
-
-" ascii2d {{{2
-javascript <<EOM
-commands.addUserCommand(['ascii'], 'ascii2d image search', function(args) {
-  let loc = 'http://www.ascii2d.net/imagesearch/search/';
-  let content = encodeURIComponent('uri=' + (args[0] || buffer.URI));
-  content =
-    'Content-Type: application/x-www-form-urlencoded\n'
-    + 'Content-Length: ' + content.length + '\n\n' + content;
-  let postdata = Cc['@mozilla.org/io/string-input-stream;1'].createInstance(Ci.nsIStringInputStream);
-  postdata.setData(content, content.length);
-  if (args.bang) {
-    gBrowser.selectedTab = gBrowser.addTab(loc, null, null, postdata)
-  } else {
-    gBrowser.loadURIWithFlags(loc, Ci.nsIWebNavigation.LOAD_FLAGS_NONE, null, null, postdata);
-  }
-}, { argCount: '?', bang: true }, true);
-EOM
-nnoremap ,a :<C-u>ascii<CR>
-
-" reloadPAC {{{2
-javascript <<EOM
-commands.addUserCommand(['pacr[eload]'], 'reload PAC',
-  function() Cc['@mozilla.org/network/protocol-proxy-service;1'].getService().reloadPAC(),
-  { argCount: '0' }, true);
-EOM
-
-" utilities {{{1
-javascript <<EOM
-var myutil = {};
-myutil.toDataURL = function(file) {
-  // assert(file instanceof Ci.nsIFile)
-  let type = 'plain/text';
-  try {
-    type = Cc['@mozilla.org/mime;1'].getService(Ci.nsIMIMEService).getTypeFromFile(file);
-  } catch(e) {}
-
-  let ifstream = Cc['@mozilla.org/network/file-input-stream;1'].createInstance(Ci.nsIFileInputStream);
-  ifstream.init(file, io.File.MODE_RDONLY, 0600, 0);
-  let stream = Cc['@mozilla.org/binaryinputstream;1'].createInstance(Ci.nsIBinaryInputStream);
-  stream.setInputStream(ifstream);
-  let b64 = btoa(stream.readBytes(stream.available()));
-  stream.close();
-  ifstream.close();
-  return 'data:' + type + ';base64,' + b64;
-}
-myutil.click = function(elem) {
-  let ev = content.document.createEvent('MouseEvent');
-  ev.initMouseEvent('click', true, true, content.window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-  elem.dispatchEvent(ev);
-  return ev;
-}
-EOM
-
-" extra {{{1
-" load styles {{{2
-javascript <<EOM
-commands.addUserCommand(['loadstyles', 'lty'], 'Load all styles immediately',
-  function() {
-    io.getRuntimeDirectories('styles').forEach(function(dir) {
-      dir.readDirectory().forEach(function(file) {
-        if (file.exists() && file.isFile() && /\.css$/.test(file.path)) {
-          io.source(file.path);
-        }
-      });
-    });
-  }, { argCount: '0'}, true);
-EOM
-nnoremap ,y :<C-u>loadstyles<CR>
-loadstyles
-
-" aliases {{{2
-" http://vimperator.g.hatena.ne.jp/nokturnalmortum/20100306/1267811912
-javascript <<EOM
-let (c = modules.userContext) {
-  c.echo = liberator.echo;
-  c.log = liberator.log;
-  c.__defineGetter__('doc', function() content.document.wrappedJSObject);
-  c.__defineGetter__('win', function() content.window.wrappedJSObject);
-  c.$LX = function(xpath, context) liberator.plugins.libly.$U.getFirstNodeFromXPath(xpath, context);
-  c.$LXs = function(xpath, context) liberator.plugins.libly.$U.getNodesFromXPath(xpath, context);
-}
-EOM
-
-" misc {{{2
-javascript <<EOM
-// http://vimperator.g.hatena.ne.jp/nokturnalmortum/20101216/1292511107
-CommandLine.Completions.prototype.__defineGetter__('caret', function() commandline._commandWidget.selectionEnd);
-
-document.getElementById('addon-bar').collapsed = false;
-document.getElementById('addon-bar').height = 24;
-let (stl = document.getElementById('liberator-status')
-   , ab = document.getElementById('addon-bar')) {
-   ab.insertBefore(stl, ab.firstChild);
-   stl.style.textAlign = 'start';
-}
-EOM
-highlight StatusLine color: black;
-
-" load private settings {{{2
-source! ~/vimperatorrc.local
-
+nnoremap -urls='www\.pixiv\.net/' wb :<C-u>pixivBookmark<Space>
