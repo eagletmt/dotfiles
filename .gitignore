@@ -1,12 +1,7 @@
-dot.vim/backup/*
-dot.vim/swap/*
-dot.vim/undo/*
-dot.vim/doc/tags*
-dot.vim/bundles/*/doc/tags*
-dot.vim/.netrwhist
-.VimballRecord
-dot.vim/poj
+dot.vim/backup
+dot.vim/swap
+dot.vim/undo
+dot.vim/bundle
 dot.emacs.d/image-dired
 dot.emacs.d/backup
 dot.emacs.d/elisp/*.elc
-dot.vim/bundles/vimproc/autoload/proc.so

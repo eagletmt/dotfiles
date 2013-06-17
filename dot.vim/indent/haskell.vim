@@ -1,1 +1,0 @@
-/home/eagletmt/git/misc/vim/indent/haskell.vim
