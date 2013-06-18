@@ -3,6 +3,3 @@ dot.vim/swap
 dot.vim/undo
 dot.vim/bundle
 dot.vimperator/info
-dot.emacs.d/image-dired
-dot.emacs.d/backup
-dot.emacs.d/elisp/*.elc
