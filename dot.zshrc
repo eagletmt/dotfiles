@@ -44,6 +44,16 @@ if [ x"$WINDOW" != x'' ]; then
   }
 fi
 
+autoload -U vcs_info
+zstyle ':vcs_info:*' formats '%s-%b'
+zstyle ':vcs_info:*' actionformats '%s-%b[%a]'
+function vcsinfo_precmd() {
+  psvar=()
+  vcs_info
+  [ -n "$vcs_info_msg_0_" ] && psvar[1]="$vcs_info_msg_0_"
+}
+add-zsh-hook precmd vcsinfo_precmd
+
 if which rbenv > /dev/null; then
   eval "$(rbenv init -)"
 fi
