@@ -116,3 +116,6 @@ if (typeof hBookmark != 'undefined') {
 EOM
 
 nnoremap -urls='www\.pixiv\.net/' wb :<C-u>pixivBookmark<Space>
+
+nnoremap -urls='speakerdeck\.com/' w :<C-u>speakerdeck next<CR>
+nnoremap -urls='speakerdeck\.com/' W :<C-u>speakerdeck prev<CR>
