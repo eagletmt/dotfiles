@@ -1,5 +1,6 @@
 remove Lock = Caps_Lock
 add Control = Caps_Lock
+keysym Caps_Lock = Control_L
 keysym Muhenkan = Escape
 add Shift = Henkan_Mode
 keysym Hiragana_Katakana = Super_R
