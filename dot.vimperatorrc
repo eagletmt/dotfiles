@@ -66,11 +66,12 @@ liberator.globalVariables.plugin_loader_plugins = [
   // vimpr/vimperator-plugins
   '_libly',
   'feedSomeKeys_3',
-  'migemo_hint',
-  'tombloo',
   'hint-tombloo',
-  'walk-input',
+  'migemo_hint',
   'refcontrol',
+  'slideshare',
+  'tombloo',
+  'walk-input',
 
   // eagletmt/misc/vimperator
   'pixiv_bookmark',
@@ -119,3 +120,6 @@ nnoremap -urls='www\.pixiv\.net/' wb :<C-u>pixivBookmark<Space>
 
 nnoremap -urls='speakerdeck\.com/' w :<C-u>speakerdeck next<CR>
 nnoremap -urls='speakerdeck\.com/' W :<C-u>speakerdeck prev<CR>
+
+nnoremap -urls='www\.slideshare\.net/' w :<C-u>slideshare next<CR>
+nnoremap -urls='www\.slideshare\.net/' W :<C-u>slideshare prev<CR>
