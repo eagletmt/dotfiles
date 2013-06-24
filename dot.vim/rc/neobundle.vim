@@ -44,6 +44,7 @@ NeoBundle 'tangledhelix/vim-octopress'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'timcharper/textile.vim'
 NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'puppetlabs/puppet-syntax-vim'
 
 NeoBundle 'michalbachowski/vim-wombat256mod'
 
