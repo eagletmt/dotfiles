@@ -76,6 +76,7 @@ liberator.globalVariables.plugin_loader_plugins = [
   // eagletmt/misc/vimperator
   'pixiv_bookmark',
   'proxy_command',
+  'reuse-newtab',
   'speakerdeck',
 ];
 EOM
