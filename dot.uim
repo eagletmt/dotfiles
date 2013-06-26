@@ -3,8 +3,8 @@
 
 (require "japanese.scm")
 (define ja-rk-rule-basic
-  (append '((((",") . ()) ("，" "，" "，"))
-            (((".") . ()) ("．" "．" "．")))
+  (append ;'((((",") . ()) ("，" "，" "，"))
+          ;  (((".") . ()) ("．" "．" "．")))
           (map (lambda (c)
                  (let ((s (string c)))
                    `(((,s) . ()) (,s ,s ,s))))
