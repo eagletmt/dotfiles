@@ -133,7 +133,6 @@ runtime util/restore-history.vim
 runtime util/reverse.vim
 runtime util/smart-star.vim
 runtime util/sudo.vim
-runtime util/time.vim
 runtime util/whitespace.vim
 
 command! -nargs=0 Synstack echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
