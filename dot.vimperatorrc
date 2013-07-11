@@ -46,6 +46,7 @@ javascript <<EOM
  ['Google Images', 'https://www.google.com/search?q=%s&tbm=isch', 'gi'],
  ['Twitter', 'https://twitter.com/%s', 'tw'],
  ['POJ', 'http://poj.org/problem?id=%s', 'poj'],
+ ['alc', 'http://eow.alc.co.jp/search?q=%s', 'alc'],
 ].forEach(function (b) {
   if (!bookmarks.isBookmarked(b[1])) {
     bookmarks.add(false, b[0], b[1], b[2], ['vimp'], false);
@@ -56,6 +57,7 @@ nnoremap sg :<C-u>tabopen gs<Space>
 nnoremap si :<C-u>tabopen gi<Space>
 nnoremap sk :<C-u>tabopen tw<Space>
 nnoremap sp :<C-u>tabopen poj<Space>
+nnoremap sa :<C-u>tabopen alc<Space>
 
 javascript <<EOM
 liberator.globalVariables.plugin_loader_roots = [
