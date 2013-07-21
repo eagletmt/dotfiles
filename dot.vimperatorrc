@@ -80,6 +80,8 @@ liberator.globalVariables.plugin_loader_plugins = [
   'proxy_command',
   'reuse-newtab',
   'speakerdeck',
+  'cookie-permission',
+  'requestpolicy',
 ];
 EOM
 
@@ -128,3 +130,5 @@ nnoremap -urls='www\.slideshare\.net/' w :<C-u>slideshare next<CR>
 nnoremap -urls='www\.slideshare\.net/' W :<C-u>slideshare prev<CR>
 
 let g:hint_tombloo_key = 'r'
+
+cabbrev rp requestpolicy
