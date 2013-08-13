@@ -3,7 +3,7 @@ call neobundle#rc(expand('~/.vim/bundle'))
 let g:neobundle#types#git#default_protocol = 'git'
 
 NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc', {
