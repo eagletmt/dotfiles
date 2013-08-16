@@ -5,4 +5,4 @@ nnoremap qo :copen<CR>
 nnoremap qc :cclose<CR>
 nnoremap qg :grep<Space>
 nnoremap qm :make<CR>
-nnoremap qM :make<Space>
+nnoremap qM :make<Space>%:r<CR>
