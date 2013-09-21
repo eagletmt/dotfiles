@@ -50,4 +50,6 @@ NeoBundle 'puppetlabs/puppet-syntax-vim'
 
 NeoBundle 'michalbachowski/vim-wombat256mod'
 
+NeoBundle 'Blackrush/vim-gocode'
+
 nnoremap <silent> ,d :<C-u>NeoBundleDocs<CR>
