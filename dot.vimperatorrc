@@ -136,6 +136,18 @@ let g:hint_tombloo_key = 'r'
 cabbrev rp requestpolicy
 
 javascript <<EOM
+commands.addUserCommand(['cleanAmazonUrl'], 'Clean Amazon URL', function(args) {
+  let doc = content.document;
+  // ASIN.0 in kindle store
+  let asin = doc.getElementById("ASIN") || doc.getElementsByName("ASIN.0")[0];
+  if (asin) {
+    content.window.history.replaceState(null, "Amazon URL Cleaner", "/dp/" + asin.value + "/");
+  }
+}, { argCount: 0 }, true);
+EOM
+nnoremap -urls='www\.amazon\.co\.jp/' w :<C-u>cleanAmazonUrl<CR>
+
+javascript <<EOM
 commands.addUserCommand(['ldr'], 'Subscribe on LDR', function() {
   liberator.open('http://reader.livedoor.com/subscribe/' + buffer.URI);
 });
