@@ -134,3 +134,9 @@ nnoremap -urls='www\.slideshare\.net/' W :<C-u>slideshare prev<CR>
 let g:hint_tombloo_key = 'r'
 
 cabbrev rp requestpolicy
+
+javascript <<EOM
+commands.addUserCommand(['ldr'], 'Subscribe on LDR', function() {
+  liberator.open('http://reader.livedoor.com/subscribe/' + buffer.URI);
+});
+EOM
