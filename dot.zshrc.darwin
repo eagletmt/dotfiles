@@ -1,0 +1,10 @@
+macvim=/Applications/MacVim.app/Contents/MacOS/Vim
+if [ -x $macvim ]; then
+  alias vi=$macvim
+  alias vim=$macvim
+  alias view="$macvim -R"
+  alias vimdiff="$macvim -d"
+  export EDITOR=$macvim
+fi
+
+alias ll='ls -AlFhG'

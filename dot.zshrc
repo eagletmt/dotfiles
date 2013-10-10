@@ -57,3 +57,9 @@ add-zsh-hook precmd vcsinfo_precmd
 if which rbenv > /dev/null; then
   eval "$(rbenv init -)"
 fi
+
+arch_rc="$HOME/.zshrc.$(uname)"
+[ -r "$arch_rc" ] && source "$arch_rc"
+
+local_rc="$HOME/.zshrc.local"
+[ -r "$local_rc" ] && source "$local_rc"
