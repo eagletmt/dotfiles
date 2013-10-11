@@ -1,0 +1,12 @@
+:set -XTemplateHaskell -XScopedTypeVariables -XOverloadedStrings
+
+let fact = product . enumFromTo (1 :: Integer)
+let comb n k = fact n `div` (fact k * fact (n-k))
+
+import qualified Data.ByteString as S
+import qualified Data.ByteString.Char8 as S8
+import qualified Data.ByteString.Lazy as L
+import qualified Data.ByteString.Lazy.Char8 as L8
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
+import qualified Data.Text.Encoding as T
