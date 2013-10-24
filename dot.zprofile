@@ -5,3 +5,5 @@ typeset -U path
 export PATH
 
 [ -r ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
+
+export TIME_STYLE='+%F %R'
