@@ -150,5 +150,16 @@ nnoremap -urls='www\.amazon\.co\.jp/' w :<C-u>cleanAmazonUrl<CR>
 javascript <<EOM
 commands.addUserCommand(['ldr'], 'Subscribe on LDR', function() {
   liberator.open('http://reader.livedoor.com/subscribe/' + buffer.URI);
-});
+}, { argCount: 0 }, true);
+EOM
+
+javascript <<EOM
+commands.addUserCommand(['canonical'], 'Go to canonical URL', function() {
+  let link = content.document.querySelector('link[rel=canonical]');
+  if (link) {
+    content.window.history.replaceState(null, '', link.href);
+  } else {
+    liberator.echoerr('No canonical URL');
+  }
+}, { argCount: 0 }, true);
 EOM
