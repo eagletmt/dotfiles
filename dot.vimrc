@@ -89,6 +89,14 @@ cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1)<CR>
 inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : ''
 inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : ''
 
+" Swap *gf and *gF
+nnoremap gf gF
+nnoremap gF gf
+nnoremap <C-w>f <C-w>F
+nnoremap <C-w>F <C-w>f
+nnoremap <C-w>gf <C-w>gF
+nnoremap <C-w>gF <C-w>gf
+
 let g:mapleader = '\'
 let g:maplocalleader = ','
 
