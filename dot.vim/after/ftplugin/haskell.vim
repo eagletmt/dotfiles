@@ -25,3 +25,4 @@ function! s:fold_haskell() range
   endif
 endfunction
 
+setlocal cursorcolumn
