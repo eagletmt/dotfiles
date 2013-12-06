@@ -164,6 +164,14 @@ commands.addUserCommand(['canonical'], 'Go to canonical URL', function() {
 }, { argCount: 0 }, true);
 EOM
 
+javascript <<EOM
+commands.addUserCommand(['pojstatus'], 'Switch to POJ status', function() {
+  let id = content.window.location.search.match(/id=(\d+)/)[1];
+  liberator.open(content.window.location.origin + '/status?problem_id=' + id);
+}, { argCount: 0 }, true);
+EOM
+nnoremap -urls='poj\.org/problem\?' w :<C-u>pojstatus<CR>
+
 style -name phoronix www.phoronix.com <<CSS
 /* width += 200px */
 #phxcms_container {
