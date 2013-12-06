@@ -49,6 +49,11 @@ set formatoptions& formatoptions+=mM
 set wildmode=list:longest,full
 set wildignore=*.o,a.out,*.hi
 
+" https://groups.google.com/forum/#!topic/vim_dev/SML3mtGd50s
+if exists('+breakindent')
+  set breakindent
+endif
+
 nnoremap : ;
 vnoremap : ;
 nnoremap ; :
