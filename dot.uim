@@ -2,6 +2,7 @@
 (define default-im-name 'skk)
 
 (require "japanese.scm")
+; (((Ê¸»ú1 Ê¸»ú2) . ()) (Ê¿²¾Ì¾ ÊÒ²¾Ì¾ È¾³ÑÊÒ²¾Ì¾))
 (define ja-rk-rule-basic
   (append ;'((((",") . ()) ("¡¤" "¡¤" "¡¤"))
           ;  (((".") . ()) ("¡¥" "¡¥" "¡¥")))
@@ -9,9 +10,16 @@
                  (let ((s (string c)))
                    `(((,s) . ()) (,s ,s ,s))))
                (string->list "!@$#%^&*()_=+{};:'\"\\|<>?"))
+          ; DDSKK 15.2 http://qiita.com/kitamoto/items/de10411f01fa69c325f0
+          '(
+            ((("z" "*") . ()) ("¢¨" "¢¨" ""))
+            ((("z" "0") . ()) ("¡û" "¡û" ""))
+            ((("z" "@") . ()) ("¡ý" "¡ý" ""))
+            ((("z" ":") . ()) ("¡¬" "¡¬" ""))
+            ((("z" ";") . ()) ("¡«" "¡«" ""))
+            )
           ja-rk-rule-basic))
 (ja-rk-rule-update)
-(define skk-ja-rk-rule (append ja-rk-rule-basic ja-rk-rule-additional))
 
 (define-key generic-on-key? '())
 (define-key generic-off-key? '())
