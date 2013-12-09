@@ -150,6 +150,14 @@ runtime util/whitespace.vim
 
 command! -nargs=0 Synstack echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 command! -nargs=0 Yank %yank +
+command! -range=% Wc call <SID>word_count(<line1>, <line2>)
+function! s:word_count(line1, line2)
+  let l:count = 0
+  for l:line in getline(a:line1, a:line2)
+    let l:count += strlen(substitute(l:line, '.', 'x', 'g'))
+  endfor
+  echo l:count
+endfunction
 
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
