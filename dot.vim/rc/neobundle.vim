@@ -25,6 +25,7 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-markdown'
 NeoBundle 'tyru/skk.vim'
+NeoBundle 'AndrewRadev/linediff.vim'
 
 NeoBundle 'ujihisa/neco-ghc'
 NeoBundle 'eagletmt/ghcmod-vim'
