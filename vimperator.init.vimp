@@ -11,6 +11,7 @@ set! browser.formfill.enable=false
 set! network.cookie.cookieBehavior=2
 set! font.language.group=ja
 set! intl.accept_languages=ja,en-us,en
+set! ui.key.contentAccess=0
 
 " RequestPolicy
 set! extensions.requestpolicy.autoReload=false
