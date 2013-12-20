@@ -14,6 +14,12 @@ nnoremap <silent> ma :<C-u>Unite buffer<CR>
 nnoremap <silent> mr :<C-u>UniteResume<CR>
 nnoremap m<Space> :<C-u>Unite<Space>
 
+let s:ignore_exts = ['aux', 'dvi', 'fdb_latexmk', 'fls', 'nav', 'out', 'snm', 'toc', 'vrb']
+let s:ignore_pattern = '\.\(' . join(s:ignore_exts, '\|') . '\)$'
+call unite#custom#source('file', 'ignore_pattern', s:ignore_pattern)
+unlet s:ignore_exts
+unlet s:ignore_pattern
+
 augroup vimrc-unite
   autocmd!
   autocmd FileType unite nmap <buffer> <Esc> <Plug>(unite_exit)
