@@ -7,3 +7,5 @@ export PATH
 [ -r ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 
 export TIME_STYLE='+%F %R'
+
+export NOKOGIRI_USE_SYSTEM_LIBRARIES=1
