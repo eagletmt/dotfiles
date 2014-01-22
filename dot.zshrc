@@ -4,7 +4,7 @@ alias ll='ls -AlFh --color=auto'
 alias g=git
 alias c=cabal
 alias b=bundle
-alias m=mplayer
+alias m=mpv
 
 autoload -U colors
 colors
