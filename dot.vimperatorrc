@@ -8,6 +8,7 @@ set complete=tl
 set hintmatching=custom
 set hintchars=HJKLASDFG
 set hlsearch
+set yankencodedurl
 
 nnoremap J 5<C-e>
 nnoremap K 5<C-y>
