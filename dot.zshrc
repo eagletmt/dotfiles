@@ -63,3 +63,6 @@ arch_rc="$HOME/.zshrc.$(uname)"
 
 local_rc="$HOME/.zshrc.local"
 [ -r "$local_rc" ] && source "$local_rc"
+
+# added by travis gem
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
