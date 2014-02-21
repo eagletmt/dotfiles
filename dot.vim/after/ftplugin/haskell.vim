@@ -26,3 +26,4 @@ function! s:fold_haskell() range
 endfunction
 
 setlocal cursorcolumn
+setlocal omnifunc=necoghc#omnifunc

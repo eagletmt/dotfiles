@@ -4,8 +4,12 @@ let g:neobundle#types#git#default_protocol = 'https'
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neocomplete.vim'
+"NeoBundle 'Shougo/neocomplcache.vim'
+"NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/vimproc', {
       \ 'build': {
       \   'windows' : 'make -f make_mingw32.mak',
