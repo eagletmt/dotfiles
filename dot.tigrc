@@ -1,1 +1,3 @@
 set line-graphics = ascii
+set show-id = true
+set vertical-split = true
