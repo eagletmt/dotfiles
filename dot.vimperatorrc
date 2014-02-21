@@ -173,19 +173,6 @@ commands.addUserCommand(['pojstatus'], 'Switch to POJ status', function() {
 EOM
 nnoremap -urls='poj\.org/problem\?' w :<C-u>pojstatus<CR>
 
-style -name phoronix www.phoronix.com <<CSS
-/* width += 200px */
-#phxcms_container {
-  width: 1291px !important;
-}
-#phxcms_content_right {
-  width: 1127px !important;
-}
-#phxcms_content_center {
-  width: 821px !important;
-}
-CSS
-
 style -name poj poj.org <<CSS
 .ptx {
   font-family: sans-serif !important;
