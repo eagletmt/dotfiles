@@ -181,6 +181,7 @@ myManageHook = composeAll
     [ className =? "MPlayer"        --> doFloat
     , className =? "mplayer2"       --> doFloat
     , className =? "mpv"            --> doFloat
+    , className =? "Vlc"            --> doFloat
     , className =? "Gimp"           --> doFloat
     , className =? "feh"            --> doFloat
     , resource  =? "desktop_window" --> doIgnore
