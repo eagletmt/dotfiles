@@ -45,7 +45,7 @@ inoremap <C-a> <Home>
 javascript <<EOM
 [['Google', 'https://www.google.com/search?q=%s', 'gs'],
  ['Google Images', 'https://www.google.com/search?q=%s&tbm=isch', 'gi'],
- ['Twitter', 'https://twitter.com/%s', 'tw'],
+ ['Twitter', 'https://twitter.com/%s/with_replies', 'tw'],
  ['POJ', 'http://poj.org/problem?id=%s', 'poj'],
  ['alc', 'http://eow.alc.co.jp/search?q=%s', 'alc'],
 ].forEach(function (b) {
