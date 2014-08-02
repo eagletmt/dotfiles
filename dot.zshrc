@@ -66,3 +66,10 @@ local_rc="$HOME/.zshrc.local"
 
 # added by travis gem
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+
+fingerprints() {
+  local file="$1"
+  while read l; do
+    [[ -n $l && ${l###} = $l ]] && ssh-keygen -l -f /dev/stdin <<<$l
+  done < $file
+}
