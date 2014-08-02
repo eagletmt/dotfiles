@@ -18,6 +18,7 @@ NeoBundle 'Shougo/vimproc', {
       \   'unix' : 'make -f make_unix.mak',
       \   },
       \ }
+NeoBundle 'eagletmt/vim-ruby_namespace'
 NeoBundle 'kana/vim-altercmd'
 NeoBundle 'kana/vim-smartchr'
 NeoBundle 'mattn/gist-vim'
@@ -30,6 +31,7 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-markdown'
 NeoBundle 'tyru/skk.vim'
 NeoBundle 'AndrewRadev/linediff.vim'
+NeoBundle 'eagletmt/jsonpp-vim'
 
 NeoBundle 'ujihisa/neco-ghc'
 NeoBundle 'eagletmt/ghcmod-vim'
