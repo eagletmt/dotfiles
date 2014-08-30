@@ -32,6 +32,22 @@ call unite#custom#source('file', 'ignore_pattern', s:ignore_pattern)
 unlet s:ignore_exts
 unlet s:ignore_pattern
 
+let s:old_narrow = {
+      \ 'description' : 'narrowing candidates by directory name',
+      \ 'is_quit' : 0,
+      \ 'is_start' : 1,
+      \ }
+function! s:old_narrow.func(candidate)
+  let directory = unite#helper#get_candidate_directory(a:candidate)
+  if !isdirectory(directory)
+    return
+  endif
+  call unite#start_temporary([['file'], ['file/new'], ['directory/new']],
+        \ {'input' : directory . '/' })
+endfunction
+call unite#custom#action('cdable', 'narrow', s:old_narrow)
+unlet s:old_narrow
+
 augroup vimrc-unite
   autocmd!
   autocmd FileType unite nmap <buffer> <Esc> <Plug>(unite_exit)
