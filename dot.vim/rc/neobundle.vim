@@ -1,4 +1,4 @@
-call neobundle#rc(expand('~/.vim/bundle'))
+call neobundle#begin(expand('~/.vim/bundle'))
 
 let g:neobundle#types#git#default_protocol = 'https'
 
@@ -59,5 +59,7 @@ NeoBundle 'puppetlabs/puppet-syntax-vim'
 NeoBundle 'michalbachowski/vim-wombat256mod'
 
 NeoBundle 'Blackrush/vim-gocode'
+
+call neobundle#end()
 
 nnoremap <silent> ,d :<C-u>NeoBundleDocs<CR>
