@@ -5,6 +5,7 @@ import XMonad.Actions.CopyWindow
 import XMonad.Actions.FloatKeys
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.SetWMName (setWMName)
 import XMonad.Layout.Minimize
 import XMonad.Util.ToggleMinimize
 import Data.Monoid
@@ -241,5 +242,6 @@ myConfig = defaultConfig {
         layoutHook         = myLayout,
         manageHook         = myManageHook,
         startupHook        = myStartupHook,
+        logHook            = setWMName "LG3D",
         handleEventHook    = fullscreenEventHook
     }
