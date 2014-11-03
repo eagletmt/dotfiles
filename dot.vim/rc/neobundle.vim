@@ -32,6 +32,7 @@ NeoBundle 'tpope/vim-markdown'
 NeoBundle 'tyru/skk.vim'
 NeoBundle 'AndrewRadev/linediff.vim'
 NeoBundle 'eagletmt/jsonpp-vim'
+NeoBundle 'Yggdroot/indentLine'
 
 NeoBundle 'ujihisa/neco-ghc'
 NeoBundle 'eagletmt/ghcmod-vim'

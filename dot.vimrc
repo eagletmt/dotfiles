@@ -130,6 +130,7 @@ runtime rc/altercmd.vim
 runtime rc/eclim.vim
 runtime rc/ghcmod.vim
 runtime rc/global.vim
+runtime rc/indentline.vim
 runtime rc/neocomplete.vim
 runtime rc/onlinejudge.vim
 runtime rc/quickrun.vim
