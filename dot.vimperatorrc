@@ -67,24 +67,17 @@ liberator.globalVariables.plugin_loader_roots = [
 ];
 liberator.globalVariables.plugin_loader_plugins = [
   // vimpr/vimperator-plugins
-  '_libly',
-  'copy',
   'feedSomeKeys_3',
   'hint-tombloo',
   'migemo_hint',
-  'refcontrol',
   'slideshare',
   'tombloo',
   'walk-input',
 
   // eagletmt/misc/vimperator
   'pixiv_bookmark',
-  'proxy_command',
-  'reuse-newtab',
   'speakerdeck',
   'cookie-permission',
-  'requestpolicy',
-  'ogimage',
 ];
 EOM
 
@@ -95,22 +88,6 @@ lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x
 lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k e,s a p o v c i,p <Space> <S-Space> w n,w
 lazy fmaps -u='fl\.wanko\.cc/reader' j k e,s a p o v c i,p <Space> <S-Space> w n,w
 lazy fmaps -u='www\.pixiv\.net/member_illust\.php\?.*mode=manga' -events=vkeydown j k v z
-
-let g:refcontrol_enabled = "true"
-javascript <<EOM
-liberator.globalVariables.refcontrol = {
-  '@DEFAULT': '@NORMAL',
-  'i1.pixiv.net': '@FORGE',
-  'i2.pixiv.net': '@FORGE',
-  'i3.pixiv.net': '@FORGE',
-  'i4.pixiv.net': '@FORGE',
-  'i5.pixiv.net': '@FORGE',
-  'i6.pixiv.net': '@FORGE',
-  'i7.pixiv.net': '@FORGE',
-  'i8.pixiv.net': '@FORGE',
-  'i9.pixiv.net': '@FORGE',
-};
-EOM
 
 javascript <<EOM
 liberator.globalVariables.hBookmark_shortcuts = {
@@ -133,8 +110,6 @@ nnoremap -urls='www\.slideshare\.net/' w :<C-u>slideshare next<CR>
 nnoremap -urls='www\.slideshare\.net/' W :<C-u>slideshare prev<CR>
 
 let g:hint_tombloo_key = 'r'
-
-cabbrev rp requestpolicy
 
 javascript <<EOM
 commands.addUserCommand(['cleanAmazonUrl'], 'Clean Amazon URL', function(args) {
