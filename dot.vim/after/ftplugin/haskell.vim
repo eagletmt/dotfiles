@@ -1,11 +1,3 @@
-nnoremap <buffer> <Space>* :<C-u>execute 'Wwwsearch -hoogle '.expand('<cword>')<CR>
-nnoremap <buffer> <Space>h :<C-u>Wwwsearch -hoogle 
-nnoremap <buffer> <silent> <Space>t :<C-u>call <SID>ShowType(expand('<cword>'))<CR>
-
-function! s:ShowType(word)
-  echo join(split(system("ghc -isrc " . expand('%') . " -e ':t " . a:word . "'")))
-endfunction
-
 vnoremap <buffer> zf :call <SID>fold_haskell()<CR>
 function! s:fold_haskell() range
   let str = getline(a:firstline)
@@ -25,5 +17,8 @@ function! s:fold_haskell() range
   endif
 endfunction
 
-setlocal cursorcolumn
 setlocal omnifunc=necoghc#omnifunc
+setlocal shiftwidth=4 softtabstop=4
+
+nnoremap <buffer> mw :<C-u>UniteWithCursorWord hoogle<CR>
+nnoremap <buffer> ms :<C-u>Unite -start-insert hoogle<CR>
