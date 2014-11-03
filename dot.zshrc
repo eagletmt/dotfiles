@@ -67,6 +67,8 @@ local_rc="$HOME/.zshrc.local"
 # added by travis gem
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
+[ -d /opt/addon-sdk ] && alias addon-sdk="cd /opt/addon-sdk && source bin/activate; cd -"
+
 fingerprints() {
   local file="$1"
   while read l; do
