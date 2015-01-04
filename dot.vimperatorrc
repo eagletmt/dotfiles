@@ -91,6 +91,19 @@ lazy fmaps -u='www\.pixiv\.net/member_illust\.php\?.*mode=manga' -events=vkeydow
 
 javascript <<EOM
 (function() {
+  function removeHatenaKeywordLinks() {
+    for (let [_, a] in Iterator(content.document.querySelectorAll('a.keyword'))) {
+      let span = content.document.createElement('span');
+      for (let [_, n] in Iterator(a.childNodes)) {
+        console.log(n);
+        span.appendChild(n);
+      }
+      a.parentNode.replaceChild(span, a);
+    }
+  }
+
+  commands.addUserCommand(['removeHatenaKeywordLinks'], 'Remove Hatena keyword links', removeHatenaKeywordLinks, { argCount: 0 }, true);
+
   function hatebu() {
     liberator.open('http://b.hatena.ne.jp/entry/' + buffer.URI);
   }
