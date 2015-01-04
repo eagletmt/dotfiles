@@ -90,15 +90,12 @@ lazy fmaps -u='fl\.wanko\.cc/reader' j k e,s a p o v c i,p <Space> <S-Space> w n
 lazy fmaps -u='www\.pixiv\.net/member_illust\.php\?.*mode=manga' -events=vkeydown j k v z
 
 javascript <<EOM
-liberator.globalVariables.hBookmark_shortcuts = {
-  hintsAdd: 'h',
-  hintsComment: null,
-  add: ['c'],
-  comment: ['C'],
-};
-if (typeof hBookmark != 'undefined') {
-  liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
-}
+(function() {
+  function hatebu() {
+    liberator.open('http://b.hatena.ne.jp/entry/' + buffer.URI);
+  }
+  commands.addUserCommand(['hatebu'], 'Visit hatebu page', hatebu, { argCount: 0 }, true);
+})();
 EOM
 
 nnoremap -urls='www\.pixiv\.net/' wb :<C-u>pixivBookmark<Space>
