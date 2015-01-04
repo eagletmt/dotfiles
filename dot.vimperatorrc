@@ -163,3 +163,20 @@ style -name poj poj.org <<CSS
   font-family: sans-serif !important;
 }
 CSS
+
+javascript <<EOM
+window.saveCanvas = function(canvas, path) {
+  let file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
+  file.initWithPath(path);
+
+  let io = Cc['@mozilla.org/network/io-service;1'].getService(Ci.nsIIOService);
+  let source = io.newURI(canvas.toDataURL('image/png', ''), 'UTF8', null);
+  let target = io.newFileURI(file);
+
+  let persist = Cc['@mozilla.org/embedding/browser/nsWebBrowserPersist;1'].createInstance(Ci.nsIWebBrowserPersist);
+  //persist.persistFlags = Ci.nsIWebBrowserPersist.PERSIST_FLAG_REPLACE_EXISTING_FILES;
+  //persist.persistFlags |= Ci.nsIWebBrowserPersist.PERSIST_FLAG_AUTODETECT_APPLY_CONVERSION;
+
+  persist.saveURI(source, null, null, null, null, file, file.privacyContext);
+};
+EOM
