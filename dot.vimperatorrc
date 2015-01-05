@@ -31,16 +31,24 @@ cnoremap <C-p> <Up>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
 cnoremap <C-n> <Down>
-cnoremap <C-e> <End>
-cnoremap <C-a> <Home>
 cnoremap <C-i> <Tab>
 
 inoremap <C-p> <Up>
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 inoremap <C-n> <Down>
-inoremap <C-e> <End>
-inoremap <C-a> <Home>
+
+javascript <<EOM
+if (liberator.has('MacUnix')) {
+  liberator.execute('cnoremap <C-j> <Nop>');  // AquaSKK
+} else {
+  liberator.execute('cnoremap <C-e> <End>');
+  liberator.execute('cnoremap <C-a> <Home>');
+
+  liberator.execute('inoremap <C-e> <End>');
+  liberator.execute('inoremap <C-a> <Home>');
+}
+EOM
 
 javascript <<EOM
 [['Google', 'https://www.google.com/search?q=%s', 'gs'],
