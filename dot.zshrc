@@ -8,7 +8,11 @@ alias m=mpv
 
 autoload -U colors
 colors
-PROMPT='%n@%m%# '
+if [ x"$SSH_CONNECTION" = x"" ]; then
+  PROMPT='%n@%m%# '
+else
+  PROMPT="%n@%{$fg_bold[green]%}%m%{$reset_color%}%# "
+fi
 RPROMPT='%(1v|%K{yellow}%F{black}%1v%f%k|)[%~]'
 
 HISTFILE=$HOME/.zsh-history
