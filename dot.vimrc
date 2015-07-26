@@ -109,7 +109,9 @@ let $CFLAGS = '-std=c99 -Wall -Wextra -Wshadow -g'
 let $CXXFLAGS = '-Wall -Wextra -Wshadow -g'
 
 " colorscheme
-set background=dark
+if !exists('&t_RB')
+  set background=dark
+endif
 if &t_Co == 256 || has('gui_running')
   colorscheme wombat256mod
   " For transparent background
