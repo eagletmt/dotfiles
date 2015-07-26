@@ -5,7 +5,7 @@ autocmd!
 set toolbars=none,navigation
 set focuscontent
 set complete=tl
-set hintmatching=custom
+set hintmatching=contains
 set hintchars=HJKLASDFG
 set hlsearch
 set yankencodedurl
@@ -69,7 +69,6 @@ liberator.globalVariables.plugin_loader_plugins = [
   // vimpr/vimperator-plugins
   'feedSomeKeys_3',
   'hint-tombloo',
-  'migemo_hint',
   'slideshare',
   'tombloo',
   'walk-input',
