@@ -106,7 +106,7 @@ let g:mapleader = '\'
 let g:maplocalleader = ','
 
 let $CFLAGS = '-std=c99 -Wall -Wextra -Wshadow -g'
-let $CXXFLAGS = '-Wall -Wextra -Wshadow -g'
+let $CXXFLAGS = '-Wall -Wextra -Wshadow -g -std=c++11'
 
 " colorscheme
 if !exists('&t_RB')
