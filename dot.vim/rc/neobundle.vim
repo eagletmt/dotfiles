@@ -43,6 +43,7 @@ NeoBundle 'vim-scripts/coq-syntax'
 NeoBundle 'vim-scripts/Coq-indent'
 NeoBundle 'vim-scripts/alex.vim'
 NeoBundle 'vim-scripts/happy.vim'
+NeoBundle 'rust-lang/rust.vim'
 
 NeoBundleLazy 'derekwyatt/vim-scala', {
       \ 'autoload': { 'filetypes': ['scala'] },
