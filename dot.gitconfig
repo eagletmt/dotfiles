@@ -1,0 +1,16 @@
+[user]
+	name = Kohei Suzuki
+	email = eagletmt@gmail.com
+[push]
+	default = simple
+[color]
+	ui = auto
+[grep]
+	lineNumber = true
+[log]
+	date = iso
+	decorate = full
+[alias]
+	fetch-pulls = fetch origin +refs/pull/*:refs/remotes/pull/*
+[include]
+	path = .gitconfig.local
