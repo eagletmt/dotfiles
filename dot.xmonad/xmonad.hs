@@ -33,7 +33,7 @@ myNormalBorderColor  = "#dddddd"
 myFocusedBorderColor = "#ff0000"
 
 xpconfig :: XPConfig
-xpconfig = defaultXPConfig
+xpconfig = def
   { font = "xft:Ricty:antialias=true"
   , promptKeymap = M.union defaultXPKeymap $ M.fromList
       [ ((controlMask, xK_h), deleteString Prev)
@@ -224,7 +224,7 @@ myStartupHook = spawn "sh ~/.fehbg"
 main :: IO ()
 main = xmobar myConfig >>= xmonad . ewmh
 
-myConfig = defaultConfig {
+myConfig = def {
       -- simple stuff
         terminal           = "urxvt",
         focusFollowsMouse  = True,
