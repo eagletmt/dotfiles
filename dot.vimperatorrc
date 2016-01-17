@@ -71,7 +71,7 @@ nnoremap sa :<C-u>tabopen alc<Space>
 javascript <<EOM
 liberator.globalVariables.plugin_loader_roots = [
   '~/.ghq/github.com/vimpr/vimperator-plugins',
-  '~/git/misc/vimperator',
+  '~/.ghq/github.com/eagletmt/misc/vimperator',
 ];
 liberator.globalVariables.plugin_loader_plugins = [
   // vimpr/vimperator-plugins
