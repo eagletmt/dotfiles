@@ -59,7 +59,7 @@ function vcsinfo_precmd() {
 add-zsh-hook precmd vcsinfo_precmd
 
 if which rbenv > /dev/null; then
-  eval "$(rbenv init -)"
+  eval "$(rbenv init --no-rehash -)"
 fi
 
 arch_rc="$HOME/.zshrc.$(uname)"
