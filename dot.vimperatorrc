@@ -93,7 +93,7 @@ command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
 
 lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r a # [ ] ? gi gs gt gd ga gc
 lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc -
-lazy fmaps -u='(fastladder|livedoor)\.com/reader' j k e,s a p o v c i,p <Space> <S-Space> w n,w
+lazy fmaps -u='(fastladder|livedoor|livedwango)\.com/reader' j k e,s a p o v c i,p <Space> <S-Space> w n,w
 lazy fmaps -u='fl\.wanko\.cc/reader' j k e,s a p o v c i,p <Space> <S-Space> w n,w
 lazy fmaps -u='www\.pixiv\.net/member_illust\.php\?.*mode=manga' -events=vkeydown j k v z b
 lazy fmaps -u='www\.pixiv\.net/member_illust\.php\?.*mode=medium' -events=vkeydown b v f
