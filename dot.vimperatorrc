@@ -9,6 +9,7 @@ set hintmatching=contains
 set hintchars=HJKLASDFG
 set hlsearch
 set yankencodedurl
+set showstatuslinks=3
 
 nnoremap J 5<C-e>
 nnoremap K 5<C-y>
