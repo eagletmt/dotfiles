@@ -226,7 +226,7 @@ main = xmobar myConfig >>= xmonad . ewmh
 
 myConfig = def {
       -- simple stuff
-        terminal           = "urxvt",
+        terminal           = "mlterm",
         focusFollowsMouse  = True,
         borderWidth        = 0,
         modMask            = mod4Mask,

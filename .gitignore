@@ -3,3 +3,7 @@ dot.vim/swap
 dot.vim/undo
 dot.vim/bundle
 dot.vimperator/info
+
+dot.mlterm/challenge
+dot.mlterm/*.six
+dot.mlterm/*.log

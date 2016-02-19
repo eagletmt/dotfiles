@@ -1,0 +1,7 @@
+bg_color = black
+brightness = 10
+contrast = 10
+fg_color = white
+scrollbar_mode = none
+use_bold_font = false
+use_transbg = true
