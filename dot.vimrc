@@ -9,7 +9,7 @@ runtime rc/neobundle.vim
 syntax enable
 filetype plugin indent on
 
-set ruler showcmd title number
+set ruler showcmd notitle number
 set laststatus=2
 set statusline=%t\ %y%{'['.(&fenc!=''?&fenc:&enc).':'.']'}%r%m%=%c:%l/%L\ %#Cursor#%{fugitive#statusline()}%#StatusLine#
 set foldmethod=marker
