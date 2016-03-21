@@ -1,6 +1,6 @@
 # Write your default config options here!
 [default]
 ao = pulse
-vo = opengl,fbdev2
+vo = vaapi,opengl,fbdev2
 vf = yadif
 screenshot-format = png
