@@ -86,6 +86,7 @@ liberator.globalVariables.plugin_loader_plugins = [
   'pixiv_bookmark',
   'speakerdeck',
   'cookie-permission',
+  'lastpass',
 ];
 EOM
 
