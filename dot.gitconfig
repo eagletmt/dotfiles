@@ -10,6 +10,8 @@
 [log]
 	date = iso
 	decorate = full
+[github]
+	user = eagletmt
 [alias]
 	fetch-pulls = fetch origin +refs/pull/*:refs/remotes/pull/*
 [include]
