@@ -16,3 +16,5 @@
 	fetch-pulls = fetch origin +refs/pull/*:refs/remotes/pull/*
 [include]
 	path = .gitconfig.local
+[harrow]
+	disabled = true
