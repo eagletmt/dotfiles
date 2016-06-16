@@ -185,6 +185,7 @@ myManageHook = composeAll
     , className =? "Vlc"            --> doFloat
     , className =? "Gimp"           --> doFloat
     , className =? "feh"            --> doFloat
+    , className =? "Wine"           --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
 
