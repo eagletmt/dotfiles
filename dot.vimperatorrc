@@ -77,9 +77,7 @@ liberator.globalVariables.plugin_loader_roots = [
 liberator.globalVariables.plugin_loader_plugins = [
   // vimpr/vimperator-plugins
   'feedSomeKeys_3',
-  'hint-tombloo',
   'slideshare',
-  'tombloo',
   'walk-input',
 
   // eagletmt/misc/vimperator
