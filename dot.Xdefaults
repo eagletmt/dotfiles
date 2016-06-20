@@ -4,7 +4,7 @@ URxvt*foreground: white
 URxvt*transparent: true
 URxvt*scrollBar: false
 URxvt*shading: 0
-URxvt*font: xft:monospace
+URxvt*font: xft:monospace:antialias=true
 
 URxvt.perl-ext: default,url-select
 URxvt.keysym.M-u: perl:url-select:select_next
