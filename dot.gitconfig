@@ -1,6 +1,7 @@
 [user]
 	name = Kohei Suzuki
 	email = eagletmt@gmail.com
+	signingkey = C48DBD97
 [push]
 	default = simple
 [color]
