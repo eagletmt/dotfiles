@@ -4,6 +4,8 @@ path=($HOME/bin(N) $HOME/.rbenv/bin(N) $HOME/.cabal/bin(N) $HOME/.local/bin(N) $
 typeset -U path
 export PATH
 
+export PAGER=less
+
 [ -r ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 
 export TIME_STYLE='+%F %R'
