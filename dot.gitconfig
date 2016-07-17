@@ -19,3 +19,7 @@
 	path = .gitconfig.local
 [harrow]
 	disabled = true
+[commit]
+	gpgsign = true
+[tag]
+	forceSignAnnotated = true
