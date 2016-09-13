@@ -1,12 +1,12 @@
-call dein#begin('~/.vim/dein')
+call dein#begin('~/.vim/dein', [$MYVIMRC, '~/.vim/rc/dein.vim'])
 
 call dein#add('Shougo/neocomplete.vim')
 call dein#add('Shougo/neosnippet')
 call dein#add('Shougo/neosnippet-snippets')
-call dein#add('Shougo/unite.vim')
+call dein#add('Shougo/unite.vim', { 'hook_post_source': 'runtime rc/unite.vim' })
 call dein#add('Shougo/neomru.vim')
 call dein#add('Shougo/vimproc', { 'build': 'make' })
-call dein#add('kana/vim-altercmd')
+call dein#add('kana/vim-altercmd', { 'hook_post_source': 'runtime rc/altercmd.vim' })
 call dein#add('kana/vim-smartchr')
 call dein#add('kana/vim-fakeclip')
 call dein#add('mattn/gist-vim')
@@ -39,6 +39,11 @@ call dein#add('kchmck/vim-coffee-script')
 call dein#add('puppetlabs/puppet-syntax-vim')
 call dein#add('Blackrush/vim-gocode')
 
-call dein#add('michalbachowski/vim-wombat256mod')
+call dein#add('michalbachowski/vim-wombat256mod', { 'hook_post_source': 'runtime rc/colorscheme.vim' })
 
 call dein#end()
+
+augroup vimrc-dein
+  autocmd!
+  autocmd VimEnter * call dein#call_hook('post_source')
+augroup END

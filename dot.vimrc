@@ -109,15 +109,7 @@ let $CXXFLAGS = '-Wall -Wextra -Wshadow -g -std=c++11'
 if !exists('&t_RB')
   set background=dark
 endif
-if &t_Co == 256 || has('gui_running')
-  colorscheme wombat256mod
-  " For transparent background
-  highlight Normal ctermbg=none
-  highlight NonText ctermbg=none
-  highlight StorageClass term=none ctermfg=143 ctermbg=none
-else
-  colorscheme ron
-endif
+colorscheme ron
 
 runtime macros/matchit.vim
 
@@ -125,7 +117,6 @@ runtime macros/matchit.vim
 let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 " necoghc
 let g:necoghc_enable_detailed_browse = 1
-runtime rc/altercmd.vim
 runtime rc/eclim.vim
 runtime rc/ghcmod.vim
 runtime rc/global.vim
@@ -135,7 +126,6 @@ runtime rc/onlinejudge.vim
 runtime rc/quickrun.vim
 runtime rc/skk.vim
 runtime rc/surround.vim
-runtime rc/unite.vim
 
 " others
 runtime util/binary.vim
