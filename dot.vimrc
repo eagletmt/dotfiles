@@ -1,10 +1,7 @@
 set nocompatible
 
-if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-endif
-
-runtime rc/neobundle.vim
+set runtimepath+=~/.ghq/github.com/Shougo/dein.vim
+runtime rc/dein.vim
 
 syntax enable
 filetype plugin indent on
