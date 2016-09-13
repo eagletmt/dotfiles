@@ -21,6 +21,7 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'eagletmt/vim-ruby_namespace'
 NeoBundle 'kana/vim-altercmd'
 NeoBundle 'kana/vim-smartchr'
+NeoBundle 'kana/vim-fakeclip'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'thinca/vim-localrc'
