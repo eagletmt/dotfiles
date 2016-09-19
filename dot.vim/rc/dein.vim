@@ -39,7 +39,7 @@ call dein#add('kchmck/vim-coffee-script')
 call dein#add('puppetlabs/puppet-syntax-vim')
 call dein#add('Blackrush/vim-gocode')
 
-call dein#add('michalbachowski/vim-wombat256mod', { 'hook_post_source': 'runtime rc/colorscheme.vim' })
+call dein#add('jacoborus/tender.vim', { 'hook_post_source': 'runtime rc/colorscheme.vim' })
 
 call dein#end()
 
