@@ -8,6 +8,7 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.SetWMName (setWMName)
 import XMonad.Layout.Minimize
 import XMonad.Util.ToggleMinimize
+import XMonad.Util.Paste (sendKeyWindow)
 import Data.Monoid
 import System.Exit
 
@@ -91,6 +92,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm, xK_Right), withFocused $ keysMoveWindow (20, 0))
     , ((modm, xK_Up), withFocused $ keysMoveWindow (0, -20))
     , ((modm, xK_Down), withFocused $ keysMoveWindow (0, 20))
+    , ((controlMask, xK_h), controlH)
     ]
     ++
 
@@ -111,6 +113,14 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
         | (key, sc) <- zip [xK_w, xK_e] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+
+controlH :: X ()
+controlH = withDisplay $ \dpy ->
+    withFocused $ \w -> do
+        cls <- fmap resClass $ io $ getClassHint dpy w
+        if cls == "Chromium"
+            then sendKeyWindow noModMask xK_BackSpace w
+            else sendKeyWindow controlMask xK_h w
 
 toggleFloat :: Ord a => a -> W.RationalRect -> W.StackSet i l a s sd -> W.StackSet i l a s sd
 toggleFloat w r s@W.StackSet{W.floating = floating}
