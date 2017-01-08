@@ -9,7 +9,6 @@ export PAGER=less
 [ -r ~/.nvm/nvm.sh ] && source ~/.nvm/nvm.sh
 
 export TIME_STYLE='+%F %R'
-export GPG_AGENT_INFO=$HOME/.gnupg/S.gpg-agent
 
 export GTK_IM_MODULE=uim
 export QT_IM_MODULE=uim
