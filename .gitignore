@@ -1,7 +1,7 @@
 dot.vim/backup
 dot.vim/swap
 dot.vim/undo
-dot.vim/bundle
+dot.vim/dein/.cache
 dot.vim/.netrwhist
 dot.vimperator/info
 
