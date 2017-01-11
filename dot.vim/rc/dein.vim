@@ -38,6 +38,7 @@ call dein#add('timcharper/textile.vim')
 call dein#add('kchmck/vim-coffee-script')
 call dein#add('puppetlabs/puppet-syntax-vim')
 call dein#add('Blackrush/vim-gocode')
+call dein#add('b4b4r07/vim-hcl')
 
 call dein#add('michalbachowski/vim-wombat256mod', { 'hook_post_source': 'runtime rc/colorscheme.vim' })
 
