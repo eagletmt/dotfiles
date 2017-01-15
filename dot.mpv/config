@@ -4,3 +4,4 @@ ao = pulse
 vo = vdpau,vaapi,opengl,fbdev2
 vf = yadif
 screenshot-format = png
+sub-back-color = 0.5/0.5
