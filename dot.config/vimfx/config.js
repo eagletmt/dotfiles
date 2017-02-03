@@ -73,3 +73,19 @@ vimfx.addCommand({
   gURLBar.onInput(new vim.window.KeyboardEvent('input'));
 });
 vimfx.set('custom.mode.normal.open_alc', 'sa');
+
+vimfx.addCommand({
+  name: 'open_bookmarks',
+  description: 'Open bookmarks',
+  category: 'tabs',
+  order: commands.tab_new.order + 1,
+}, ({vim}) => {
+  commands.tab_new.run({vim});
+  vim.window.setTimeout(() => {
+    let {gURLBar} = vim.window;
+    commands.focus_location_bar.run({vim});
+    gURLBar.value = '* ';
+    gURLBar.onInput(new vim.window.KeyboardEvent('input'));
+  });
+});
+vimfx.set('custom.mode.normal.open_bookmarks', 'gn');
