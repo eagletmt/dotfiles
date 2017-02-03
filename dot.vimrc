@@ -124,6 +124,7 @@ runtime rc/indentline.vim
 runtime rc/neocomplete.vim
 runtime rc/onlinejudge.vim
 runtime rc/quickrun.vim
+runtime rc/rust.vim
 runtime rc/skk.vim
 runtime rc/surround.vim
 
