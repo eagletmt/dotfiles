@@ -46,7 +46,7 @@ vimfx.addCommand({
   gURLBar.value = 'gs ';
   gURLBar.onInput(new vim.window.KeyboardEvent('input'));
 });
-vimfx.set('custom.mode.normal.open_google', 'gs');
+vimfx.set('custom.mode.normal.open_google', 'sg');
 
 vimfx.addCommand({
   name: 'open_twitter',
