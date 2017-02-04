@@ -107,6 +107,8 @@ vimfx.addCommand({
     vimfx.send(vim, 'speakerdeck_next_slide');
   } else if (hostname === 'www.amazon.co.jp') {
     vimfx.send(vim, 'amazon_clean_url');
+  } else if (hostname === 'www.slideshare.net') {
+    vimfx.send(vim, 'slideshare_next_slide');
   }
 });
 vimfx.set('custom.mode.normal.my_conditional_w', 'w');
@@ -119,6 +121,8 @@ vimfx.addCommand({
   let hostname = vim.window.gBrowser.selectedBrowser.currentURI.host;
   if (hostname === 'speakerdeck.com') {
     vimfx.send(vim, 'speakerdeck_prev_slide');
+  } else if (hostname === 'www.slideshare.net') {
+    vimfx.send(vim, 'slideshare_prev_slide');
   }
 });
 vimfx.set('custom.mode.normal.my_conditional_shift_w', 'W');

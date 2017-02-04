@@ -20,3 +20,17 @@ vimfx.listen('amazon_clean_url', () => {
     content.window.history.replaceState(null, 'amazon_clean_url', '/dp/' + asin.value + '/');
   }
 });
+
+vimfx.listen('slideshare_next_slide', () => {
+  let btn = content.document.getElementById('btnNext');
+  if (btn) {
+    btn.click();
+  }
+});
+
+vimfx.listen('slideshare_prev_slide', () => {
+  let btn = content.document.getElementById('btnPrevious');
+  if (btn) {
+    btn.click();
+  }
+});
