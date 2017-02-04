@@ -14,6 +14,8 @@ vimfx.set('mode.normal.tab_close', 'd');
 vimfx.set('mode.normal.tab_restore', 'u');
 vimfx.set('mode.normal.tab_select_next', 'gt l');
 vimfx.set('mode.normal.tab_select_previous', 'gT h');
+vimfx.set('mode.normal.window_new', '');
+vimfx.set('mode.normal.window_new_private', '');
 
 vimfx.addKeyOverrides([({hostname, pathname}) => hostname === 'mail.google.com' && pathname.startsWith('/mail/'), ['j', 'k', 'n', 'p', 'o', 'u', 'e', 's', '?']]);
 vimfx.addKeyOverrides([({hostname}) => ['fl.wanko.cc', 'reader.livedwango.com'].includes(hostname), ['j', 'k', 'w', 's', 'a', 'v', 'p', 'o']]);
@@ -94,3 +96,27 @@ vimfx.addCommand({
   new_tab_with_prefix(args, '* ');
 });
 vimfx.set('custom.mode.normal.open_bookmarks', 'gn');
+
+vimfx.addCommand({
+  name: 'my_conditional_w',
+  description: 'Run various commands depending on the current site',
+}, (args) => {
+  let {vim} = args;
+  let hostname = vim.window.gBrowser.selectedBrowser.currentURI.host;
+  if (hostname === 'speakerdeck.com') {
+    vimfx.send(vim, 'speakerdeck_next_slide');
+  }
+});
+vimfx.set('custom.mode.normal.my_conditional_w', 'w');
+
+vimfx.addCommand({
+  name: 'my_conditional_shift_w',
+  description: 'Run various commands depending on the current site',
+}, (args) => {
+  let {vim} = args;
+  let hostname = vim.window.gBrowser.selectedBrowser.currentURI.host;
+  if (hostname === 'speakerdeck.com') {
+    vimfx.send(vim, 'speakerdeck_prev_slide');
+  }
+});
+vimfx.set('custom.mode.normal.my_conditional_shift_w', 'W');
