@@ -35,16 +35,33 @@ vimfx.addCommand({
 });
 vimfx.set('custom.mode.normal.search_tabs', 'b');
 
+function run_in_new_tab(args, f) {
+  let {vim} = args;
+  commands.tab_new.run(args);
+  vim.window.setTimeout(f);
+}
+
+function focus_location_bar_with_prefix(args, prefix) {
+  let {vim} = args;
+  let {gURLBar} = vim.window;
+  commands.focus_location_bar.run(args);
+  gURLBar.value = prefix;
+  gURLBar.onInput(new vim.window.KeyboardEvent('input'));
+}
+
+function new_tab_with_prefix(args, prefix) {
+  run_in_new_tab(args, () => {
+    focus_location_bar_with_prefix(args, prefix);
+  });
+}
+
 vimfx.addCommand({
   name: 'open_google',
   description: 'Open Google',
   category: 'tabs',
   order: commands.focus_location_bar.order + 1,
-}, ({vim}) => {
-  let {gURLBar} = vim.window;
-  commands.focus_location_bar.run({vim});
-  gURLBar.value = 'gs ';
-  gURLBar.onInput(new vim.window.KeyboardEvent('input'));
+}, (args) => {
+  new_tab_with_prefix(args, 'gs ');
 });
 vimfx.set('custom.mode.normal.open_google', 'sg');
 
@@ -53,11 +70,8 @@ vimfx.addCommand({
   description: 'Open Twitter',
   category: 'tabs',
   order: commands.focus_location_bar.order + 1,
-}, ({vim}) => {
-  let {gURLBar} = vim.window;
-  commands.focus_location_bar.run({vim});
-  gURLBar.value = 'tw ';
-  gURLBar.onInput(new vim.window.KeyboardEvent('input'));
+}, (args) => {
+  new_tab_with_prefix(args, 'tw ');
 });
 vimfx.set('custom.mode.normal.open_twitter', 'sk');
 
@@ -66,11 +80,8 @@ vimfx.addCommand({
   description: 'Open alc',
   category: 'tabs',
   order: commands.focus_location_bar.order + 1,
-}, ({vim}) => {
-  let {gURLBar} = vim.window;
-  commands.focus_location_bar.run({vim});
-  gURLBar.value = 'alc ';
-  gURLBar.onInput(new vim.window.KeyboardEvent('input'));
+}, (args) => {
+  new_tab_with_prefix(args, 'alc ');
 });
 vimfx.set('custom.mode.normal.open_alc', 'sa');
 
@@ -79,13 +90,7 @@ vimfx.addCommand({
   description: 'Open bookmarks',
   category: 'tabs',
   order: commands.tab_new.order + 1,
-}, ({vim}) => {
-  commands.tab_new.run({vim});
-  vim.window.setTimeout(() => {
-    let {gURLBar} = vim.window;
-    commands.focus_location_bar.run({vim});
-    gURLBar.value = '* ';
-    gURLBar.onInput(new vim.window.KeyboardEvent('input'));
-  });
+}, (args) => {
+  new_tab_with_prefix(args, '* ');
 });
 vimfx.set('custom.mode.normal.open_bookmarks', 'gn');
