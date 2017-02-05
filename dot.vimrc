@@ -127,6 +127,8 @@ runtime rc/quickrun.vim
 runtime rc/rust.vim
 runtime rc/skk.vim
 runtime rc/surround.vim
+" racer-rust/vim-racer
+let g:racer_experimental_completer = 1
 
 " others
 runtime util/binary.vim
