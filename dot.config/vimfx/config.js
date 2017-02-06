@@ -1,15 +1,15 @@
 vimfx.set('prevent_autofocus', true);
 
 vimfx.set('mode.normal.dev', ';');
-vimfx.set('mode.normal.stop', '');
 vimfx.set('mode.normal.scroll_down', 'j <c-e>');
 vimfx.set('mode.normal.scroll_half_page_down', 'J');
 vimfx.set('mode.normal.scroll_half_page_up', 'K');
-vimfx.set('mode.normal.scroll_left', '<a-l>');
+vimfx.set('mode.normal.scroll_left', '<a-h>');
 vimfx.set('mode.normal.scroll_page_down', '<space> <c-f>');
 vimfx.set('mode.normal.scroll_page_up', '<s-space> <c-b>');
-vimfx.set('mode.normal.scroll_right', '<a-h>');
+vimfx.set('mode.normal.scroll_right', '<a-l>');
 vimfx.set('mode.normal.scroll_up', 'k <c-y>');
+vimfx.set('mode.normal.stop', '');
 vimfx.set('mode.normal.tab_close', 'd');
 vimfx.set('mode.normal.tab_restore', 'u');
 vimfx.set('mode.normal.tab_select_next', 'gt l');
