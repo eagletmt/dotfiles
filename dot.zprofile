@@ -13,4 +13,6 @@ export TIME_STYLE='+%F %R'
 export GTK_IM_MODULE=uim
 export QT_IM_MODULE=uim
 
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+fi
