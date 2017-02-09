@@ -22,6 +22,23 @@ vimfx.addKeyOverrides([({hostname}) => ['fl.wanko.cc', 'reader.livedwango.com'].
 vimfx.addKeyOverrides([({hostname, pathname, search}) => hostname === 'www.pixiv.net' && pathname === '/member_illust.php' && search.includes('mode=medium'), ['b', 'v']]);
 vimfx.addKeyOverrides([({hostname, pathname, search}) => hostname === 'www.pixiv.net' && pathname === '/member_illust.php' && search.includes('mode=manga'), ['j', 'k', 'v', 'z', 'b']]);
 
+let Cc = Components.classes;
+let Ci = Components.interfaces;
+let bookmarkService = Cc['@mozilla.org/browser/nav-bookmarks-service;1'].getService(Ci.nsINavBookmarksService);
+[
+  ['Google', 'https://www.google.com/search?q=%s', 'gs'],
+  ['Google Images', 'https://www.google.com/search?q=%s&tbm=isch', 'gi'],
+  ['Twitter', 'https://twitter.com/%s/with_replies', 'tw'],
+  ['alc', 'http://eow.alc.co.jp/search?q=%s', 'alc'],
+].forEach(([title, url, keyword]) => {
+  let uri = Services.io.newURI(url, null, null);
+  if (!bookmarkService.isBookmarked(uri)) {
+    let id = bookmarkService.insertBookmark(bookmarkService.bookmarksMenuFolder, uri, bookmarkService.DEFAULT_INDEX, title);
+    // FIXME: https://bugzilla.mozilla.org/show_bug.cgi?id=1187119
+    bookmarkService.setKeywordForBookmark(id, keyword);
+  }
+});
+
 let {commands} = vimfx.modes.normal;
 
 vimfx.addCommand({
