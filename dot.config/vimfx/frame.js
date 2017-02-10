@@ -34,3 +34,14 @@ vimfx.listen('slideshare_prev_slide', () => {
     btn.click();
   }
 });
+
+vimfx.listen('twitter_kill_tco', () => {
+  for (let node of content.document.querySelectorAll('.twitter-timeline-link')) {
+    let url = node.dataset.expandedUrl;
+    if (url && node.href !== url) {
+      node.href = url;
+      node.textContent = url;
+      node.classList.remove('u-hidden');
+    }
+  }
+});

@@ -126,6 +126,8 @@ vimfx.addCommand({
     vimfx.send(vim, 'amazon_clean_url');
   } else if (hostname === 'www.slideshare.net') {
     vimfx.send(vim, 'slideshare_next_slide');
+  } else if (hostname === 'twitter.com') {
+    vimfx.send(vim, 'twitter_kill_tco');
   }
 });
 vimfx.set('custom.mode.normal.my_conditional_w', 'w');
