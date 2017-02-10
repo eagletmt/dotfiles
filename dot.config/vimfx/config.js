@@ -143,3 +143,33 @@ vimfx.addCommand({
   }
 });
 vimfx.set('custom.mode.normal.my_conditional_shift_w', 'W');
+
+vimfx.addCommand({
+  name: 'add_cookie_permission',
+  description: 'Add cookie permission',
+}, (args) => {
+  let {vim} = args;
+  let origin = new vim.window.URL(vim.browser.currentURI.spec).origin;
+  vim._modal('prompt', ['Add cookie permission', origin], (input) => {
+    if (input !== null) {
+      let manager = Cc['@mozilla.org/permissionmanager;1'].getService(Ci.nsIPermissionManager);
+      manager.add(Services.io.newURI(input, null, null), 'cookie', manager.ALLOW_ACTION);
+    }
+  });
+});
+vimfx.set('custom.mode.normal.add_cookie_permission', 'go');
+
+vimfx.addCommand({
+  name: 'remove_cookie_permission',
+  description: 'Remove cookie permission',
+}, (args) => {
+  let {vim} = args;
+  let origin = new vim.window.URL(vim.browser.currentURI.spec).origin;
+  vim._modal('prompt', ['Remove cookie permission', origin], (input) => {
+    if (input !== null) {
+      let manager = Cc['@mozilla.org/permissionmanager;1'].getService(Ci.nsIPermissionManager);
+      manager.remove(Services.io.newURI(input, null, null), 'cookie');
+    }
+  });
+});
+vimfx.set('custom.mode.normal.remove_cookie_permission', 'gO');
