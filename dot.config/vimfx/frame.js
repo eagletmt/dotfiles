@@ -44,4 +44,12 @@ vimfx.listen('twitter_kill_tco', () => {
       node.classList.remove('u-hidden');
     }
   }
+
+  for (let img of content.document.querySelectorAll('.js-adaptive-photo > img')) {
+    let a = content.document.createElement('a');
+    a.href = `${img.src}:orig`;
+    let div = img.parentNode;
+    div.parentNode.replaceChild(a, div);
+    a.appendChild(img);
+  }
 });
