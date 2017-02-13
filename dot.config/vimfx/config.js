@@ -128,6 +128,8 @@ vimfx.addCommand({
     vimfx.send(vim, 'slideshare_next_slide');
   } else if (hostname === 'twitter.com') {
     vimfx.send(vim, 'twitter_kill_tco');
+  } else if (hostname === 'www.pixiv.net') {
+    vimfx.send(vim, 'pixiv_tags_clickable');
   }
 });
 vimfx.set('custom.mode.normal.my_conditional_w', 'w');

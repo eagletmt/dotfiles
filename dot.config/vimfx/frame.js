@@ -53,3 +53,11 @@ vimfx.listen('twitter_kill_tco', () => {
     a.appendChild(img);
   }
 });
+
+vimfx.listen('pixiv_tags_clickable', () => {
+  for (let tag of content.document.querySelectorAll('.tag')) {
+    if (!tag.querySelector('a')) {
+      tag.setAttribute('role', 'checkbox');
+    }
+  }
+});
