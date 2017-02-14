@@ -165,6 +165,16 @@ vimfx.addCommand({
 });
 vimfx.set('custom.mode.normal.my_conditional_shift_w', 'W');
 
+let permissionManager = Cc['@mozilla.org/permissionmanager;1'].getService(Ci.nsIPermissionManager);
+// Allow popups in some sites
+[
+  'http://reader.livedwango.com',
+  'https://fl.wanko.cc',
+  'http://www.pixiv.net',
+].forEach((origin) => {
+  permissionManager.add(Services.io.newURI(origin, null, null), 'popup', permissionManager.ALLOW_ACTION);
+});
+
 vimfx.addCommand({
   name: 'add_cookie_permission',
   description: 'Add cookie permission',
@@ -173,8 +183,7 @@ vimfx.addCommand({
   let origin = new vim.window.URL(vim.browser.currentURI.spec).origin;
   vim._modal('prompt', ['Add cookie permission', origin], (input) => {
     if (input !== null) {
-      let manager = Cc['@mozilla.org/permissionmanager;1'].getService(Ci.nsIPermissionManager);
-      manager.add(Services.io.newURI(input, null, null), 'cookie', manager.ALLOW_ACTION);
+      permissionManager.add(Services.io.newURI(input, null, null), 'cookie', permissionManager.ALLOW_ACTION);
     }
   });
 });
@@ -188,8 +197,7 @@ vimfx.addCommand({
   let origin = new vim.window.URL(vim.browser.currentURI.spec).origin;
   vim._modal('prompt', ['Remove cookie permission', origin], (input) => {
     if (input !== null) {
-      let manager = Cc['@mozilla.org/permissionmanager;1'].getService(Ci.nsIPermissionManager);
-      manager.remove(Services.io.newURI(input, null, null), 'cookie');
+      permissionManager.remove(Services.io.newURI(input, null, null), 'cookie');
     }
   });
 });
