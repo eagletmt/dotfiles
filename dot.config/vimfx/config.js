@@ -147,6 +147,8 @@ vimfx.addCommand({
     vimfx.send(vim, 'twitter_kill_tco');
   } else if (hostname === 'www.pixiv.net') {
     vimfx.send(vim, 'pixiv_tags_clickable');
+  } else if (hostname === 'github.com') {
+    vimfx.send(vim, 'github_disable_hotkey');
   }
 });
 vimfx.set('custom.mode.normal.my_conditional_w', 'w');

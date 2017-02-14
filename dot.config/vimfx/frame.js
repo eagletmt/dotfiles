@@ -61,3 +61,12 @@ vimfx.listen('pixiv_tags_clickable', () => {
     }
   }
 });
+
+vimfx.listen('github_disable_hotkey', () => {
+  // FIXME: Sometimes doesn't work...
+  for (let item of content.document.querySelectorAll('.js-toolbar-item[data-toolbar-hotkey]')) {
+    item.removeAttribute('data-toolbar-hotkey');
+    item.removeAttribute('data-prefix');
+    item.removeAttribute('data-suffix');
+  }
+});
