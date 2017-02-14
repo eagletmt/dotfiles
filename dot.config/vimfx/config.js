@@ -22,8 +22,9 @@ vimfx.addKeyOverrides([({hostname}) => ['fl.wanko.cc', 'reader.livedwango.com'].
 vimfx.addKeyOverrides([({hostname, pathname, search}) => hostname === 'www.pixiv.net' && pathname === '/member_illust.php' && search.includes('mode=medium'), ['b', 'v']]);
 vimfx.addKeyOverrides([({hostname, pathname, search}) => hostname === 'www.pixiv.net' && pathname === '/member_illust.php' && search.includes('mode=manga'), ['j', 'k', 'v', 'z', 'b']]);
 
-let Cc = Components.classes;
-let Ci = Components.interfaces;
+let {classes: Cc, interfaces: Ci} = Components;
+
+// bookmarks
 let bookmarkService = Cc['@mozilla.org/browser/nav-bookmarks-service;1'].getService(Ci.nsINavBookmarksService);
 [
   ['Google', 'https://www.google.com/search?q=%s', 'gs'],
@@ -39,6 +40,22 @@ let bookmarkService = Cc['@mozilla.org/browser/nav-bookmarks-service;1'].getServ
   }
 });
 
+// prefs
+let rootBranch = Cc['@mozilla.org/preferences-service;1'].getService(Ci.nsIPrefBranch).QueryInterface(Ci.nsIPrefBranch);
+// Disable smooth scrolling
+rootBranch.setBoolPref('general.smoothScroll', false);
+// Disable all cookies http://kb.mozillazine.org/Network.cookie.cookieBehavior
+rootBranch.setIntPref('network.cookie.cookieBehavior', 2);
+// Always ask me where to save files https://developer.mozilla.org/ja/docs/Download_Manager_preferences
+rootBranch.setBoolPref('browser.download.useDownloadDir', false);
+// Disable newtabpage
+rootBranch.setBoolPref('browser.newtabpage.enabled', false);
+// Show my windows and tabs from last time http://kb.mozillazine.org/Browser.startup.page
+rootBranch.setIntPref('browser.startup.page', 3);
+// Prefer Japanese
+rootBranch.setCharPref('intl.accept_languages', 'ja,en-us,en');
+
+// custom commands and keymaps
 let {commands} = vimfx.modes.normal;
 
 vimfx.addCommand({
