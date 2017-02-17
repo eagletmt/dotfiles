@@ -48,7 +48,9 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-xinput set-prop 'ELECOM ELECOM Wireless Mouse ' 'libinput Natural Scrolling Enabled' 1 || true
-xinput set-prop 'SynPS/2 Synaptics TouchPad' 'libinput Natural Scrolling Enabled' 1 || true
+for i in $(xinput list --short | sed -ne '/slave\s*pointer/s@^.*id=\([0-9]*\).*$@\1@p')
+do
+  xinput set-prop $i 'libinput Natural Scrolling Enabled' 1 || true
+done
 
 exec xmonad
