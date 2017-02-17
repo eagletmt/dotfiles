@@ -9,7 +9,7 @@ URxvt*font: xft:monospace:antialias=true
 URxvt.perl-ext: default,url-select
 URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.url-select.underline: true
-URxvt.url-select.launcher: /usr/bin/firefox
+URxvt.url-select.launcher: /usr/bin/xdg-open
 
 URxvt.color1: #df8787
 URxvt.color9: #df8787
