@@ -1,6 +1,7 @@
 vimfx.set('prevent_autofocus', true);
 
 vimfx.set('mode.normal.dev', ';');
+vimfx.set('mode.normal.go_home', '');
 vimfx.set('mode.normal.scroll_down', 'j <c-e>');
 vimfx.set('mode.normal.scroll_half_page_down', 'J');
 vimfx.set('mode.normal.scroll_half_page_up', 'K');
@@ -204,3 +205,12 @@ vimfx.addCommand({
   });
 });
 vimfx.set('custom.mode.normal.remove_cookie_permission', 'gO');
+
+vimfx.addCommand({
+  name: 'go_hatena_bookmark',
+  description: 'Go to Hatena Bookmark page',
+}, (args) => {
+  let {vim} = args;
+  vimfx.send(vim, 'go_hatena_bookmark');
+});
+vimfx.set('custom.mode.normal.go_hatena_bookmark', 'gh');

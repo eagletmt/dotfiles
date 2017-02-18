@@ -70,3 +70,7 @@ vimfx.listen('github_disable_hotkey', () => {
     item.removeAttribute('data-suffix');
   }
 });
+
+vimfx.listen('go_hatena_bookmark', () => {
+  content.window.location.href = 'http://b.hatena.ne.jp/entry/' + content.window.location.href;
+});
