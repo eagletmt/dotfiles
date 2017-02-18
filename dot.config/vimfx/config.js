@@ -13,6 +13,7 @@ vimfx.set('mode.normal.scroll_up', 'k <c-y>');
 vimfx.set('mode.normal.stop', '');
 vimfx.set('mode.normal.tab_close', 'd');
 vimfx.set('mode.normal.tab_restore', 'u');
+vimfx.set('mode.normal.tab_select_most_recent', '');
 vimfx.set('mode.normal.tab_select_next', 'gt l');
 vimfx.set('mode.normal.tab_select_previous', 'gT h');
 vimfx.set('mode.normal.window_new', '');
@@ -214,3 +215,12 @@ vimfx.addCommand({
   vimfx.send(vim, 'go_hatena_bookmark');
 });
 vimfx.set('custom.mode.normal.go_hatena_bookmark', 'gh');
+
+vimfx.addCommand({
+  name: 'go_ldr',
+  description: 'Go to LDR page',
+}, (args) => {
+  let {vim} = args;
+  vimfx.send(vim, 'go_ldr');
+});
+vimfx.set('custom.mode.normal.go_ldr', 'gl');

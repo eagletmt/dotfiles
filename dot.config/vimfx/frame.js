@@ -74,3 +74,7 @@ vimfx.listen('github_disable_hotkey', () => {
 vimfx.listen('go_hatena_bookmark', () => {
   content.window.location.href = 'http://b.hatena.ne.jp/entry/' + content.window.location.href;
 });
+
+vimfx.listen('go_ldr', () => {
+  content.window.location.href = 'http://reader.livedwango.com/subscribe/' + content.window.location.href;
+});
