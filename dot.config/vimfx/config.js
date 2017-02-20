@@ -224,3 +224,12 @@ vimfx.addCommand({
   vimfx.send(vim, 'go_ldr');
 });
 vimfx.set('custom.mode.normal.go_ldr', 'gl');
+
+vimfx.addCommand({
+  name: 'toggle_source',
+  description: 'Toggle page and page source',
+}, (args) => {
+  let {vim} = args;
+  vimfx.send(vim, 'toggle_source');
+});
+vimfx.set('custom.mode.normal.toggle_source', 'gf');

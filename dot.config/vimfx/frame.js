@@ -78,3 +78,11 @@ vimfx.listen('go_hatena_bookmark', () => {
 vimfx.listen('go_ldr', () => {
   content.window.location.href = 'http://reader.livedwango.com/subscribe/' + content.window.location.href;
 });
+
+vimfx.listen('toggle_source', () => {
+  if (content.window.location.protocol === 'view-source:') {
+    content.window.location.href = content.window.location.pathname + content.window.location.hash;
+  } else {
+    content.window.location.href = 'view-source:' + content.window.location.href;
+  }
+});
