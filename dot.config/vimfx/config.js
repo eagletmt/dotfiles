@@ -18,6 +18,11 @@ vimfx.set('mode.normal.tab_select_next', 'gt l');
 vimfx.set('mode.normal.tab_select_previous', 'gT h');
 vimfx.set('mode.normal.window_new', '');
 vimfx.set('mode.normal.window_new_private', '');
+vimfx.set('mode.normal.esc', '<force><escape> <force><c-[>');
+vimfx.set('mode.caret.exit', '<escape> <c-[>');
+vimfx.set('mode.hints.exit', '<escape> <c-[>');
+vimfx.set('mode.find.exit', '<escape> <c-[>');
+vimfx.set('mode.marks.exit', '<escape> <c-[>');
 
 vimfx.addKeyOverrides([({hostname, pathname}) => hostname === 'mail.google.com' && pathname.startsWith('/mail/'), ['j', 'k', 'n', 'p', 'o', 'u', 'e', 's', '?']]);
 vimfx.addKeyOverrides([({hostname}) => ['fl.wanko.cc', 'reader.livedwango.com'].includes(hostname), ['j', 'k', 'w', 's', 'a', 'v', 'p', 'o']]);
