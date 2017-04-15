@@ -4,4 +4,7 @@ keysym Caps_Lock = Control_L
 keysym Muhenkan = Escape
 add Shift = Henkan_Mode
 keysym Hiragana_Katakana = Super_R
-
+remove Mod1 = Alt_R
+add Mod4 = Alt_R
+keysym Alt_R = Super_R
+keysym Shift_R = Escape
