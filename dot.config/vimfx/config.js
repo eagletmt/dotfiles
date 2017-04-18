@@ -180,7 +180,7 @@ let permissionManager = Cc['@mozilla.org/permissionmanager;1'].getService(Ci.nsI
 [
   'http://reader.livedwango.com',
   'https://fl.wanko.cc',
-  'http://www.pixiv.net',
+  'https://www.pixiv.net',
   'https://www.inoreader.com',
 ].forEach((origin) => {
   permissionManager.add(Services.io.newURI(origin, null, null), 'popup', permissionManager.ALLOW_ACTION);
