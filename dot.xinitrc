@@ -48,7 +48,7 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-for i in $(xinput list --short | sed -ne '/slave\s*pointer/s@^.*id=\([0-9]*\).*$@\1@p')
+for i in $(xinput list --short | grep -v ThinkPad | sed -ne '/slave\s*pointer/s@^.*id=\([0-9]*\).*$@\1@p')
 do
   xinput set-prop $i 'libinput Natural Scrolling Enabled' 1 || true
 done
