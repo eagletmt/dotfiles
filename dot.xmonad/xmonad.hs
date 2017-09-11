@@ -186,6 +186,7 @@ myManageHook = composeAll
     , className =? "Gimp"           --> doFloat
     , className =? "feh"            --> doFloat
     , className =? "Wine"           --> doFloat
+    , className =? "Pinentry"       --> doFloat
     , resource  =? "desktop_window" --> doIgnore
     , resource  =? "kdesktop"       --> doIgnore ]
 
