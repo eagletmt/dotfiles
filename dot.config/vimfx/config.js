@@ -26,7 +26,7 @@ vimfx.set('mode.marks.exit', '<escape> <c-[>');
 
 vimfx.addKeyOverrides([({hostname, pathname}) => hostname === 'mail.google.com' && pathname.startsWith('/mail/'), ['j', 'k', 'n', 'p', 'o', 'u', 'e', 's', '?']]);
 vimfx.addKeyOverrides([({hostname}) => ['fl.wanko.cc', 'reader.livedwango.com'].includes(hostname), ['j', 'k', 'w', 's', 'a', 'v', 'p', 'o']]);
-vimfx.addKeyOverrides([({hostname}) => hostname === 'www.inoreader.com', ['j', 'k', 'n', 'p', 'v', 'b', 'o', 'm', '1', '2', '3', '4', '5', '?']]);
+vimfx.addKeyOverrides([({hostname}) => hostname === 'www.inoreader.com', ['j', 'J', 'k', 'K', 'n', 'p', 'v', 'b', 'o', 'm', '1', '2', '3', '4', '5', '?']]);
 vimfx.addKeyOverrides([({hostname, pathname, search}) => hostname === 'www.pixiv.net' && pathname === '/member_illust.php' && search.includes('mode=medium'), ['b', 'v']]);
 vimfx.addKeyOverrides([({hostname, pathname, search}) => hostname === 'www.pixiv.net' && pathname === '/member_illust.php' && search.includes('mode=manga'), ['j', 'k', 'v', 'z', 'b']]);
 
