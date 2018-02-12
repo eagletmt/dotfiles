@@ -1,6 +1,6 @@
 set nocompatible
 
-set runtimepath+=~/.ghq/github.com/Shougo/dein.vim
+set runtimepath+=~/.clg/github.com/Shougo/dein.vim
 runtime rc/dein.vim
 
 syntax enable
