@@ -42,6 +42,7 @@ call dein#add('Blackrush/vim-gocode')
 call dein#add('b4b4r07/vim-hcl')
 call dein#add('cespare/vim-toml')
 call dein#add('google/vim-jsonnet')
+call dein#add('leafgarland/typescript-vim')
 
 call dein#add('michalbachowski/vim-wombat256mod', { 'hook_post_source': 'runtime rc/colorscheme.vim' })
 
