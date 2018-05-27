@@ -7,7 +7,6 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.SetWMName (setWMName)
 import XMonad.Layout.Minimize
-import XMonad.Util.ToggleMinimize
 import Data.Monoid
 import System.Exit
 
@@ -62,7 +61,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm, xK_j), windows W.focusDown)
     -- Move focus to the previous window
     , ((modm, xK_k), windows W.focusUp  )
-    , ((modm, xK_m), withFocused $ toggleMinimizeWindow)
     -- Swap the focused window and the master window
     , ((modm .|. shiftMask, xK_Return), windows W.swapMaster)
     -- Swap the focused window with the next window
