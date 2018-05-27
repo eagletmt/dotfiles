@@ -1,7 +1,7 @@
 # Write your default config options here!
 [default]
 ao = pulse
-vo = opengl,fbdev2
+vo = gpu,fbdev2
 vf = yadif
 screenshot-format = png
 sub-back-color = 0.5/0.5
