@@ -20,3 +20,5 @@ URxvt.color12: #00afff
 
 URxvt.iso14755: false
 URxvt.iso14755_52: false
+
+Xft.dpi: 144
