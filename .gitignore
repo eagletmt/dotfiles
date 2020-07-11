@@ -7,3 +7,5 @@ dot.vim/.netrwhist
 dot.mlterm/challenge
 dot.mlterm/*.six
 dot.mlterm/*.log
+
+dot.config/coc/extensions/node_modules

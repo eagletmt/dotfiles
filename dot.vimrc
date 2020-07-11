@@ -44,7 +44,7 @@ endif
 set formatoptions& formatoptions+=mM
 
 set wildmode=list:longest,full
-set wildignore=*.o,a.out,*.hi
+set wildignore=*.o,a.out
 
 " https://groups.google.com/forum/#!topic/vim_dev/SML3mtGd50s
 if exists('+breakindent')
@@ -115,21 +115,11 @@ runtime macros/matchit.vim
 
 " changelog.vim
 let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
-" necoghc
-let g:necoghc_enable_detailed_browse = 1
-runtime rc/eclim.vim
-runtime rc/ghcmod.vim
 runtime rc/global.vim
-runtime rc/indentline.vim
-runtime rc/lsp.vim
-runtime rc/neocomplete.vim
-runtime rc/onlinejudge.vim
 runtime rc/quickrun.vim
 runtime rc/rust.vim
 runtime rc/skk.vim
 runtime rc/surround.vim
-" racer-rust/vim-racer
-let g:racer_experimental_completer = 1
 
 " others
 runtime util/binary.vim
@@ -141,19 +131,6 @@ runtime util/reverse.vim
 runtime util/smart-star.vim
 runtime util/sudo.vim
 runtime util/whitespace.vim
-
-command! -nargs=0 Synstack echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-command! -nargs=0 Yank %yank +
-command! -range=% Wc call <SID>word_count(<line1>, <line2>)
-function! s:word_count(line1, line2)
-  let l:count = 0
-  for l:line in getline(a:line1, a:line2)
-    let l:count += strlen(substitute(l:line, '.', 'x', 'g'))
-  endfor
-  echo l:count
-endfunction
-
-nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 if filereadable(expand('~/vimrc.local'))
   source ~/vimrc.local
