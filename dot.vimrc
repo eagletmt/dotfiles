@@ -1,7 +1,6 @@
 set nocompatible
 
-set runtimepath+=~/.clg/github.com/Shougo/dein.vim
-runtime rc/dein.vim
+runtime rc/plug.vim
 
 syntax enable
 filetype plugin indent on
@@ -115,11 +114,14 @@ runtime macros/matchit.vim
 
 " changelog.vim
 let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
+
+runtime rc/altercmd.vim
+runtime rc/colorscheme.vim
 runtime rc/global.vim
-runtime rc/quickrun.vim
 runtime rc/rust.vim
 runtime rc/skk.vim
 runtime rc/surround.vim
+runtime rc/unite.vim
 
 " others
 runtime util/binary.vim
