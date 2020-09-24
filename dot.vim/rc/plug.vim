@@ -20,6 +20,7 @@ Plug 'cespare/vim-toml'
 Plug 'google/vim-jsonnet'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
+Plug 'fatih/vim-go'
 
 Plug 'michalbachowski/vim-wombat256mod', { 'do': ':runtime rc/colorscheme.vim' }
 
