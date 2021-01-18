@@ -116,6 +116,7 @@ runtime macros/matchit.vim
 let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 
 runtime rc/altercmd.vim
+runtime rc/coc.vim
 runtime rc/colorscheme.vim
 runtime rc/global.vim
 runtime rc/rust.vim
