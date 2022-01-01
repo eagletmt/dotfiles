@@ -22,6 +22,8 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'fatih/vim-go'
 Plug 'jparise/vim-graphql'
+Plug 'udalov/kotlin-vim'
+Plug 'pocke/rbs.vim'
 
 Plug 'michalbachowski/vim-wombat256mod', { 'do': ':runtime rc/colorscheme.vim' }
 
