@@ -1,0 +1,13 @@
+[env]
+CC = "clang"
+CXX = "clang++"
+
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+rustflags = ["-Clink-args=-fuse-ld=lld"]
+# rustflags = ["-Clink-args=--ld-path=/usr/bin/mold"]
+
+[target.aarch64-unknown-linux-gnu]
+linker = "clang"
+rustflags = ["-Clink-args=--target=aarch64-unknown-linux-gnu --sysroot=/usr/aarch64-linux-gnu -fuse-ld=lld"]
+# rustflags = ["-Clink-args=--target=aarch64-unknown-linux-gnu --sysroot=/usr/aarch64-linux-gnu --ld-path=/usr/bin/mold"]
