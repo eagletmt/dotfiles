@@ -1,3 +1,5 @@
+let g:coc_open_url_command = 'firefox'
+
 nmap gd <Plug>(coc-definition)
 nmap gy <Plug>(coc-type-definition)
 nmap gi <Plug>(coc-implementation)
