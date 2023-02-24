@@ -5,5 +5,8 @@
       "rootPatterns": ["go.mod"],
       "filetypes": ["go"]
     }
-  }
+  },
+  "suggest.noselect": true,
+  "inlayHint.enable": false,
+  "rust-analyzer.server.path": "~/bin/rust-analyzer.sh"
 }

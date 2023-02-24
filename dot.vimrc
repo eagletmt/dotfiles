@@ -86,10 +86,6 @@ inoremap <C-e> <End>
 inoremap <C-k> <C-o>C
 cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1)<CR>
 
-" enable C-n/C-p only for popup menu
-inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : ''
-inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : ''
-
 " Swap *gf and *gF
 nnoremap gf gF
 nnoremap gF gf

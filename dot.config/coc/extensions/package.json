@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "coc-json": ">=1.2.6",
-    "coc-rls": ">=1.1.6",
+    "coc-rust-analyzer": ">=0.60.1",
     "coc-tsserver": ">=1.5.2"
-  }
+  },
+  "disabled": [],
+  "locked": []
 }
