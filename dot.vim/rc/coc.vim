@@ -5,6 +5,9 @@ nmap gy <Plug>(coc-type-definition)
 nmap gi <Plug>(coc-implementation)
 nmap gr <Plug>(coc-reference)
 
+nmap <Leader>rn <Plug>(coc-rename)
+nmap <Leader>ac <Plug>(coc-codeaction-cursor)
+
 command! -nargs=0 CocOrganizeImport call CocAction('runCommand', 'editor.action.organizeImport')
 command! -nargs=0 CocHover call CocAction('doHover')
 
