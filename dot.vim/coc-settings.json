@@ -4,6 +4,10 @@
       "command": "gopls",
       "rootPatterns": ["go.mod"],
       "filetypes": ["go"]
+    },
+    "jsonnet": {
+      "command": "jsonnet-language-server",
+      "filetypes": ["jsonnet"]
     }
   },
   "suggest.noselect": true,
