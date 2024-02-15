@@ -108,6 +108,8 @@ runtime macros/matchit.vim
 " changelog.vim
 let g:changelog_username = 'eagletmt <eagletmt@gmail.com>'
 
+let g:jsonpp_indent = 2
+
 runtime rc/altercmd.vim
 runtime rc/coc.vim
 runtime rc/colorscheme.vim
