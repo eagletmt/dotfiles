@@ -38,14 +38,15 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
 autoload -U add-zsh-hook
-if [ x"$WINDOW" != x'' ]; then
-  function screen_preexec() {
-    echo -ne "\ek$(echo $1 | cut -d ' ' -f1)\e\\"
+if [ x"$TERM_PROGRAM" = x'WezTerm' ]; then
+  function wezterm_preexec() {
+    echo -ne "\e]0;$(echo $1 | cut -d ' ' -f1)\e\\"
   }
-  add-zsh-hook preexec screen_preexec
-  function screen_precmd() {
-    echo -ne "\ek$SHELL\e\\"
+  add-zsh-hook preexec wezterm_preexec
+  function wezterm_precmd() {
+    echo -ne "\e]0;$SHELL\e\\"
   }
+  add-zsh-hook precmd wezterm_precmd
 fi
 
 autoload -U vcs_info
