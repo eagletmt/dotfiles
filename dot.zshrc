@@ -80,3 +80,5 @@ fingerprints() {
     [[ -n $l && ${l###} = $l ]] && ssh-keygen -l -f /dev/stdin <<<$l
   done < $file
 }
+
+dbus-update-activation-environment --all
