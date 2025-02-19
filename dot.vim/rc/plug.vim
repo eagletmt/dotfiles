@@ -15,7 +15,7 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'rust-lang/rust.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'slim-template/vim-slim'
-Plug 'b4b4r07/vim-hcl'
+Plug 'hashivim/vim-terraform'
 Plug 'cespare/vim-toml'
 Plug 'google/vim-jsonnet'
 Plug 'leafgarland/typescript-vim'

@@ -8,6 +8,11 @@
     "jsonnet": {
       "command": "jsonnet-language-server",
       "filetypes": ["jsonnet"]
+    },
+    "terraform": {
+      "command": "terraform-ls",
+      "args": ["serve"],
+      "filetypes": ["terraform"]
     }
   },
   "suggest.noselect": true,
