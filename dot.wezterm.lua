@@ -2,9 +2,15 @@ local wezterm = require 'wezterm'
 
 local config = wezterm.config_builder()
 
-config.default_domain = 'WSL:Arch'
+if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+  config.default_domain = 'WSL:Arch'
 
-config.font = wezterm.font('Consolas')
+  config.font = wezterm.font('Consolas')
+end
+if wezterm.target_triple == 'aarch64-apple-darwin' then
+  config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+end
+
 config.font_size = 13
 
 config.front_end = 'OpenGL'
