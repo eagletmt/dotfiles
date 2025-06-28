@@ -23,7 +23,6 @@ config.initial_rows = 52
 config.initial_cols = 220
 config.enable_scroll_bar = true
 
-config.treat_east_asian_ambiguous_width_as_wide = true
 config.use_ime = false
 
 return config
